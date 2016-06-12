@@ -6,10 +6,13 @@
         <testsuite name="Library Test Suite">
             <directory>tests/</directory>
         </testsuite>
-        <filter>
-            <whitelist>
-                <directory suffix=".php">src/</directory>
-            </whitelist>
-        </filter>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
 </phpunit>

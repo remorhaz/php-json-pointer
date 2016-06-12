@@ -6,7 +6,7 @@ namespace Remorhaz\JSONPointer;
  * Helper to assert PREG function results.
  * @package JSONPointer
  */
-class PregHelper
+abstract class PregHelper
 {
 
 
