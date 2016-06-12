@@ -1,7 +1,8 @@
 PHP JSON Pointer
 ================
-This library allows usage of RFC-6901-compliant JSON pointers with PHP
- variables.
+[![Build Status](https://travis-ci.org/remorhaz/php-json-pointer.svg?branch=master)](https://travis-ci.org/remorhaz/php-json-pointer)
+
+This library allows usage of RFC-6901-compliant JSON pointers with PHP variables.
 
 #License
 PHP JSON Pointer is licensed under MIT license.
@@ -49,7 +50,7 @@ $result = $pointer
     ->setText($link)
     ->test();           // Sets $result to FALSE.
     
-// Treating PHP objects as arrays (not compliant with RFC6901, but
+// Treating PHP arrays as objects (not compliant with RFC6901, but
 // it's the only way to access non-numeric index in PHP array).
 $subData = ['g' => 2, 'h' => 3];
 $link = '/a/c/g';       // Link to non-numeric index of array.
