@@ -1,0 +1,26 @@
+{
+  "name": "remorhaz/php-json-pointer",
+  "description": "JSON Pointer (RFC-6901) PHP implementation",
+  "authors": [
+    {
+      "name": "Edward Surov",
+      "email": "zoohie@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "@stable"
+  },
+  "autoload": {
+    "psr-4": {
+      "Remorhaz\\JSONPointer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Remorhaz\\JSONPointer\\Test\\": "tests/"
+    }
+  }
+}
