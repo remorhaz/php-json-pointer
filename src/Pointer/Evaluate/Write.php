@@ -11,6 +11,8 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
 
     protected $isValueSet = false;
 
+    protected $numericIndexGaps = false;
+
 
     public function setValue($value)
     {
@@ -28,6 +30,15 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
         return $this->value;
     }
 
+
+    public function setNumericIndexGaps($allow = true)
+    {
+        if (!is_bool($allow)) {
+            throw new InvalidArgumentException("Write any index flag must be boolean");
+        }
+        $this->numericIndexGaps = $allow;
+        return $this;
+    }
 
     protected function processCursor()
     {
@@ -63,9 +74,14 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
     {
         $index = $this->getArrayIndex($reference);
         if ($reference->isLast()) {
-            $this->cursor[$index] = $this->getValue();
-            $result = null;
-            return $this->setResult($result);
+            $canWrite = is_int($index)
+                ? 0 == $index || array_key_exists($index - 1, $this->cursor) || $this->numericIndexGaps
+                : $this->nonNumericIndices;
+            if ($canWrite) {
+                $this->cursor[$index] = $this->getValue();
+                $result = null;
+                return $this->setResult($result);
+            }
         }
         $indexText = is_int($index) ? "{$index}" : "'{$index}'";
         throw new EvaluateException("Accessing non-existing index {$indexText} in array");

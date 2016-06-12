@@ -76,7 +76,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             ->setLocator($locator)
             ->setValue($value)
             ->perform();
-        $this->assertEquals($expectedData, $data, "Incorrect data after modification");
+        $this->assertEquals($expectedData, $data, "Incorrect data after writing");
     }
 
 
@@ -128,6 +128,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
                 4,
                 [1, 2, 3, 4],
             ],
+            'rootArrayNewIndex' => [
+                '/3',
+                [1, 2, 3],
+                4,
+                [1, 2, 3, 4],
+            ],
             'nestedArrayExistingIndex' => [
                 '/1/0',
                 [1, [3, 4], 5],
@@ -139,6 +145,250 @@ class WriteTest extends \PHPUnit_Framework_TestCase
                 [1, [3, 4], 5],
                 6,
                 [1, [3, 4, 6], 5],
+            ],
+            'nestedArrayNewIndex' => [
+                '/1/2',
+                [1, [3, 4], 5],
+                6,
+                [1, [3, 4, 6], 5],
+            ],
+        ];
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNonNumericIndexLocator
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluate\Exception
+     */
+    public function testAccessNonNumericIndexThrowsException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->perform();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNonNumericIndexLocator
+     * @expectedException \Remorhaz\JSONPointer\EvaluateException
+     */
+    public function testAccessNonNumericIndexThrowsEvalueateException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->perform();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNonNumericIndexLocator
+     * @expectedException \RuntimeException
+     */
+    public function testAccessNonNumericIndexThrowsSplException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->perform();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @param mixed $expectedData
+     * @dataProvider providerDataWithNonNumericIndexLocator
+     */
+    public function testWriteAllowedNonNumericIndex($text, $data, $value, $expectedData)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->setNonNumericIndices()
+            ->perform();
+        $this->assertEquals($expectedData, $data, "Incorrect data after writing to non-numeric index");
+    }
+
+
+    public function providerDataWithNonNumericIndexLocator()
+    {
+        return [
+            'rootEmptyArray' => [
+                '/a',
+                [],
+                1,
+                ['a' => 1],
+            ],
+            'rootArrayExistingIndex' => [
+                '/a',
+                [1, 'a' => 2, 3],
+                4,
+                [1, 'a' => 4, 3],
+            ],
+            'rootArrayNewIndex' => [
+                '/a',
+                [1, 2, 3],
+                4,
+                [1, 2, 3, 'a' => 4],
+            ],
+            'nestedEmptyArray' => [
+                '/1/a',
+                [1, [], 2],
+                3,
+                [1, ['a' => 3], 2],
+            ],
+            'nestedArrayExistingIndex' => [
+                '/1/a',
+                [1, ['a' => 2], 3],
+                4,
+                [1, ['a' => 4], 3],
+            ],
+            'nestedArrayNewIndex' => [
+                '/1/a',
+                [1, [2, 3], 4],
+                5,
+                [1, [2, 3, 'a' => 5], 4],
+            ],
+        ];
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluate\Exception
+     */
+    public function testWriteNumericIndexGapsThrowsException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->perform();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     * @expectedException \Remorhaz\JSONPointer\EvaluateException
+     */
+    public function testWriteNumericIndexGapsThrowsEvaluateException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->perform();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     * @expectedException \RuntimeException
+     */
+    public function testWriteNumericIndexGapsThrowsSplException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->perform();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @param mixed $expectedData
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     */
+    public function testWriteAllowedNumericIndexGaps($text, $data, $value, $expectedData)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        Write::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->setNumericIndexGaps()
+            ->perform();
+        $this->assertEquals($expectedData, $data, "Incorrect data after writing to index with gap");
+    }
+
+
+    public function providerDataWithNumericIndexGapsLocator()
+    {
+        return [
+            'rootEmptyArray' => [
+                '/1',
+                [],
+                1,
+                [1 => 1],
+            ],
+            'rootArray' => [
+                '/2',
+                [1],
+                2,
+                [1, 2 => 2],
+            ],
+            'nestedEmptyArray' => [
+                '/1/1',
+                [1, []],
+                2,
+                [1, [1 => 2]],
+            ],
+            'nestedArray' => [
+                '/1/2',
+                [1, [2]],
+                3,
+                [1, [2, 2 => 3]],
             ],
         ];
     }

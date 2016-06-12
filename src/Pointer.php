@@ -17,10 +17,8 @@ class Pointer
      * arbitrary numeric indices will break them. But PHP arrays support
      * arrays with "gaps" between indices, and this option enables writing
      * to array at any index.
-     *
-     * @todo Implement this option.
      */
-    const OPTION_WRITE_ANY_INDEX = 0x02;
+    const OPTION_NUMERIC_INDEX_GAPS = 0x02;
 
     /**
      * Bit-packed options.
@@ -142,8 +140,9 @@ class Pointer
 
     public function test()
     {
+        $nonNumericIndices = $this->hasOption(self::OPTION_NON_NUMERIC_INDICES);
         return Pointer\Evaluate\Test::factory()
-            ->setNonNumericIndices($this->hasOption(self::OPTION_NON_NUMERIC_INDICES))
+            ->setNonNumericIndices($nonNumericIndices)
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->perform()
@@ -152,8 +151,9 @@ class Pointer
 
     public function &read()
     {
+        $nonNumericIndices = $this->hasOption(self::OPTION_NON_NUMERIC_INDICES);
         return Pointer\Evaluate\Read::factory()
-            ->setNonNumericIndices($this->hasOption(self::OPTION_NON_NUMERIC_INDICES))
+            ->setNonNumericIndices($nonNumericIndices)
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->perform()
@@ -163,8 +163,11 @@ class Pointer
 
     public function write($value)
     {
+        $nonNumericIndices = $this->hasOption(self::OPTION_NON_NUMERIC_INDICES);
+        $numericIndexGaps = $this->hasOption(self::OPTION_NUMERIC_INDEX_GAPS);
         Pointer\Evaluate\Write::factory()
-            ->setNonNumericIndices($this->hasOption(self::OPTION_NON_NUMERIC_INDICES))
+            ->setNonNumericIndices($nonNumericIndices)
+            ->setNumericIndexGaps($numericIndexGaps)
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->setValue($value)
