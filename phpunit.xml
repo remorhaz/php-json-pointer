@@ -3,12 +3,14 @@
     bootstrap="vendor/autoload.php"
     colors="true">
     <testsuites>
-        <testsuite name="Library Test Suite">
+        <testsuite name="Full Test Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist>
+        <whitelist
+            getUncoveredFilesFromWhitelist="true"
+            processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>

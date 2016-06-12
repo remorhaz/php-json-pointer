@@ -57,17 +57,15 @@ class Locator
     public function addReference(Locator\Reference $reference)
     {
         $this->referenceList[] = $reference;
-        if (null === $this->lastReference) {
-            $pathPrefix = '';
-        } else {
-            $pathPrefix = $this
+        $pathPrefix = null === $this->lastReference
+            ? ''
+            : $this
                 ->lastReference
-                ->setLast(false)
+                ->setIsLast(false)
                 ->getPath();
-        }
 
         $this->lastReference = $reference
-            ->setLast()
+            ->setIsLast()
             ->setPath("{$pathPrefix}/{$reference->getText()}");
         return $this;
     }

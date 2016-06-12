@@ -134,7 +134,7 @@ class Pointer
     public function test()
     {
         return Pointer\Evaluate\Test::factory()
-            ->setAllowedNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
+            ->setNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->perform()
@@ -144,7 +144,7 @@ class Pointer
     public function &read()
     {
         return Pointer\Evaluate\Read::factory()
-            ->setAllowedNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
+            ->setNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->perform()
@@ -155,7 +155,7 @@ class Pointer
     public function write($value)
     {
         Pointer\Evaluate\Write::factory()
-            ->setAllowedNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
+            ->setNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->setValue($value)

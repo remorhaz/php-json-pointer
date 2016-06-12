@@ -173,12 +173,12 @@ class Reference
     }
 
 
-    public function setLast($on = true)
+    public function setIsLast($isLast = true)
     {
-        if (!is_bool($on)) {
+        if (!is_bool($isLast)) {
             throw new Reference\InvalidArgumentException("Reference value must be boolean");
         }
-        $this->isLast = $on;
+        $this->isLast = $isLast;
         return $this;
     }
 

@@ -55,7 +55,7 @@ abstract class Evaluate
      */
     protected $result;
 
-    protected $areAllowedNonNumericArrayIndices = false;
+    protected $nonNumericArrayIndices = false;
 
 
     /**
@@ -176,12 +176,12 @@ abstract class Evaluate
     }
 
 
-    public function setAllowedNonNumericArrayIndices($on = true)
+    public function setNonNumericArrayIndices($allow = true)
     {
-        if (!is_bool($on)) {
+        if (!is_bool($allow)) {
             throw new Evaluate\InvalidArgumentException("Non-numeric array indices allowance flag must be boolean");
         }
-        $this->areAllowedNonNumericArrayIndices = $on;
+        $this->nonNumericArrayIndices = $allow;
         return $this;
     }
 
@@ -267,7 +267,7 @@ abstract class Evaluate
                 return $this->processNumericArrayIndex($reference);
 
             default:
-                return $this->areAllowedNonNumericArrayIndices
+                return $this->nonNumericArrayIndices
                     ? $this->processAllowedNonNumericArrayIndex($reference)
                     : $this->processNotAllowedNonNumericArrayIndex($reference);
         }

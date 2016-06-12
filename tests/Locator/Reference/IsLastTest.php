@@ -32,7 +32,7 @@ class IsLastTest extends \PHPUnit_Framework_TestCase
      */
     public function testGotIsLastSameAsSet($on)
     {
-        $reference = Reference::factory()->setLast($on);
+        $reference = Reference::factory()->setIsLast($on);
         $this->assertSame($on, $reference->isLast(), "Got last reference flag differs from the one that was set");
     }
 
@@ -51,7 +51,7 @@ class IsLastTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNotBooleanLastThrowsException()
     {
-        Reference::factory()->setLast(0);
+        Reference::factory()->setIsLast(0);
     }
 
 
@@ -60,6 +60,6 @@ class IsLastTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNotBooleanLastThrowsSplException()
     {
-        Reference::factory()->setLast(0);
+        Reference::factory()->setIsLast(0);
     }
 }
