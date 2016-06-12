@@ -276,7 +276,7 @@ abstract class Evaluate
 
     protected function processNumericArrayIndex(Reference $reference)
     {
-        $index = (int) $reference->getValue();
+        $index = $this->getArrayIndex($reference);
         return array_key_exists($index, $this->cursor)
             ? $this->processExistingArrayIndex($reference)
             : $this->processNonExistingArrayIndex($reference);
@@ -298,7 +298,7 @@ abstract class Evaluate
 
     protected function processAllowedNonNumericArrayIndex(Reference $reference)
     {
-        $index = $reference->getValue();
+        $index = $this->getArrayIndex($reference);
         return array_key_exists($index, $this->cursor)
             ? $this->processExistingArrayIndex($reference)
             : $this->processNonExistingArrayIndex($reference);

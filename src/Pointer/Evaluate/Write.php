@@ -61,11 +61,15 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
 
     protected function processNonExistingArrayIndex(Reference $reference)
     {
+        $index = $this->getArrayIndex($reference);
         if ($reference->isLast()) {
-            $this->cursor->{$reference->getValue()} = $this->getValue();
+            $this->cursor[$index] = $this->getValue();
             $result = null;
             return $this->setResult($result);
         }
-        throw new EvaluateException("Accessing non-existing index in array");
+        var_export($this->cursor);
+        var_export($index);
+        $indexText = is_int($index) ? "{$index}" : "'{$index}'";
+        throw new EvaluateException("Accessing non-existing index {$indexText} in array");
     }
 }

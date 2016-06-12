@@ -9,7 +9,12 @@
 This library allows usage of [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers with PHP variables.
 
 ##Requirements
-* PHP 5.6+/PHP 7.0+/HHVM
+* PHP 5.6+
+
+##Features
+* Supports PHP 5.6, PHP 7.0 and HHVM
+* No extensions required
+* SPL exceptions support
 
 #License
 PHP JSON Pointer is licensed under MIT license.

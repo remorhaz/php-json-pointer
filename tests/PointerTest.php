@@ -99,11 +99,11 @@ class PointerTest extends \PHPUnit_Framework_TestCase
     public function providerWriteDataWithValidLocator()
     {
         return [
-            'objectProperty' => [
+            'rootProperty' => [
                 '/a',
-                (object) ['a' => 1, 'b' => '2'],
+                (object) ['a' => 1, 'b' => 2],
                 3,
-                (object) ['a' => 3, 'b' => '2'],
+                (object) ['a' => 3, 'b' => 2],
             ],
         ];
     }
