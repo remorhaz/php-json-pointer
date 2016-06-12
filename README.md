@@ -14,7 +14,7 @@ This library allows usage of [RFC6901](https://tools.ietf.org/html/rfc6901)-comp
 ##Features
 * Supports PHP 5.6, PHP 7.0 and HHVM
 * No extensions required
-* SPL exceptions support
+* Throws SPL exceptions
 
 #License
 PHP JSON Pointer is licensed under MIT license.
