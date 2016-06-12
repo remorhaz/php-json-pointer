@@ -11,7 +11,16 @@ class Pointer
      * have string indices. This option can be used to enable non-numeric
      * array indices addressing.
      */
-    const OPTION_NON_NUMERIC_ARRAY_INDICES = 0x01;
+    const OPTION_NON_NUMERIC_INDICES = 0x01;
+    /**
+     * "Native" JSON arrays have consistent indices, so allowing to create
+     * arbitrary numeric indices will break them. But PHP arrays support
+     * arrays with "gaps" between indices, and this option enables writing
+     * to array at any index.
+     *
+     * @todo Implement this option.
+     */
+    const OPTION_WRITE_ANY_INDEX = 0x02;
 
     /**
      * Bit-packed options.
@@ -134,7 +143,7 @@ class Pointer
     public function test()
     {
         return Pointer\Evaluate\Test::factory()
-            ->setNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
+            ->setNonNumericIndices($this->hasOption(self::OPTION_NON_NUMERIC_INDICES))
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->perform()
@@ -144,7 +153,7 @@ class Pointer
     public function &read()
     {
         return Pointer\Evaluate\Read::factory()
-            ->setNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
+            ->setNonNumericIndices($this->hasOption(self::OPTION_NON_NUMERIC_INDICES))
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->perform()
@@ -155,7 +164,7 @@ class Pointer
     public function write($value)
     {
         Pointer\Evaluate\Write::factory()
-            ->setNonNumericArrayIndices($this->hasOption(self::OPTION_NON_NUMERIC_ARRAY_INDICES))
+            ->setNonNumericIndices($this->hasOption(self::OPTION_NON_NUMERIC_INDICES))
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->setValue($value)

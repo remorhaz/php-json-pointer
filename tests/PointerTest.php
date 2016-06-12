@@ -175,7 +175,7 @@ class PointerTest extends \PHPUnit_Framework_TestCase
     public function testTestDataWithNonNumericArrayIndices($text, $data)
     {
         $result = Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_ARRAY_INDICES)
+            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
             ->setText($text)
             ->setData($data)
             ->test();
@@ -192,7 +192,7 @@ class PointerTest extends \PHPUnit_Framework_TestCase
     public function testReadDataWithNonNumericArrayIndices($text, $data, $result)
     {
         $pointer = Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_ARRAY_INDICES)
+            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
             ->setText($text)
             ->setData($data);
         $this->assertEquals($result, $pointer->read(), "Error reading non-numeric array index");
