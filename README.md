@@ -2,10 +2,16 @@ PHP JSON Pointer
 ================
 [![Build Status](https://travis-ci.org/remorhaz/php-json-pointer.svg?branch=master)](https://travis-ci.org/remorhaz/php-json-pointer)
 
-This library allows usage of RFC-6901-compliant JSON pointers with PHP variables.
+This library allows usage of [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers with PHP variables.
 
 #License
 PHP JSON Pointer is licensed under MIT license.
+
+#Installation
+You will need [composer](https://getcomposer.org) to perform install.
+```
+composer require remorhaz/php-json-pointer
+```
 
 #Documentation
 To get ready to access data with JSON Pointer links you need just 3 simple steps:
