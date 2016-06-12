@@ -67,8 +67,6 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
             $result = null;
             return $this->setResult($result);
         }
-        var_export($this->cursor);
-        var_export($index);
         $indexText = is_int($index) ? "{$index}" : "'{$index}'";
         throw new EvaluateException("Accessing non-existing index {$indexText} in array");
     }

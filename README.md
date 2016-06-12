@@ -13,7 +13,7 @@ This library allows usage of [RFC6901](https://tools.ietf.org/html/rfc6901)-comp
 
 ##Features
 * Supports PHP 5.6, PHP 7.0 and HHVM
-* No extensions required
+* No PHP extensions required
 * Throws SPL exceptions
 
 #License
@@ -71,13 +71,13 @@ $result = $pointer
 // Treating PHP arrays as objects (not compliant with RFC6901, but
 // it's the only way to access non-numeric index in PHP array).
 $subData = ['g' => 2, 'h' => 3];
+$pointer->write($subData);   // Sets $data->a->c to ['g' => 2, 'h' => 3].
 $link = '/a/c/g';       // Link to non-numeric index of array.
-$result = $pointer
-    ->write($subData)   // Sets $data->a->c to ['g' => 2, 'h' => 3].
+$result = $pointer    
     ->setText($link)
     ->test();           // Sets $result to FALSE.
 $result $pointer
-    ->setOptions(Pointer::OPTION_NON_NUMERIC_ARRAY_INDICES)
+    ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
     ->test();           // Sets $result to TRUE.
 echo $pointer->read();  // 2    
 ```
