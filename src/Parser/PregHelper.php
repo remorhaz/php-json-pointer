@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer;
+namespace Remorhaz\JSONPointer\Parser;
 
 /**
  * Helper to assert PREG function results.

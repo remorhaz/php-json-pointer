@@ -209,7 +209,7 @@ class Parser
     protected function setupReferenceType(Locator\Reference $reference)
     {
         $result = preg_match('#^(0|[1-9]\d*)$#u', $reference->getValue());
-        PregHelper::assertMatchResult(
+        Parser\PregHelper::assertMatchResult(
             $result,
             Parser\RegExpException::class,
             "Regular expression error on reference type detection"

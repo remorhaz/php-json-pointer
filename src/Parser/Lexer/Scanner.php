@@ -3,7 +3,7 @@
 namespace Remorhaz\JSONPointer\Parser\Lexer;
 
 use Remorhaz\JSONPointer\Parser\Token;
-use Remorhaz\JSONPointer\PregHelper;
+use Remorhaz\JSONPointer\Parser\PregHelper;
 
 /**
  * Lexical analyzer's text scanner. It reads tokens directly from text string.
