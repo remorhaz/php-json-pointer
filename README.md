@@ -9,7 +9,7 @@ PHP JSON Pointer is licensed under MIT license.
 #Documentation
 To get ready to access data with JSON Pointer links you need just 3 simple steps:
 
-1. Create an object of `\ESurov\JSONPointer\Pointer` class by calling it's static `factory()` method.
+1. Create an object of `\Remorhaz\JSONPointer\Pointer` class by calling it's static `factory()` method.
 2. Link data to the pointer object by calling it's `setData()` method.
 3. Set up JSON Pointer link text by calling it's `setText()` method.
 
@@ -19,7 +19,7 @@ After doing so, you can call `test()`, `read()` and `write()` methods to access 
 ```php
 <?php
 
-use \ESurov\JSONPointer\Pointer;
+use \Remorhaz\JSONPointer\Pointer;
 
 // Setting up data.
 $data = (object) [

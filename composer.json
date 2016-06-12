@@ -1,6 +1,9 @@
 {
   "name": "remorhaz/php-json-pointer",
   "description": "JSON Pointer (RFC-6901) PHP implementation",
+  "keywords": ["json", "json pointer", "RFC6901"],
+  "homepage": "https://github.com/remorhaz/php-json-pointer",
+  "license": "MIT",
   "authors": [
     {
       "name": "Edward Surov",
