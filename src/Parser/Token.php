@@ -80,7 +80,6 @@ class Token
      * @param int|null $length
      * @param string|null $value
      * @return static
-     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public static function factory($type = null, $text = null, $length = null, $value = null)
     {
