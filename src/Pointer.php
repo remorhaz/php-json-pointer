@@ -124,7 +124,7 @@ class Pointer
     public function &getData()
     {
         if (!$this->isDataSet) {
-            throw new Pointer\RuntimeException("Data for evaluation is not set");
+            throw new Pointer\LogicException("Data for evaluation is not set");
         }
         return $this->data;
     }
