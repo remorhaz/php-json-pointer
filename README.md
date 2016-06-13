@@ -76,7 +76,7 @@ $link = '/a/c/g';       // Link to non-numeric index of array.
 $result = $pointer    
     ->setText($link)
     ->test();           // Sets $result to FALSE.
-$result $pointer
+$result = $pointer
     ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
     ->test();           // Sets $result to TRUE.
 echo $pointer->read();  // 2    
