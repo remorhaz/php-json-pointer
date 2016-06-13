@@ -232,7 +232,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->setNonNumericIndices()
+            ->allowNonNumericIndices()
             ->perform();
         $this->assertEquals($expectedData, $data, "Incorrect data after writing to non-numeric index");
     }
@@ -357,7 +357,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->setNumericIndexGaps()
+            ->allowNumericIndexGaps()
             ->perform();
         $this->assertEquals($expectedData, $data, "Incorrect data after writing to index with gap");
     }

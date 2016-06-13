@@ -31,14 +31,19 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
     }
 
 
-    public function setNumericIndexGaps($allow = true)
+    public function allowNumericIndexGaps()
     {
-        if (!is_bool($allow)) {
-            throw new InvalidArgumentException("Write any index flag must be boolean");
-        }
-        $this->numericIndexGaps = $allow;
+        $this->numericIndexGaps = true;
         return $this;
     }
+
+
+    public function forbidNumericIndexGaps()
+    {
+        $this->numericIndexGaps = false;
+        return $this;
+    }
+
 
     protected function processCursor()
     {
@@ -75,8 +80,8 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
         $index = $this->getArrayIndex($reference);
         if ($reference->isLast()) {
             $canWrite = is_int($index)
-                ? 0 == $index || array_key_exists($index - 1, $this->cursor) || $this->numericIndexGaps
-                : $this->nonNumericIndices;
+                ? $this->canWriteNumericIndex($index)
+                : $this->canWriteNonNumericIndex();
             if ($canWrite) {
                 $this->cursor[$index] = $this->getValue();
                 $result = null;
@@ -85,5 +90,20 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
         }
         $indexText = is_int($index) ? "{$index}" : "'{$index}'";
         throw new EvaluateException("Accessing non-existing index {$indexText} in array");
+    }
+
+
+    private function canWriteNumericIndex($index)
+    {
+        return
+            0 == $index && empty($this->cursor) ||
+            array_key_exists($index - 1, $this->cursor) ||
+            $this->numericIndexGaps;
+    }
+
+
+    private function canWriteNonNumericIndex()
+    {
+        return $this->nonNumericIndices;
     }
 }

@@ -176,14 +176,19 @@ abstract class Evaluate
     }
 
 
-    public function setNonNumericIndices($allow = true)
+    public function allowNonNumericIndices()
     {
-        if (!is_bool($allow)) {
-            throw new Evaluate\InvalidArgumentException("Non-numeric array indices allowance flag must be boolean");
-        }
-        $this->nonNumericIndices = $allow;
+        $this->nonNumericIndices = true;
         return $this;
     }
+
+
+    public function forbidNonNumericIndices()
+    {
+        $this->nonNumericIndices = false;
+        return $this;
+    }
+
 
     /**
      * Performs the evaluation.

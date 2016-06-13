@@ -140,22 +140,27 @@ class Pointer
 
     public function test()
     {
-        $nonNumericIndices = $this->hasOption(self::OPTION_NON_NUMERIC_INDICES);
-        return Pointer\Evaluate\Test::factory()
-            ->setNonNumericIndices($nonNumericIndices)
+        $pointer = Pointer\Evaluate\Test::factory()
             ->setLocator($this->getLocator())
-            ->setData($this->getData())
+            ->setData($this->getData());
+        if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
+            $pointer->allowNonNumericIndices();
+        }
+        return $pointer
             ->perform()
             ->getResult();
+
     }
 
     public function &read()
     {
-        $nonNumericIndices = $this->hasOption(self::OPTION_NON_NUMERIC_INDICES);
-        return Pointer\Evaluate\Read::factory()
-            ->setNonNumericIndices($nonNumericIndices)
+        $pointer = Pointer\Evaluate\Read::factory()
             ->setLocator($this->getLocator())
-            ->setData($this->getData())
+            ->setData($this->getData());
+        if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
+            $pointer->allowNonNumericIndices();
+        }
+        return $pointer
             ->perform()
             ->getResult();
     }
@@ -163,15 +168,17 @@ class Pointer
 
     public function write($value)
     {
-        $nonNumericIndices = $this->hasOption(self::OPTION_NON_NUMERIC_INDICES);
-        $numericIndexGaps = $this->hasOption(self::OPTION_NUMERIC_INDEX_GAPS);
-        Pointer\Evaluate\Write::factory()
-            ->setNonNumericIndices($nonNumericIndices)
-            ->setNumericIndexGaps($numericIndexGaps)
+        $pointer = Pointer\Evaluate\Write::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData())
-            ->setValue($value)
-            ->perform();
+            ->setValue($value);
+        if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
+            $pointer->allowNonNumericIndices();
+        }
+        if ($this->hasOption(self::OPTION_NUMERIC_INDEX_GAPS)) {
+            $pointer->allowNumericIndexGaps();
+        }
+        $pointer->perform();
         return $this;
     }
 
