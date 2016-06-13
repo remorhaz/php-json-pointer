@@ -33,6 +33,7 @@ class Lexer
      * Creates instance of object.
      *
      * @return static
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public static function factory()
     {

@@ -26,6 +26,7 @@ class ReferenceBuffer
 
     /**
      * @return static
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public static function factory()
     {

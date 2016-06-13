@@ -70,6 +70,7 @@ abstract class Evaluate
      * Creates object instance.
      *
      * @return static
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public static function factory()
     {
