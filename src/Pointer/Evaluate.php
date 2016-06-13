@@ -200,18 +200,14 @@ abstract class Evaluate
     {
         $this->cursor = &$this->getData();
         $this->resetResult();
-        try {
-            foreach ($this->getLocator()->getReferenceList() as $reference) {
-                $this->processReference($reference);
-                if ($this->isResultSet) {
-                    break;
-                }
+        foreach ($this->getLocator()->getReferenceList() as $reference) {
+            $this->processReference($reference);
+            if ($this->isResultSet) {
+                break;
             }
-            if (!$this->isResultSet) {
-                $this->processCursor();
-            }
-        } finally {
-            unset($this->cursor);
+        }
+        if (!$this->isResultSet) {
+            $this->processCursor();
         }
         if (!$this->isResultSet) {
             throw new Evaluate\LogicException("Data evaluation failed");
