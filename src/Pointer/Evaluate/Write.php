@@ -55,55 +55,74 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
 
     protected function processNextArrayIndex(Reference $reference)
     {
-        if ($reference->isLast()) {
-            $this->cursor[] = $this->getValue();
-            $result = null;
-            return $this->setResult($result);
-        }
-        throw new EvaluateException("Accessing non-existing index in array");
+        throw new LogicException("Deprecated method");
     }
 
 
     protected function processNonExistingObjectProperty(Reference $reference)
     {
-        if ($reference->isLast()) {
-            $this->cursor->{$reference->getValue()} = $this->getValue();
-            $result = null;
-            return $this->setResult($result);
-        }
-        throw new EvaluateException("Accessing non-existing property in object");
+        throw new LogicException("Deprecated method");
     }
 
 
     protected function processNonExistingArrayIndex(Reference $reference)
     {
-        $index = $this->getArrayIndex($reference);
-        if ($reference->isLast()) {
-            $canWrite = is_int($index)
-                ? $this->canWriteNumericIndex($index)
-                : $this->canWriteNonNumericIndex();
-            if ($canWrite) {
-                $this->cursor[$index] = $this->getValue();
-                $result = null;
-                return $this->setResult($result);
+        throw new LogicException("Deprecated method");
+    }
+
+
+    /**
+     * @param Reference $reference
+     * @return ReferenceEvaluate
+     * @throws EvaluateException
+     */
+    protected function createReferenceEvaluate(Reference $reference)
+    {
+        if (is_object($this->cursor)) {
+            return ReferenceWriteProperty::factory()
+                ->setValue($this->getValue());
+        } elseif (is_array($this->cursor)) {
+            switch ($reference->getType()) {
+                case $reference::TYPE_NEXT_INDEX:
+                    return ReferenceWriteNextIndex::factory()
+                        ->setValue($this->getValue());
+
+                case $reference::TYPE_INDEX:
+                    $referenceEvaluate = $this->numericIndexGaps
+                        ? ReferenceWriteNumericIndexWithGaps::factory()
+                        : ReferenceWriteNumericIndexWithoutGaps::factory();
+                    return $referenceEvaluate->setValue($this->getValue());
+
+                case $reference::TYPE_PROPERTY:
+                    if (!$this->nonNumericIndices) {
+                        throw new EvaluateException(
+                            "Accessing non-numeric index '{$reference->getValue()}' in array"
+                        );
+                    }
+                    return ReferenceWriteNonNumericIndex::factory()
+                        ->setValue($this->getValue());
+
+                default:
+                    throw new DomainException(
+                        "Failed to create evaluator for reference of type {$reference->getType()}"
+                    );
             }
         }
-        $indexText = is_int($index) ? "{$index}" : "'{$index}'";
-        throw new EvaluateException("Accessing non-existing index {$indexText} in array");
+        throw new EvaluateException("Cannot write into non-structured data by reference");
     }
 
 
-    private function canWriteNumericIndex($index)
+    protected function processReferenceEvaluate(Reference $reference)
     {
-        return
-            0 == $index && empty($this->cursor) ||
-            array_key_exists($index - 1, $this->cursor) ||
-            $this->numericIndexGaps;
-    }
-
-
-    private function canWriteNonNumericIndex()
-    {
-        return $this->nonNumericIndices;
+        $referenceEvaluate = $this
+            ->createReferenceEvaluate($reference)
+            ->setReference($reference)
+            ->setData($this->cursor)
+            ->perform();
+        $this->cursor = &$referenceEvaluate->getData();
+        if ($referenceEvaluate->isResultSet()) {
+            $this->setResult($referenceEvaluate->getResult());
+        }
+        return $this;
     }
 }

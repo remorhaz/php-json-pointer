@@ -41,4 +41,10 @@ class Test extends \Remorhaz\JSONPointer\Pointer\Evaluate
         $result = false;
         return $this->setResult($result);
     }
+    
+    
+    protected function createReferenceEvaluate(Reference $reference)
+    {
+        
+    }
 }

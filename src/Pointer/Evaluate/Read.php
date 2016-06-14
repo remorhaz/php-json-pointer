@@ -30,4 +30,10 @@ class Read extends \Remorhaz\JSONPointer\Pointer\Evaluate
     {
         throw new EvaluateException("No index '{$reference->getValue()}' in array");
     }
+
+
+    protected function createReferenceEvaluate(Reference $reference)
+    {
+
+    }
 }

@@ -4,6 +4,7 @@ namespace Remorhaz\JSONPointer\Pointer;
 
 use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSONPointer\Pointer\Evaluate\ReferenceEvaluate;
 
 /**
  * Abstract JSON Pointer evaluator.
@@ -216,16 +217,17 @@ abstract class Evaluate
     }
 
 
+    /**
+     * @param Reference $reference
+     * @return ReferenceEvaluate
+     */
+    abstract protected function createReferenceEvaluate(Reference $reference);
+
+
     protected function processReference(Reference $reference)
     {
         try {
-            if (is_object($this->cursor)) {
-                $this->processObjectProperty($reference);
-            } elseif (is_array($this->cursor)) {
-                $this->processArrayIndex($reference);
-            } else {
-                throw new Evaluate\EvaluateException("Accessing non-structured data with reference");
-            }
+            $this->processReferenceEvaluate($reference);
         } catch (Evaluate\EvaluateException $e) {
             throw new Evaluate\EvaluateException(
                 "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
@@ -234,6 +236,18 @@ abstract class Evaluate
             );
         }
         return $this;
+    }
+
+
+    protected function processReferenceEvaluate(Reference $reference)
+    {
+        if (is_object($this->cursor)) {
+            $this->processObjectProperty($reference);
+        } elseif (is_array($this->cursor)) {
+            $this->processArrayIndex($reference);
+        } else {
+            throw new Evaluate\EvaluateException("Accessing non-structured data with reference");
+        }
     }
 
 
