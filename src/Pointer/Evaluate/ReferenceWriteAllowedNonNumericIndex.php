@@ -8,13 +8,13 @@ class ReferenceWriteAllowedNonNumericIndex extends ReferenceWrite
 
     protected function doesExist()
     {
-        return array_key_exists($this->getIndex(), $this->getData());
+        return array_key_exists($this->getIndex(), $this->getDataCursor());
     }
 
 
     protected function performExisting()
     {
-        $this->data = &$this->data[$this->getIndex()];
+        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
         return $this;
     }
 
@@ -26,7 +26,7 @@ class ReferenceWriteAllowedNonNumericIndex extends ReferenceWrite
                 "Cannot write to non-existing index '{$this->getIndex()}'' in array"
             );
         }
-        $this->data[$this->getIndex()] = $this->getValue();
+        $this->dataCursor[$this->getIndex()] = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }

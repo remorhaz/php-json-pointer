@@ -46,7 +46,7 @@ abstract class LocatorEvaluate
      *
      * @var mixed
      */
-    protected $cursor;
+    protected $dataCursor;
 
     /**
      * Evaluation result.
@@ -203,7 +203,7 @@ abstract class LocatorEvaluate
      */
     public function perform()
     {
-        $this->cursor = &$this->getData();
+        $this->dataCursor = &$this->getData();
         $this->resetResult();
         foreach ($this->getLocator()->getReferenceList() as $reference) {
             $this->processReference($reference);
@@ -227,10 +227,10 @@ abstract class LocatorEvaluate
      */
     protected function createReferenceEvaluate(Reference $reference)
     {
-        if (is_object($this->cursor)) {
+        if (is_object($this->dataCursor)) {
             return $this->createReferenceEvaluateProperty($reference);
         }
-        if (is_array($this->cursor)) {
+        if (is_array($this->dataCursor)) {
             return $this->createReferenceEvaluateIndex($reference);
         }
         return $this->createReferenceEvaluateScalar($reference);
@@ -286,7 +286,7 @@ abstract class LocatorEvaluate
     {
         $this->referenceEvaluate = $this
             ->createReferenceEvaluate($reference)
-            ->setData($this->cursor);
+            ->setDataCursor($this->dataCursor);
         return $this;
     }
 
@@ -330,9 +330,9 @@ abstract class LocatorEvaluate
             ->setupReferenceEvaluate($reference)
             ->getReferenceEvaluate()
             ->perform();
-        $this->cursor = &$this
+        $this->dataCursor = &$this
             ->getReferenceEvaluate()
-            ->getData();
+            ->getDataCursor();
         $isReferenceResultSet = $this
             ->getReferenceEvaluate()
             ->isResultSet();

@@ -10,13 +10,13 @@ abstract class ReferenceWriteNumericIndex extends ReferenceWrite
 
     protected function doesExist()
     {
-        return array_key_exists($this->getIndex(), $this->getData());
+        return array_key_exists($this->getIndex(), $this->getDataCursor());
     }
 
 
     protected function performExisting()
     {
-        $this->data = &$this->data[$this->getIndex()];
+        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
         return $this;
     }
 
@@ -28,7 +28,7 @@ abstract class ReferenceWriteNumericIndex extends ReferenceWrite
             $indexText = is_int($index) ? "{$index}" : "'{$index}'";
             throw new EvaluateException("Cannot write to non-existing index {$indexText} in array");
         }
-        $this->data[$index] = $this->getValue();
+        $this->dataCursor[$index] = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }

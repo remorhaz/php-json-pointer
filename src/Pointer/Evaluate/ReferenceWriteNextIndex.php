@@ -23,7 +23,7 @@ class ReferenceWriteNextIndex extends ReferenceWrite
         if (!$this->canPerformNonExisting()) {
             throw new EvaluateException("Cannot write to non-existing next index of array if it is not last");
         }
-        $this->data[] = $this->getValue();
+        $this->dataCursor[] = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }

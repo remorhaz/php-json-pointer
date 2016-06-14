@@ -8,13 +8,13 @@ class ReferenceTestAllowedNonNumericIndex extends ReferenceEvaluate
 
     protected function doesExist()
     {
-        return array_key_exists($this->getIndex(), $this->getData());
+        return array_key_exists($this->getIndex(), $this->getDataCursor());
     }
 
 
     protected function performExisting()
     {
-        $this->data = &$this->data[$this->getIndex()];
+        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
         return $this;
     }
 

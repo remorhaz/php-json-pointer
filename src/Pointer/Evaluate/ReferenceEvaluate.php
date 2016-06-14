@@ -20,18 +20,18 @@ abstract class ReferenceEvaluate
      *
      * @var mixed
      */
-    protected $data;
-
-    protected $result;
-
-    protected $isResultSet;
+    protected $dataCursor;
 
     /**
      * Flag of having data set.
      *
      * @var bool
      */
-    protected $isDataSet = false;
+    protected $isDataCursorSet = false;
+
+    protected $result;
+
+    protected $isResultSet;
 
     abstract protected function doesExist();
 
@@ -86,20 +86,20 @@ abstract class ReferenceEvaluate
     }
 
 
-    public function setData(&$data)
+    public function setDataCursor(&$dataCursor)
     {
-        $this->data = &$data;
-        $this->isDataSet = true;
+        $this->dataCursor = &$dataCursor;
+        $this->isDataCursorSet = true;
         return $this;
     }
 
 
-    public function &getData()
+    public function &getDataCursor()
     {
-        if (!$this->isDataSet) {
+        if (!$this->isDataCursorSet) {
             throw new LogicException("Data is not set in reference evaluator");
         }
-        return $this->data;
+        return $this->dataCursor;
     }
     
     

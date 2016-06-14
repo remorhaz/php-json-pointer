@@ -8,13 +8,13 @@ class ReferenceWriteProperty extends ReferenceWrite
 
     protected function doesExist()
     {
-        return property_exists($this->getData(), $this->getProperty());
+        return property_exists($this->getDataCursor(), $this->getProperty());
     }
 
 
     protected function performExisting()
     {
-        $this->data = &$this->data->{$this->getProperty()};
+        $this->dataCursor = &$this->dataCursor->{$this->getProperty()};
         return $this;
     }
 
@@ -24,7 +24,7 @@ class ReferenceWriteProperty extends ReferenceWrite
         if (!$this->canPerformNonExisting()) {
             throw new EvaluateException("Cannot write to non-existing property if it is not last");
         }
-        $this->data->{$this->getProperty()} = $this->getValue();
+        $this->dataCursor->{$this->getProperty()} = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }

@@ -12,8 +12,8 @@ class ReferenceWriteNumericIndexWithoutGaps extends ReferenceWriteNumericIndex
             ->isLast();
         if ($isLastReference) {
             return
-                0 == $this->getIndex() && empty($this->data) ||
-                array_key_exists($this->getIndex() - 1, $this->data);
+                0 == $this->getIndex() && empty($this->dataCursor) ||
+                array_key_exists($this->getIndex() - 1, $this->dataCursor);
         }
         return false;
     }

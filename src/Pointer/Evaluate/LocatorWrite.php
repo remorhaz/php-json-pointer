@@ -50,7 +50,7 @@ class LocatorWrite extends LocatorEvaluate
 
     protected function processCursor()
     {
-        $this->cursor = $this->getValue();
+        $this->dataCursor = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }

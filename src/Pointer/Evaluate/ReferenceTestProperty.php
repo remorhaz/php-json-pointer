@@ -8,13 +8,13 @@ class ReferenceTestProperty extends ReferenceEvaluate
 
     protected function doesExist()
     {
-        return property_exists($this->getData(), $this->getProperty());
+        return property_exists($this->getDataCursor(), $this->getProperty());
     }
 
 
     protected function performExisting()
     {
-        $this->data = &$this->data->{$this->getProperty()};
+        $this->dataCursor = &$this->dataCursor->{$this->getProperty()};
         return $this;
     }
 
