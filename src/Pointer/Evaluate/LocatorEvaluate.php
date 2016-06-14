@@ -274,11 +274,11 @@ abstract class LocatorEvaluate
 
 
     abstract protected function createReferenceEvaluateNotAllowedNonNumericIndex(Reference $reference);
-    
-    
+
+
     abstract protected function createReferenceEvaluateUnknownIndex(Reference $reference);
-    
-    
+
+
     abstract protected function createReferenceEvaluateScalar(Reference $reference);
 
 
@@ -286,7 +286,6 @@ abstract class LocatorEvaluate
     {
         $this->referenceEvaluate = $this
             ->createReferenceEvaluate($reference)
-            ->setReference($reference)
             ->setData($this->cursor);
         return $this;
     }
