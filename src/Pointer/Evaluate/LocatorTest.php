@@ -4,7 +4,7 @@ namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
 use Remorhaz\JSONPointer\Locator\Reference;
 
-class Test extends \Remorhaz\JSONPointer\Pointer\Evaluate
+class LocatorTest extends LocatorEvaluate
 {
 
 
@@ -12,30 +12,6 @@ class Test extends \Remorhaz\JSONPointer\Pointer\Evaluate
     {
         $result = true;
         return $this->setResult($result);
-    }
-
-
-    protected function processNextArrayIndex(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
-    protected function processNonExistingObjectProperty(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
-    protected function processNonExistingArrayIndex(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
-    protected function processNotAllowedNonNumericArrayIndex(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
     }
 
 
@@ -68,27 +44,5 @@ class Test extends \Remorhaz\JSONPointer\Pointer\Evaluate
             }
         }
         throw new EvaluateException("Cannot test non-structured data by reference");
-    }
-
-
-    protected function processReferenceEvaluate(Reference $reference)
-    {
-        $this
-            ->setupReferenceEvaluate($reference)
-            ->getReferenceEvaluate()
-            ->perform();
-        $this->cursor = &$this
-            ->getReferenceEvaluate()
-            ->getData();
-        $isReferenceResultSet = $this
-            ->getReferenceEvaluate()
-            ->isResultSet();
-        if ($isReferenceResultSet) {
-            $referenceResult = &$this
-                ->getReferenceEvaluate()
-                ->getResult();
-            $this->setResult($referenceResult);
-        }
-        return $this;
     }
 }

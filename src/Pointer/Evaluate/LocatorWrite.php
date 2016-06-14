@@ -7,7 +7,7 @@ use Remorhaz\JSONPointer\Locator\Reference;
 /**
  * @package Remorhaz\JSONPointer\Pointer\Evaluate
  */
-class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
+class LocatorWrite extends LocatorEvaluate
 {
 
     protected $value;
@@ -56,24 +56,6 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
     }
 
 
-    protected function processNextArrayIndex(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
-    protected function processNonExistingObjectProperty(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
-    protected function processNonExistingArrayIndex(Reference $reference)
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
     /**
      * @param Reference $reference
      * @return ReferenceEvaluate
@@ -118,28 +100,6 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
             throw new LogicException("Invalid write reference evaluator");
         }
         $referenceEvaluate->setValue($this->getValue());
-        return $this;
-    }
-
-
-    protected function processReferenceEvaluate(Reference $reference)
-    {
-        $this
-            ->setupReferenceEvaluate($reference)
-            ->getReferenceEvaluate()
-            ->perform();
-        $this->cursor = &$this
-            ->getReferenceEvaluate()
-            ->getData();
-        $isReferenceResultSet = $this
-            ->getReferenceEvaluate()
-            ->isResultSet();
-        if ($isReferenceResultSet) {
-            $referenceResult = &$this
-                ->getReferenceEvaluate()
-                ->getResult();
-            $this->setResult($referenceResult);
-        }
         return $this;
     }
 }

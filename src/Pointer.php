@@ -140,7 +140,7 @@ class Pointer
 
     public function test()
     {
-        $pointer = Pointer\Evaluate\Test::factory()
+        $pointer = Pointer\Evaluate\LocatorTest::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData());
         if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
@@ -154,7 +154,7 @@ class Pointer
 
     public function &read()
     {
-        $pointer = Pointer\Evaluate\Read::factory()
+        $pointer = Pointer\Evaluate\LocatorRead::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData());
         if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
@@ -168,7 +168,7 @@ class Pointer
 
     public function write($value)
     {
-        $pointer = Pointer\Evaluate\Write::factory()
+        $pointer = Pointer\Evaluate\LocatorWrite::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->setValue($value);

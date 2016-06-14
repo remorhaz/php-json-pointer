@@ -4,7 +4,7 @@ namespace Remorhaz\JSONPointer\Test\Pointer\Evaluate;
 
 use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Parser;
-use Remorhaz\JSONPointer\Pointer\Evaluate\Write;
+use Remorhaz\JSONPointer\Pointer\Evaluate\LocatorWrite;
 
 class WriteTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->perform();
@@ -39,7 +39,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->perform();
@@ -71,7 +71,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -168,7 +168,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -188,7 +188,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -208,7 +208,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -228,7 +228,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -293,7 +293,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -313,7 +313,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -333,7 +333,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
@@ -353,7 +353,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        Write::factory()
+        LocatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)

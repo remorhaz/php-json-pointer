@@ -1,17 +1,16 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer;
+namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
 use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Locator\Reference;
-use Remorhaz\JSONPointer\Pointer\Evaluate\ReferenceEvaluate;
 
 /**
  * Abstract JSON Pointer evaluator.
  *
  * @package JSONPointer
  */
-abstract class Evaluate
+abstract class LocatorEvaluate
 {
 
     /**
@@ -100,12 +99,12 @@ abstract class Evaluate
      * Returns locator object.
      *
      * @return Locator
-     * @throws Evaluate\LogicException
+     * @throws LogicException
      */
     protected function getLocator()
     {
         if (null === $this->locator) {
-            throw new Evaluate\LogicException("Locator is not set in evaluator");
+            throw new LogicException("Locator is not set in evaluator");
         }
         return $this->locator;
     }
@@ -129,12 +128,12 @@ abstract class Evaluate
      * Returns data for evaluation.
      *
      * @return mixed
-     * @throws Evaluate\LogicException
+     * @throws LogicException
      */
     protected function &getData()
     {
         if (!$this->isDataSet) {
-            throw new Evaluate\LogicException("Data is not set in evaluator");
+            throw new LogicException("Data is not set in evaluator");
         }
         return $this->data;
     }
@@ -171,12 +170,12 @@ abstract class Evaluate
      * Returns evaluation result.
      *
      * @return mixed
-     * @throws Evaluate\LogicException
+     * @throws LogicException
      */
     public function &getResult()
     {
         if (!$this->isResultSet) {
-            throw new Evaluate\LogicException("Evaluation result is not set");
+            throw new LogicException("Evaluation result is not set");
         }
         return $this->result;
     }
@@ -200,7 +199,7 @@ abstract class Evaluate
      * Performs the evaluation.
      *
      * @return $this
-     * @throws Evaluate\LogicException
+     * @throws LogicException
      */
     public function perform()
     {
@@ -216,7 +215,7 @@ abstract class Evaluate
             $this->processCursor();
         }
         if (!$this->isResultSet) {
-            throw new Evaluate\LogicException("Data evaluation failed");
+            throw new LogicException("Data evaluation failed");
         }
         return $this;
     }
@@ -241,6 +240,7 @@ abstract class Evaluate
 
     /**
      * @return ReferenceEvaluate
+     * @throws LogicException
      */
     protected function getReferenceEvaluate()
     {
@@ -251,12 +251,17 @@ abstract class Evaluate
     }
 
 
+    /**
+     * @param Reference $reference
+     * @return $this
+     * @throws EvaluateException
+     */
     protected function processReference(Reference $reference)
     {
         try {
             $this->processReferenceEvaluate($reference);
-        } catch (Evaluate\EvaluateException $e) {
-            throw new Evaluate\EvaluateException(
+        } catch (EvaluateException $e) {
+            throw new EvaluateException(
                 "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
                 null,
                 $e
@@ -268,102 +273,25 @@ abstract class Evaluate
 
     protected function processReferenceEvaluate(Reference $reference)
     {
-        if (is_object($this->cursor)) {
-            $this->processObjectProperty($reference);
-        } elseif (is_array($this->cursor)) {
-            $this->processArrayIndex($reference);
-        } else {
-            throw new Evaluate\EvaluateException("Accessing non-structured data with reference");
+        $this
+            ->setupReferenceEvaluate($reference)
+            ->getReferenceEvaluate()
+            ->perform();
+        $this->cursor = &$this
+            ->getReferenceEvaluate()
+            ->getData();
+        $isReferenceResultSet = $this
+            ->getReferenceEvaluate()
+            ->isResultSet();
+        if ($isReferenceResultSet) {
+            $referenceResult = &$this
+                ->getReferenceEvaluate()
+                ->getResult();
+            $this->setResult($referenceResult);
         }
+        return $this;
     }
 
 
     abstract protected function processCursor();
-
-
-    protected function processObjectProperty(Reference $reference)
-    {
-        return property_exists($this->cursor, $reference->getValue())
-            ? $this->processExistingObjectProperty($reference)
-            : $this->processNonExistingObjectProperty($reference);
-    }
-
-
-    protected function processExistingObjectProperty(Reference $reference)
-    {
-        $this->cursor = &$this->cursor->{$reference->getValue()};
-        return $this;
-    }
-
-
-    abstract protected function processNonExistingObjectProperty(Reference $reference);
-
-
-    protected function processArrayIndex(Reference $reference)
-    {
-        switch ($reference->getType()) {
-            case $reference::TYPE_NEXT_INDEX:
-                return $this->processNextArrayIndex($reference);
-
-            case $reference::TYPE_INDEX:
-                return $this->processNumericArrayIndex($reference);
-
-            default:
-                return $this->nonNumericIndices
-                    ? $this->processAllowedNonNumericArrayIndex($reference)
-                    : $this->processNotAllowedNonNumericArrayIndex($reference);
-        }
-    }
-
-
-    protected function processNumericArrayIndex(Reference $reference)
-    {
-        $index = $this->getArrayIndex($reference);
-        return array_key_exists($index, $this->cursor)
-            ? $this->processExistingArrayIndex($reference)
-            : $this->processNonExistingArrayIndex($reference);
-    }
-
-
-    /**
-     * @param Reference $reference
-     * @return $this
-     * @throws Evaluate\EvaluateException
-     */
-    protected function processNotAllowedNonNumericArrayIndex(Reference $reference)
-    {
-        throw new Evaluate\EvaluateException(
-            "Accessing non-numeric index '{$reference->getValue()}' in array"
-        );
-    }
-
-
-    protected function processAllowedNonNumericArrayIndex(Reference $reference)
-    {
-        $index = $this->getArrayIndex($reference);
-        return array_key_exists($index, $this->cursor)
-            ? $this->processExistingArrayIndex($reference)
-            : $this->processNonExistingArrayIndex($reference);
-    }
-
-
-    abstract protected function processNextArrayIndex(Reference $reference);
-
-
-    protected function processExistingArrayIndex(Reference $reference)
-    {
-        $this->cursor = &$this->cursor[$this->getArrayIndex($reference)];
-        return $this;
-    }
-
-
-    abstract protected function processNonExistingArrayIndex(Reference $reference);
-
-
-    protected function getArrayIndex(Reference $reference)
-    {
-        return $reference->getType() == $reference::TYPE_INDEX
-            ? (int) $reference->getValue()
-            : $reference->getValue();
-    }
 }
