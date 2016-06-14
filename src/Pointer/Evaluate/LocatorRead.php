@@ -14,30 +14,51 @@ class LocatorRead extends LocatorEvaluate
     }
 
 
-    protected function createReferenceEvaluate(Reference $reference)
+    protected function createReferenceEvaluateProperty(Reference $reference)
     {
-        if (is_object($this->cursor)) {
-            return ReferenceReadProperty::factory();
-        }
-        if (is_array($this->cursor)) {
-            switch ($reference->getType()) {
-                case $reference::TYPE_NEXT_INDEX:
-                    return ReferenceReadNextIndex::factory();
+        return ReferenceReadProperty::factory()
+            ->setReference($reference);
+    }
 
-                case $reference::TYPE_INDEX:
-                    return ReferenceReadNumericIndex::factory();
 
-                case $reference::TYPE_PROPERTY:
-                    return $this->nonNumericIndices
-                        ? ReferenceReadAllowedNonNumericIndex::factory()
-                        : ReferenceReadNotAllowedNonNumericIndex::factory();
+    protected function createReferenceEvaluateNextIndex(Reference $reference)
+    {
+        return ReferenceReadNextIndex::factory()
+            ->setReference($reference);
+    }
 
-                default:
-                    throw new DomainException(
-                        "Failed to create read evaluator for reference of type {$reference->getType()}"
-                    );
-            }
-        }
+
+    protected function createReferenceEvaluateNumericIndex(Reference $reference)
+    {
+        return ReferenceReadNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateAllowedNonNumericIndex(Reference $reference)
+    {
+        return ReferenceReadAllowedNonNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateNotAllowedNonNumericIndex(Reference $reference)
+    {
+        return ReferenceReadNotAllowedNonNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateUnknownIndex(Reference $reference)
+    {
+        throw new DomainException(
+            "Failed to create array read evaluator for reference of type {$reference->getType()}"
+        );
+    }
+
+
+    protected function createReferenceEvaluateScalar(Reference $reference)
+    {
         throw new EvaluateException("Cannot read non-structured data by reference");
     }
 }

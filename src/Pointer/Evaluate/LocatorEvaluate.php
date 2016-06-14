@@ -225,7 +225,61 @@ abstract class LocatorEvaluate
      * @param Reference $reference
      * @return ReferenceEvaluate
      */
-    abstract protected function createReferenceEvaluate(Reference $reference);
+    protected function createReferenceEvaluate(Reference $reference)
+    {
+        if (is_object($this->cursor)) {
+            return $this->createReferenceEvaluateProperty($reference);
+        }
+        if (is_array($this->cursor)) {
+            return $this->createReferenceEvaluateIndex($reference);
+        }
+        return $this->createReferenceEvaluateScalar($reference);
+    }
+
+
+    abstract protected function createReferenceEvaluateProperty(Reference $reference);
+
+
+    protected function createReferenceEvaluateIndex(Reference $reference)
+    {
+        switch ($reference->getType()) {
+            case $reference::TYPE_NEXT_INDEX:
+                return $this->createReferenceEvaluateNextIndex($reference);
+
+            case $reference::TYPE_INDEX:
+                return $this->createReferenceEvaluateNumericIndex($reference);
+
+            case $reference::TYPE_PROPERTY:
+                return $this->createReferenceEvaluateNonNumericIndex($reference);
+        }
+        return $this->createReferenceEvaluateUnknownIndex($reference);
+    }
+
+
+    abstract protected function createReferenceEvaluateNextIndex(Reference $reference);
+
+
+    abstract protected function createReferenceEvaluateNumericIndex(Reference $reference);
+
+
+    protected function createReferenceEvaluateNonNumericIndex(Reference $reference)
+    {
+        return $this->nonNumericIndices
+            ? $this->createReferenceEvaluateAllowedNonNumericIndex($reference)
+            : $this->createReferenceEvaluateNotAllowedNonNumericIndex($reference);
+    }
+
+
+    abstract protected function createReferenceEvaluateAllowedNonNumericIndex(Reference $reference);
+
+
+    abstract protected function createReferenceEvaluateNotAllowedNonNumericIndex(Reference $reference);
+    
+    
+    abstract protected function createReferenceEvaluateUnknownIndex(Reference $reference);
+    
+    
+    abstract protected function createReferenceEvaluateScalar(Reference $reference);
 
 
     protected function setupReferenceEvaluate(Reference $reference)

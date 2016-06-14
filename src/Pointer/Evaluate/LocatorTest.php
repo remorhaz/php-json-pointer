@@ -15,34 +15,51 @@ class LocatorTest extends LocatorEvaluate
     }
 
 
-    /**
-     * @param Reference $reference
-     * @return ReferenceEvaluate
-     */
-    protected function createReferenceEvaluate(Reference $reference)
+    protected function createReferenceEvaluateProperty(Reference $reference)
     {
-        if (is_object($this->cursor)) {
-            return ReferenceTestProperty::factory();
-        }
-        if (is_array($this->cursor)) {
-            switch ($reference->getType()) {
-                case $reference::TYPE_NEXT_INDEX:
-                    return ReferenceTestNextIndex::factory();
+        return ReferenceTestProperty::factory()
+            ->setReference($reference);
+    }
 
-                case $reference::TYPE_INDEX:
-                    return ReferenceTestNumericIndex::factory();
 
-                case $reference::TYPE_PROPERTY:
-                    return $this->nonNumericIndices
-                        ? ReferenceTestAllowedNonNumericIndex::factory()
-                        : ReferenceTestNotAllowedNonNumericIndex::factory();
+    protected function createReferenceEvaluateNextIndex(Reference $reference)
+    {
+        return ReferenceTestNextIndex::factory()
+            ->setReference($reference);
+    }
 
-                default:
-                    throw new DomainException(
-                        "Failed to create test evaluator for reference of type {$reference->getType()}"
-                    );
-            }
-        }
+
+    protected function createReferenceEvaluateNumericIndex(Reference $reference)
+    {
+        return ReferenceTestNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateAllowedNonNumericIndex(Reference $reference)
+    {
+        return ReferenceTestAllowedNonNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateNotAllowedNonNumericIndex(Reference $reference)
+    {
+        return ReferenceTestNotAllowedNonNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateUnknownIndex(Reference $reference)
+    {
+        throw new DomainException(
+            "Failed to create array test evaluator for reference of type {$reference->getType()}"
+        );
+    }
+
+
+    protected function createReferenceEvaluateScalar(Reference $reference)
+    {
         throw new EvaluateException("Cannot test non-structured data by reference");
     }
 }

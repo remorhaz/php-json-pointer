@@ -56,41 +56,6 @@ class LocatorWrite extends LocatorEvaluate
     }
 
 
-    /**
-     * @param Reference $reference
-     * @return ReferenceEvaluate
-     * @throws EvaluateException
-     */
-    protected function createReferenceEvaluate(Reference $reference)
-    {
-        if (is_object($this->cursor)) {
-            return ReferenceWriteProperty::factory();
-        }
-        if (is_array($this->cursor)) {
-            switch ($reference->getType()) {
-                case $reference::TYPE_NEXT_INDEX:
-                    return ReferenceWriteNextIndex::factory();
-
-                case $reference::TYPE_INDEX:
-                    return $this->numericIndexGaps
-                        ? ReferenceWriteNumericIndexWithGaps::factory()
-                        : ReferenceWriteNumericIndexWithoutGaps::factory();
-
-                case $reference::TYPE_PROPERTY:
-                    return $this->nonNumericIndices
-                        ? ReferenceWriteAllowedNonNumericIndex::factory()
-                        : ReferenceWriteNotAllowedNonNumericIndex::factory();
-
-                default:
-                    throw new DomainException(
-                        "Failed to create write evaluator for reference of type {$reference->getType()}"
-                    );
-            }
-        }
-        throw new EvaluateException("Cannot write into non-structured data by reference");
-    }
-
-
     protected function setupReferenceEvaluate(Reference $reference)
     {
         /** @var ReferenceWrite $referenceEvaluate */
@@ -101,5 +66,57 @@ class LocatorWrite extends LocatorEvaluate
         }
         $referenceEvaluate->setValue($this->getValue());
         return $this;
+    }
+
+
+    protected function createReferenceEvaluateProperty(Reference $reference)
+    {
+        return ReferenceWriteProperty::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateNextIndex(Reference $reference)
+    {
+        return ReferenceWriteNextIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateNumericIndex(Reference $reference)
+    {
+        return $this->numericIndexGaps
+            ? ReferenceWriteNumericIndexWithGaps::factory()
+                ->setReference($reference)
+            : ReferenceWriteNumericIndexWithoutGaps::factory()
+                ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateAllowedNonNumericIndex(Reference $reference)
+    {
+        return ReferenceWriteAllowedNonNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateNotAllowedNonNumericIndex(Reference $reference)
+    {
+        return ReferenceWriteNotAllowedNonNumericIndex::factory()
+            ->setReference($reference);
+    }
+
+
+    protected function createReferenceEvaluateUnknownIndex(Reference $reference)
+    {
+        throw new DomainException(
+            "Failed to create array write evaluator for reference of type {$reference->getType()}"
+        );
+    }
+
+
+    protected function createReferenceEvaluateScalar(Reference $reference)
+    {
+        throw new EvaluateException("Cannot write non-structured data by reference");
     }
 }
