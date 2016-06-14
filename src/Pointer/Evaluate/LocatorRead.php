@@ -59,6 +59,6 @@ class LocatorRead extends LocatorEvaluate
 
     protected function createReferenceEvaluateScalar(Reference $reference)
     {
-        throw new EvaluateException("Cannot read non-structured data by reference");
+        throw new EvaluateException("Cannot read non-structured data by reference '{$reference->getText()}'");
     }
 }

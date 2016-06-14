@@ -60,6 +60,6 @@ class LocatorTest extends LocatorEvaluate
 
     protected function createReferenceEvaluateScalar(Reference $reference)
     {
-        throw new EvaluateException("Cannot test non-structured data by reference");
+        throw new EvaluateException("Cannot test non-structured data by reference '{$reference->getText()}'");
     }
 }

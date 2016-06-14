@@ -117,6 +117,6 @@ class LocatorWrite extends LocatorEvaluate
 
     protected function createReferenceEvaluateScalar(Reference $reference)
     {
-        throw new EvaluateException("Cannot write non-structured data by reference");
+        throw new EvaluateException("Cannot write non-structured data by reference '{$reference->getText()}'");
     }
 }
