@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceWriteNonNumericIndex extends ReferenceWrite
+class ReferenceTestAllowedNonNumericIndex extends ReferenceEvaluate
 {
 
 
@@ -21,22 +21,8 @@ class ReferenceWriteNonNumericIndex extends ReferenceWrite
 
     protected function performNonExisting()
     {
-        if (!$this->canPerformNonExisting()) {
-            throw new EvaluateException(
-                "Cannot write to non-existing index '{$this->getIndex()}'' in array"
-            );
-        }
-        $this->data[$this->getIndex()] = $this->getValue();
-        $result = null;
+        $result = false;
         return $this->setResult($result);
-    }
-
-
-    protected function canPerformNonExisting()
-    {
-        return $this
-            ->getReference()
-            ->isLast();
     }
 
 

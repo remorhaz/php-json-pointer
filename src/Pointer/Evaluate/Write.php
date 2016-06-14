@@ -4,6 +4,9 @@ namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
 use Remorhaz\JSONPointer\Locator\Reference;
 
+/**
+ * @package Remorhaz\JSONPointer\Pointer\Evaluate
+ */
 class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
 {
 
@@ -81,30 +84,25 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
         if (is_object($this->cursor)) {
             return ReferenceWriteProperty::factory()
                 ->setValue($this->getValue());
-        } elseif (is_array($this->cursor)) {
+        }
+        if (is_array($this->cursor)) {
             switch ($reference->getType()) {
                 case $reference::TYPE_NEXT_INDEX:
-                    return ReferenceWriteNextIndex::factory()
-                        ->setValue($this->getValue());
+                    return ReferenceWriteNextIndex::factory();
 
                 case $reference::TYPE_INDEX:
-                    $referenceEvaluate = $this->numericIndexGaps
+                    return $this->numericIndexGaps
                         ? ReferenceWriteNumericIndexWithGaps::factory()
                         : ReferenceWriteNumericIndexWithoutGaps::factory();
-                    return $referenceEvaluate->setValue($this->getValue());
 
                 case $reference::TYPE_PROPERTY:
-                    if (!$this->nonNumericIndices) {
-                        throw new EvaluateException(
-                            "Accessing non-numeric index '{$reference->getValue()}' in array"
-                        );
-                    }
-                    return ReferenceWriteNonNumericIndex::factory()
-                        ->setValue($this->getValue());
+                    return $this->nonNumericIndices
+                        ? ReferenceWriteAllowedNonNumericIndex::factory()
+                        : ReferenceWriteNotAllowedNonNumericIndex::factory();
 
                 default:
                     throw new DomainException(
-                        "Failed to create evaluator for reference of type {$reference->getType()}"
+                        "Failed to create write evaluator for reference of type {$reference->getType()}"
                     );
             }
         }
@@ -112,16 +110,36 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
     }
 
 
+    protected function setupReferenceEvaluate(Reference $reference)
+    {
+        /** @var ReferenceWrite $referenceEvaluate */
+        $referenceEvaluate = parent::setupReferenceEvaluate($reference)
+            ->getReferenceEvaluate();
+        if (!($referenceEvaluate instanceof ReferenceWrite)) {
+            throw new LogicException("Invalid write reference evaluator");
+        }
+        $referenceEvaluate->setValue($this->getValue());
+        return $this;
+    }
+
+
     protected function processReferenceEvaluate(Reference $reference)
     {
-        $referenceEvaluate = $this
-            ->createReferenceEvaluate($reference)
-            ->setReference($reference)
-            ->setData($this->cursor)
+        $this
+            ->setupReferenceEvaluate($reference)
+            ->getReferenceEvaluate()
             ->perform();
-        $this->cursor = &$referenceEvaluate->getData();
-        if ($referenceEvaluate->isResultSet()) {
-            $this->setResult($referenceEvaluate->getResult());
+        $this->cursor = &$this
+            ->getReferenceEvaluate()
+            ->getData();
+        $isReferenceResultSet = $this
+            ->getReferenceEvaluate()
+            ->isResultSet();
+        if ($isReferenceResultSet) {
+            $referenceResult = &$this
+                ->getReferenceEvaluate()
+                ->getResult();
+            $this->setResult($referenceResult);
         }
         return $this;
     }

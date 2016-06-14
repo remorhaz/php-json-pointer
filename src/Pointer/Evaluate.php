@@ -58,6 +58,11 @@ abstract class Evaluate
 
     protected $nonNumericIndices = false;
 
+    /**
+     * @var ReferenceEvaluate|null
+     */
+    protected $referenceEvaluate;
+
 
     /**
      * Constructor.
@@ -222,6 +227,28 @@ abstract class Evaluate
      * @return ReferenceEvaluate
      */
     abstract protected function createReferenceEvaluate(Reference $reference);
+
+
+    protected function setupReferenceEvaluate(Reference $reference)
+    {
+        $this->referenceEvaluate = $this
+            ->createReferenceEvaluate($reference)
+            ->setReference($reference)
+            ->setData($this->cursor);
+        return $this;
+    }
+
+
+    /**
+     * @return ReferenceEvaluate
+     */
+    protected function getReferenceEvaluate()
+    {
+        if (null === $this->referenceEvaluate) {
+            throw new LogicException("Reference evaluator is not set in locator evaluator");
+        }
+        return $this->referenceEvaluate;
+    }
 
 
     protected function processReference(Reference $reference)
