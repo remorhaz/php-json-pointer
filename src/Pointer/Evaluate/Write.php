@@ -82,8 +82,7 @@ class Write extends \Remorhaz\JSONPointer\Pointer\Evaluate
     protected function createReferenceEvaluate(Reference $reference)
     {
         if (is_object($this->cursor)) {
-            return ReferenceWriteProperty::factory()
-                ->setValue($this->getValue());
+            return ReferenceWriteProperty::factory();
         }
         if (is_array($this->cursor)) {
             switch ($reference->getType()) {
