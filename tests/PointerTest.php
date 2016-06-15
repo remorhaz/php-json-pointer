@@ -162,7 +162,7 @@ class PointerTest extends \PHPUnit_Framework_TestCase
             'rootArrayProperty' => ["/a", []],
             'nestedArrayProperty' => ["/a/b", (object) ['a' => []]],
             'rootArrayNextIndex' => ["/-", []],
-            'nesterArrayNextIndex' => ["/a/-", (object) ['a' => []]],
+            'nestedArrayNextIndex' => ["/a/-", (object) ['a' => []]],
         ];
     }
 

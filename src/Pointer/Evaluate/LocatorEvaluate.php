@@ -55,12 +55,15 @@ abstract class LocatorEvaluate
      */
     protected $result;
 
-    protected $nonNumericIndices = false;
-
     /**
      * @var ReferenceEvaluate|null
      */
     protected $referenceEvaluate;
+
+    /**
+     * @var ReferenceEvaluateFactory|null
+     */
+    protected $referenceEvaluateFactory;
 
 
     /**
@@ -183,14 +186,18 @@ abstract class LocatorEvaluate
 
     public function allowNonNumericIndices()
     {
-        $this->nonNumericIndices = true;
+        $this
+            ->getReferenceEvaluateFactory()
+            ->allowNonNumericIndices();
         return $this;
     }
 
 
     public function forbidNonNumericIndices()
     {
-        $this->nonNumericIndices = false;
+        $this
+            ->getReferenceEvaluateFactory()
+            ->forbidNonNumericIndices();
         return $this;
     }
 
@@ -222,70 +229,51 @@ abstract class LocatorEvaluate
 
 
     /**
+     * @return ReferenceEvaluateFactory
+     */
+    abstract protected function createReferenceEvaluateFactory();
+
+
+    /**
+     * @return ReferenceEvaluateFactory
+     */
+    protected function getReferenceEvaluateFactory()
+    {
+        if (null === $this->referenceEvaluateFactory) {
+            $this->referenceEvaluateFactory = $this->createReferenceEvaluateFactory();
+        }
+        return $this->referenceEvaluateFactory;
+    }
+
+
+    protected function setupReferenceEvaluateFactory(Reference $reference)
+    {
+        $this
+            ->getReferenceEvaluateFactory()
+            ->setReference($reference)
+            ->setDataCursor($this->dataCursor);
+        return $this;
+    }
+
+
+    /**
      * @param Reference $reference
      * @return ReferenceEvaluate
      */
     protected function createReferenceEvaluate(Reference $reference)
     {
-        if (is_object($this->dataCursor)) {
-            return $this->createReferenceEvaluateProperty($reference);
-        }
-        if (is_array($this->dataCursor)) {
-            return $this->createReferenceEvaluateIndex($reference);
-        }
-        return $this->createReferenceEvaluateScalar($reference);
+        return $this
+            ->setupReferenceEvaluateFactory($reference)
+            ->getReferenceEvaluateFactory()
+            ->createReferenceEvaluate();
     }
-
-
-    abstract protected function createReferenceEvaluateProperty(Reference $reference);
-
-
-    protected function createReferenceEvaluateIndex(Reference $reference)
-    {
-        switch ($reference->getType()) {
-            case $reference::TYPE_NEXT_INDEX:
-                return $this->createReferenceEvaluateNextIndex($reference);
-
-            case $reference::TYPE_INDEX:
-                return $this->createReferenceEvaluateNumericIndex($reference);
-
-            case $reference::TYPE_PROPERTY:
-                return $this->createReferenceEvaluateNonNumericIndex($reference);
-        }
-        return $this->createReferenceEvaluateUnknownIndex($reference);
-    }
-
-
-    abstract protected function createReferenceEvaluateNextIndex(Reference $reference);
-
-
-    abstract protected function createReferenceEvaluateNumericIndex(Reference $reference);
-
-
-    protected function createReferenceEvaluateNonNumericIndex(Reference $reference)
-    {
-        return $this->nonNumericIndices
-            ? $this->createReferenceEvaluateAllowedNonNumericIndex($reference)
-            : $this->createReferenceEvaluateNotAllowedNonNumericIndex($reference);
-    }
-
-
-    abstract protected function createReferenceEvaluateAllowedNonNumericIndex(Reference $reference);
-
-
-    abstract protected function createReferenceEvaluateNotAllowedNonNumericIndex(Reference $reference);
-
-
-    abstract protected function createReferenceEvaluateUnknownIndex(Reference $reference);
-
-
-    abstract protected function createReferenceEvaluateScalar(Reference $reference);
 
 
     protected function setupReferenceEvaluate(Reference $reference)
     {
         $this->referenceEvaluate = $this
             ->createReferenceEvaluate($reference)
+            ->setReference($reference)
             ->setDataCursor($this->dataCursor);
         return $this;
     }
