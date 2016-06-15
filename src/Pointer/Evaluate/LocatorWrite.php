@@ -58,13 +58,11 @@ class LocatorWrite extends LocatorEvaluate
 
     protected function setupReferenceEvaluate(Reference $reference)
     {
-        /** @var ReferenceWrite $referenceEvaluate */
         $referenceEvaluate = parent::setupReferenceEvaluate($reference)
             ->getReferenceEvaluate();
-        if (!($referenceEvaluate instanceof ReferenceWrite)) {
-            throw new LogicException("Invalid write reference evaluator");
+        if ($referenceEvaluate instanceof ReferenceWrite) {
+            $referenceEvaluate->setValue($this->getValue());
         }
-        $referenceEvaluate->setValue($this->getValue());
         return $this;
     }
 

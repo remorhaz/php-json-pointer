@@ -6,19 +6,7 @@ class ReferenceTestNextIndex extends ReferenceEvaluate
 {
 
 
-    protected function doesExist()
-    {
-        return false;
-    }
-
-
-    protected function performExisting()
-    {
-        throw new LogicException("Next index never exists");
-    }
-
-
-    protected function performNonExisting()
+    public function perform()
     {
         $result = false;
         return $this->setResult($result);

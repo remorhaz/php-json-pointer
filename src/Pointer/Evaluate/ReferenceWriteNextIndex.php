@@ -6,15 +6,9 @@ class ReferenceWriteNextIndex extends ReferenceWrite
 {
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return false;
-    }
-
-
-    protected function performExisting()
-    {
-        throw new LogicException("Next index never exists");
+        return AdvancerNewIndex::factory();
     }
 
 
@@ -23,7 +17,9 @@ class ReferenceWriteNextIndex extends ReferenceWrite
         if (!$this->canPerformNonExisting()) {
             throw new EvaluateException("Cannot write to non-existing next index of array if it is not last");
         }
-        $this->dataCursor[] = $this->getValue();
+        $this
+            ->getAdvancer()
+            ->write($this->getValue());
         $result = null;
         return $this->setResult($result);
     }

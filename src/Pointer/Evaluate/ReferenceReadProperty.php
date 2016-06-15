@@ -2,33 +2,21 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceReadProperty extends ReferenceEvaluate
+class ReferenceReadProperty extends ReferenceAdvanceable
 {
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return property_exists($this->getDataCursor(), $this->getProperty());
-    }
-
-
-    protected function performExisting()
-    {
-        $this->dataCursor = &$this->dataCursor->{$this->getProperty()};
-        return $this;
+        return AdvancerProperty::factory();
     }
 
 
     protected function performNonExisting()
     {
-        throw new EvaluateException("No property '{$this->getProperty()}' in object");
-    }
-
-
-    protected function getProperty()
-    {
-        return $this
-            ->getReference()
-            ->getValue();
+        $propertyDescription = $this
+            ->getAdvancer()
+            ->getValueDescription();
+        throw new EvaluateException("No property {$propertyDescription} in object");
     }
 }

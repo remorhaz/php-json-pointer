@@ -2,33 +2,21 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceReadAllowedNonNumericIndex extends ReferenceEvaluate
+class ReferenceReadAllowedNonNumericIndex extends ReferenceAdvanceable
 {
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return array_key_exists($this->getIndex(), $this->getDataCursor());
-    }
-
-
-    protected function performExisting()
-    {
-        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
-        return $this;
+        return AdvancerNonNumericIndex::factory();
     }
 
 
     protected function performNonExisting()
     {
-        throw new EvaluateException("No index '{$this->getIndex()}' in array");
-    }
-
-
-    protected function getIndex()
-    {
-        return $this
-            ->getReference()
-            ->getValue();
+        $indexDescription = $this
+            ->getAdvancer()
+            ->getValueDescription();
+        throw new EvaluateException("No index {$indexDescription} in array");
     }
 }

@@ -6,27 +6,25 @@ class ReferenceWriteAllowedNonNumericIndex extends ReferenceWrite
 {
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return array_key_exists($this->getIndex(), $this->getDataCursor());
-    }
-
-
-    protected function performExisting()
-    {
-        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
-        return $this;
+        return AdvancerNonNumericIndex::factory();
     }
 
 
     protected function performNonExisting()
     {
         if (!$this->canPerformNonExisting()) {
+            $indexDescription = $this
+                ->getAdvancer()
+                ->getValueDescription();
             throw new EvaluateException(
-                "Cannot write to non-existing index '{$this->getIndex()}'' in array"
+                "Cannot write to non-existing index {$indexDescription} in array"
             );
         }
-        $this->dataCursor[$this->getIndex()] = $this->getValue();
+        $this
+            ->getAdvancer()
+            ->write($this->getValue());
         $result = null;
         return $this->setResult($result);
     }
@@ -37,13 +35,5 @@ class ReferenceWriteAllowedNonNumericIndex extends ReferenceWrite
         return $this
             ->getReference()
             ->isLast();
-    }
-
-
-    protected function getIndex()
-    {
-        return $this
-            ->getReference()
-            ->getValue();
     }
 }

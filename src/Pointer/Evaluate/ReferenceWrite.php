@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-abstract class ReferenceWrite extends ReferenceEvaluate
+abstract class ReferenceWrite extends ReferenceAdvanceable
 {
     
     protected $value;

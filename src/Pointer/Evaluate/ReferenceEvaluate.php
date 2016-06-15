@@ -33,11 +33,13 @@ abstract class ReferenceEvaluate
 
     protected $isResultSet;
 
-    abstract protected function doesExist();
 
-    abstract protected function performExisting();
-
-    abstract protected function performNonExisting();
+    /**
+     * Performs reference evaluation.
+     *
+     * @return $this
+     */
+    abstract public function perform();
 
 
     /**
@@ -101,8 +103,8 @@ abstract class ReferenceEvaluate
         }
         return $this->dataCursor;
     }
-    
-    
+
+
     public function isResultSet()
     {
         return $this->isResultSet;
@@ -135,18 +137,5 @@ abstract class ReferenceEvaluate
             throw new LogicException("Evaluation result is not set");
         }
         return $this->result;
-    }
-
-
-    /**
-     * Performs reference evaluation.
-     *
-     * @return $this
-     */
-    public function perform()
-    {
-        return $this->doesExist()
-            ? $this->performExisting()
-            : $this->performNonExisting();
     }
 }

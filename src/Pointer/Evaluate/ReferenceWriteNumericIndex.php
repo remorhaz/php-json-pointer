@@ -8,36 +8,24 @@ abstract class ReferenceWriteNumericIndex extends ReferenceWrite
     abstract protected function canPerformNonExisting();
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return array_key_exists($this->getIndex(), $this->getDataCursor());
-    }
-
-
-    protected function performExisting()
-    {
-        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
-        return $this;
+        return AdvancerNumericIndex::factory();
     }
 
 
     protected function performNonExisting()
     {
-        $index = $this->getIndex();
         if (!$this->canPerformNonExisting()) {
-            $indexText = is_int($index) ? "{$index}" : "'{$index}'";
-            throw new EvaluateException("Cannot write to non-existing index {$indexText} in array");
+            $indexDescription = $this
+                ->getAdvancer()
+                ->getValueDescription();
+            throw new EvaluateException("Cannot write to non-existing index {$indexDescription} in array");
         }
-        $this->dataCursor[$index] = $this->getValue();
+        $this
+            ->getAdvancer()
+            ->write($this->getValue());
         $result = null;
         return $this->setResult($result);
-    }
-
-
-    protected function getIndex()
-    {
-        return (int) $this
-            ->getReference()
-            ->getValue();
     }
 }

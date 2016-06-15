@@ -6,38 +6,41 @@ class ReferenceWriteProperty extends ReferenceWrite
 {
 
 
+    protected function createAdvancer()
+    {
+        return AdvancerProperty::factory();
+    }
+
     protected function doesExist()
     {
-        return property_exists($this->getDataCursor(), $this->getProperty());
+        throw new LogicException("Deprecated method");
     }
 
 
     protected function performExisting()
     {
-        $this->dataCursor = &$this->dataCursor->{$this->getProperty()};
-        return $this;
+        throw new LogicException("Deprecated method");
     }
 
 
     protected function performNonExisting()
     {
         if (!$this->canPerformNonExisting()) {
-            throw new EvaluateException("Cannot write to non-existing property if it is not last");
+            $propertyDescription = $this
+                ->getAdvancer()
+                ->getValueDescription();
+            throw new EvaluateException(
+                "Cannot write to non-existing property '{$propertyDescription}' if it is not last"
+            );
         }
-        $this->dataCursor->{$this->getProperty()} = $this->getValue();
+        $this
+            ->getAdvancer()
+            ->write($this->getValue());
         $result = null;
         return $this->setResult($result);
     }
 
 
-    protected function getProperty()
-    {
-        return $this
-            ->getReference()
-            ->getValue();
-    }
-    
-    
     protected function canPerformNonExisting()
     {
         return $this

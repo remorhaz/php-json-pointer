@@ -2,20 +2,13 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceTestProperty extends ReferenceEvaluate
+class ReferenceTestProperty extends ReferenceAdvanceable
 {
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return property_exists($this->getDataCursor(), $this->getProperty());
-    }
-
-
-    protected function performExisting()
-    {
-        $this->dataCursor = &$this->dataCursor->{$this->getProperty()};
-        return $this;
+        return AdvancerProperty::factory();
     }
 
 
@@ -23,13 +16,5 @@ class ReferenceTestProperty extends ReferenceEvaluate
     {
         $result = false;
         return $this->setResult($result);
-    }
-
-
-    protected function getProperty()
-    {
-        return $this
-            ->getReference()
-            ->getValue();
     }
 }

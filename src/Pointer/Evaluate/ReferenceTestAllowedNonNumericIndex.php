@@ -2,20 +2,13 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceTestAllowedNonNumericIndex extends ReferenceEvaluate
+class ReferenceTestAllowedNonNumericIndex extends ReferenceAdvanceable
 {
 
 
-    protected function doesExist()
+    protected function createAdvancer()
     {
-        return array_key_exists($this->getIndex(), $this->getDataCursor());
-    }
-
-
-    protected function performExisting()
-    {
-        $this->dataCursor = &$this->dataCursor[$this->getIndex()];
-        return $this;
+        return AdvancerNonNumericIndex::factory();
     }
 
 
@@ -23,13 +16,5 @@ class ReferenceTestAllowedNonNumericIndex extends ReferenceEvaluate
     {
         $result = false;
         return $this->setResult($result);
-    }
-
-
-    protected function getIndex()
-    {
-        return $this
-            ->getReference()
-            ->getValue();
     }
 }

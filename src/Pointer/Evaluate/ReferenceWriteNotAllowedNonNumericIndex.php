@@ -2,36 +2,17 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceWriteNotAllowedNonNumericIndex extends ReferenceWrite
+class ReferenceWriteNotAllowedNonNumericIndex extends ReferenceEvaluate
 {
 
 
-    protected function doesExist()
+    public function perform()
     {
-        return false; // We don't allow it to exist :)
-    }
-
-
-    protected function performExisting()
-    {
-        throw new LogicException(
-            "Non-numeric index '{$this->getIndex()}' is not allowed to exist"
-        );
-    }
-
-
-    protected function performNonExisting()
-    {
-        throw new EvaluateException(
-            "Cannot write to non-numeric index '{$this->getIndex()}' in array"
-        );
-    }
-
-
-    protected function getIndex()
-    {
-        return $this
+        $indexDescription = $this
             ->getReference()
             ->getValue();
+        throw new EvaluateException(
+            "Cannot write to non-numeric index '{$indexDescription}' in array"
+        );
     }
 }
