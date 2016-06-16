@@ -11,18 +11,6 @@ class ReferenceWriteProperty extends ReferenceWrite
         return AdvancerProperty::factory();
     }
 
-    protected function doesExist()
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
-    protected function performExisting()
-    {
-        throw new LogicException("Deprecated method");
-    }
-
-
     protected function performNonExisting()
     {
         if (!$this->canPerformNonExisting()) {
