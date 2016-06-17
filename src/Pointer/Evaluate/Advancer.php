@@ -45,6 +45,7 @@ abstract class Advancer
     abstract public function write($data);
 
     /**
+     * @return $this
      * @throws EvaluateException
      */
     abstract public function fail();

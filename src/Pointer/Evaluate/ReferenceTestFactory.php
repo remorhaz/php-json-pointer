@@ -28,8 +28,10 @@ class ReferenceTestFactory extends ReferenceEvaluateFactory
 
     protected function createAllowedNonNumericIndex()
     {
+        $advancer = AdvancerNonNumericIndex::factory()
+            ->allow();
         return ReferenceTestAllowedNonNumericIndex::factory()
-            ->setAdvancer(AdvancerNonNumericIndex::factory());
+            ->setAdvancer($advancer);
     }
 
 

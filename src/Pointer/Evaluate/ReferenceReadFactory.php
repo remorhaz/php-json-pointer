@@ -8,34 +8,38 @@ class ReferenceReadFactory extends ReferenceEvaluateFactory
 
     protected function createProperty()
     {
-        return ReferenceReadProperty::factory()
+        return ReferenceRead::factory()
             ->setAdvancer(AdvancerProperty::factory());
     }
 
 
     protected function createNextIndex()
     {
-        return ReferenceReadNextIndex::factory();
+        return ReferenceRead::factory()
+            ->setAdvancer(AdvancerNextIndex::factory());
     }
 
 
     protected function createNumericIndex()
     {
-        return ReferenceReadNumericIndex::factory()
+        return ReferenceRead::factory()
             ->setAdvancer(AdvancerNumericIndex::factory());
     }
 
 
     protected function createAllowedNonNumericIndex()
     {
-        return ReferenceReadAllowedNonNumericIndex::factory()
-            ->setAdvancer(AdvancerNonNumericIndex::factory());
+        $advancer = AdvancerNonNumericIndex::factory()
+            ->allow();
+        return ReferenceRead::factory()
+            ->setAdvancer($advancer);
     }
 
 
     protected function createNotAllowedNonNumericIndex()
     {
-        return ReferenceReadNotAllowedNonNumericIndex::factory();
+        return ReferenceRead::factory()
+            ->setAdvancer(AdvancerNonNumericIndex::factory());
     }
 
 

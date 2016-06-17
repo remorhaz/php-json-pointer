@@ -2,9 +2,8 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceReadNumericIndex extends ReferenceAdvanceable
+class ReferenceRead extends ReferenceAdvanceable
 {
-
 
     protected function performNonExisting()
     {

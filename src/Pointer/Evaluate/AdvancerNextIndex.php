@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class AdvancerNextIndex extends Advancer
+class AdvancerNextIndex extends AdvancerIndex
 {
 
 
@@ -25,15 +25,9 @@ class AdvancerNextIndex extends Advancer
     }
 
 
-    public function fail()
-    {
-        throw new EvaluateException("Index {$this->getValueDescription()} is not found");
-    }
-
-
     public function getValue()
     {
-        throw new LogicException("Next index cannot have advanceable value");
+        throw new LogicException("Next index don't have advanceable key");
     }
 
 

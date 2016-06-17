@@ -2,31 +2,40 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class AdvancerNonNumericIndex extends Advancer
+class AdvancerNonNumericIndex extends AdvancerIndex
 {
+
+
+    protected $isAllowed = false;
+
+
+    public function allow()
+    {
+        $this->isAllowed = true;
+        return $this;
+    }
+
+
+    public function forbid()
+    {
+        $this->isAllowed = false;
+        return $this;
+    }
 
 
     public function canAdvance()
     {
-        return array_key_exists($this->getValue(), $this->getDataCursor());
-    }
-
-
-    public function advance()
-    {
-        return $this->setNewDataCursor($this->dataCursor[$this->getValue()]);
-    }
-
-
-    public function write($data)
-    {
-        $this->dataCursor[$this->getValue()] = $data;
-        return $this;
+        return $this->isAllowed && parent::canAdvance();
     }
 
 
     public function fail()
     {
-        throw new EvaluateException("Index {$this->getValueDescription()} is not found");
+        if ($this->isAllowed) {
+            return parent::fail();
+        }
+        throw new EvaluateException(
+            "Non-numeric array index {$this->getValueDescription()} is not allowed"
+        );
     }
 }

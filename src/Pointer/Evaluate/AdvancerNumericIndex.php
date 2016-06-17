@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class AdvancerNumericIndex extends AdvancerNonNumericIndex
+class AdvancerNumericIndex extends AdvancerIndex
 {
 
 

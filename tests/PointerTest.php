@@ -163,6 +163,7 @@ class PointerTest extends \PHPUnit_Framework_TestCase
             'nestedArrayProperty' => ["/a/b", (object) ['a' => []]],
             'rootArrayNextIndex' => ["/-", []],
             'nestedArrayNextIndex' => ["/a/-", (object) ['a' => []]],
+            'nonNumericArrayIndex' => ['/01', ['01' => 1]],
         ];
     }
 
