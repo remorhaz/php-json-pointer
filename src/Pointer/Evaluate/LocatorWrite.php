@@ -70,9 +70,9 @@ class LocatorWrite extends LocatorEvaluate
     }
 
 
-    protected function setupReferenceEvaluate(Reference $reference)
+    protected function setEvaluateForReference(Reference $reference)
     {
-        $referenceEvaluate = parent::setupReferenceEvaluate($reference)
+        $referenceEvaluate = parent::setEvaluateForReference($reference)
             ->getReferenceEvaluate();
         if ($referenceEvaluate instanceof ReferenceWrite) {
             $referenceEvaluate->setValue($this->getValue());

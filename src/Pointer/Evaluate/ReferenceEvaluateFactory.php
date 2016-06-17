@@ -90,7 +90,22 @@ abstract class ReferenceEvaluateFactory
     }
 
 
-    public function createReferenceEvaluate()
+    /**
+     * @return ReferenceEvaluate
+     */
+    public function createEvaluate()
+    {
+        return $this
+            ->doCreate()
+            ->setReference($this->getReference())
+            ->setDataCursor($this->getDataCursor());
+    }
+
+
+    /**
+     * @return ReferenceEvaluate
+     */
+    protected function doCreate()
     {
         if (is_object($this->dataCursor)) {
             return $this->createProperty();

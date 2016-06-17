@@ -8,7 +8,7 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
     /**
      * @var Advancer|null
      */
-    protected $advanceCursor;
+    protected $advancer;
 
 
     /**
@@ -23,13 +23,13 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
      */
     protected function getAdvancer()
     {
-        if (null === $this->advanceCursor) {
-            $this->advanceCursor = $this
+        if (null === $this->advancer) {
+            $this->advancer = $this
                 ->createAdvancer()
                 ->setReference($this->getReference())
                 ->setDataCursor($this->getDataCursor());
         }
-        return $this->advanceCursor;
+        return $this->advancer;
     }
 
 

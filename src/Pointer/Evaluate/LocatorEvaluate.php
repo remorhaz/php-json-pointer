@@ -256,25 +256,12 @@ abstract class LocatorEvaluate
     }
 
 
-    /**
-     * @param Reference $reference
-     * @return ReferenceEvaluate
-     */
-    protected function createReferenceEvaluate(Reference $reference)
-    {
-        return $this
-            ->setupReferenceEvaluateFactory($reference)
-            ->getReferenceEvaluateFactory()
-            ->createReferenceEvaluate();
-    }
-
-
-    protected function setupReferenceEvaluate(Reference $reference)
+    protected function setEvaluateForReference(Reference $reference)
     {
         $this->referenceEvaluate = $this
-            ->createReferenceEvaluate($reference)
-            ->setReference($reference)
-            ->setDataCursor($this->dataCursor);
+            ->setupReferenceEvaluateFactory($reference)
+            ->getReferenceEvaluateFactory()
+            ->createEvaluate();
         return $this;
     }
 
@@ -315,7 +302,7 @@ abstract class LocatorEvaluate
     protected function processReferenceEvaluate(Reference $reference)
     {
         $this
-            ->setupReferenceEvaluate($reference)
+            ->setEvaluateForReference($reference)
             ->getReferenceEvaluate()
             ->perform();
         $this->dataCursor = &$this
