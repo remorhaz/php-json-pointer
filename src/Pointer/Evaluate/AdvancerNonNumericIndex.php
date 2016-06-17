@@ -23,4 +23,10 @@ class AdvancerNonNumericIndex extends Advancer
         $this->dataCursor[$this->getValue()] = $data;
         return $this;
     }
+
+
+    public function fail()
+    {
+        throw new EvaluateException("Index {$this->getValueDescription()} is not found");
+    }
 }

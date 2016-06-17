@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class AdvancerNewIndex extends Advancer
+class AdvancerNextIndex extends Advancer
 {
 
 
@@ -22,6 +22,12 @@ class AdvancerNewIndex extends Advancer
     {
         $this->dataCursor[] = $data;
         return $this;
+    }
+
+
+    public function fail()
+    {
+        throw new EvaluateException("Index {$this->getValueDescription()} is not found");
     }
 
 

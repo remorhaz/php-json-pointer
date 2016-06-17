@@ -23,4 +23,10 @@ class AdvancerProperty extends Advancer
         $this->dataCursor->{$this->getValue()} = $data;
         return $this;
     }
+
+
+    public function fail()
+    {
+        throw new EvaluateException("Property {$this->getValueDescription()} is not found");
+    }
 }

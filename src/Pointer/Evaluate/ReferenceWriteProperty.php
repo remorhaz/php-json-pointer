@@ -6,20 +6,12 @@ class ReferenceWriteProperty extends ReferenceWrite
 {
 
 
-    protected function createAdvancer()
-    {
-        return AdvancerProperty::factory();
-    }
-
     protected function performNonExisting()
     {
         if (!$this->canPerformNonExisting()) {
-            $propertyDescription = $this
+            $this
                 ->getAdvancer()
-                ->getValueDescription();
-            throw new EvaluateException(
-                "Cannot write to non-existing property '{$propertyDescription}' if it is not last"
-            );
+                ->fail();
         }
         $this
             ->getAdvancer()

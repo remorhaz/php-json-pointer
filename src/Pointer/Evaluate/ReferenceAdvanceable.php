@@ -11,11 +11,6 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
     protected $advancer;
 
 
-    /**
-     * @return Advancer
-     */
-    abstract protected function createAdvancer();
-
     abstract protected function performNonExisting();
 
     /**
@@ -24,12 +19,20 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
     protected function getAdvancer()
     {
         if (null === $this->advancer) {
-            $this->advancer = $this
+            throw new LogicException("Advancer is not set in reference evaluator");
+            /*$this->advancer = $this
                 ->createAdvancer()
                 ->setReference($this->getReference())
-                ->setDataCursor($this->getDataCursor());
+                ->setDataCursor($this->getDataCursor());*/
         }
         return $this->advancer;
+    }
+
+
+    public function setAdvancer(Advancer $advancer)
+    {
+        $this->advancer = $advancer;
+        return $this;
     }
 
 
@@ -42,6 +45,8 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
     {
         $canAdvance = $this
             ->getAdvancer()
+            ->setReference($this->getReference())
+            ->setDataCursor($this->getDataCursor())
             ->canAdvance();
         if ($canAdvance) {
             $dataCursor = &$this

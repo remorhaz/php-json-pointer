@@ -64,9 +64,9 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @param mixed $expectedData
-     * @dataProvider providerDataWithValidLokator
+     * @dataProvider providerDataWithValidLocator
      */
-    public function testWriteDataWithValidLokator($text, $data, $value, $expectedData)
+    public function testWriteDataWithValidLocator($text, $data, $value, $expectedData)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -80,7 +80,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerDataWithValidLokator()
+    public function providerDataWithValidLocator()
     {
         return [
             'rootScalar' => ['', 1, 2, 2],

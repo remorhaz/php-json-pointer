@@ -44,6 +44,11 @@ abstract class Advancer
      */
     abstract public function write($data);
 
+    /**
+     * @throws EvaluateException
+     */
+    abstract public function fail();
+
 
     public static function factory()
     {

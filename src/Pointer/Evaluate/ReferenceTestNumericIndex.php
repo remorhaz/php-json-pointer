@@ -6,12 +6,6 @@ class ReferenceTestNumericIndex extends ReferenceAdvanceable
 {
 
 
-    protected function createAdvancer()
-    {
-        return AdvancerNumericIndex::factory();
-    }
-
-
     protected function performNonExisting()
     {
         $result = false;
