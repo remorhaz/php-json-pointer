@@ -8,20 +8,21 @@ class ReferenceTestFactory extends ReferenceEvaluateFactory
 
     protected function createProperty()
     {
-        return ReferenceTestProperty::factory()
+        return ReferenceTest::factory()
             ->setAdvancer(AdvancerProperty::factory());
     }
 
 
     protected function createNextIndex()
     {
-        return ReferenceTestNextIndex::factory();
+        return ReferenceTest::factory()
+            ->setAdvancer(AdvancerNextIndex::factory());
     }
 
 
     protected function createNumericIndex()
     {
-        return ReferenceTestNumericIndex::factory()
+        return ReferenceTest::factory()
             ->setAdvancer(AdvancerNumericIndex::factory());
     }
 
@@ -30,14 +31,15 @@ class ReferenceTestFactory extends ReferenceEvaluateFactory
     {
         $advancer = AdvancerNonNumericIndex::factory()
             ->allow();
-        return ReferenceTestAllowedNonNumericIndex::factory()
+        return ReferenceTest::factory()
             ->setAdvancer($advancer);
     }
 
 
     protected function createNotAllowedNonNumericIndex()
     {
-        return ReferenceTestNotAllowedNonNumericIndex::factory();
+        return ReferenceTest::factory()
+            ->setAdvancer(AdvancerNonNumericIndex::factory());
     }
 
 
