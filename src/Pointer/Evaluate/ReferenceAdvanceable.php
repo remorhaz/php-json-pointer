@@ -20,10 +20,6 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
     {
         if (null === $this->advancer) {
             throw new LogicException("Advancer is not set in reference evaluator");
-            /*$this->advancer = $this
-                ->createAdvancer()
-                ->setReference($this->getReference())
-                ->setDataCursor($this->getDataCursor());*/
         }
         return $this->advancer;
     }

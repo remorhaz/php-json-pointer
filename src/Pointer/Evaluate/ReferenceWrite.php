@@ -2,9 +2,9 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-abstract class ReferenceWrite extends ReferenceAdvanceable
+class ReferenceWrite extends ReferenceAdvanceable
 {
-    
+
     protected $value;
 
     protected $isValueSet = false;
@@ -24,5 +24,35 @@ abstract class ReferenceWrite extends ReferenceAdvanceable
             throw new LogicException("Value is not set in evaluator");
         }
         return $this->value;
+    }
+
+
+    protected function performNonExisting()
+    {
+        $canWrite = $this
+            ->getAdvancer()
+            ->canWrite();
+        return $canWrite
+            ? $this->write()
+            : $this->failWrite();
+    }
+
+
+    protected function write()
+    {
+        $this
+            ->getAdvancer()
+            ->write($this->getValue());
+        $result = null;
+        return $this->setResult($result);
+    }
+
+
+    protected function failWrite()
+    {
+        $this
+            ->getAdvancer()
+            ->fail();
+        return $this;
     }
 }

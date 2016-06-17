@@ -183,7 +183,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNonNumericIndexLocator
      * @expectedException \Remorhaz\JSONPointer\EvaluateException
      */
-    public function testAccessNonNumericIndexThrowsEvalueateException($text, $data, $value)
+    public function testAccessNonNumericIndexThrowsEvaluateException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)

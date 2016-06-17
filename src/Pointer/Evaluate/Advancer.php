@@ -44,6 +44,14 @@ abstract class Advancer
      */
     abstract public function write($data);
 
+
+    public function canWrite()
+    {
+        return $this
+            ->getReference()
+            ->isLast();
+    }
+
     /**
      * @return $this
      * @throws EvaluateException

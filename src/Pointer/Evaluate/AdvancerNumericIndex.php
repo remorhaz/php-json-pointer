@@ -5,6 +5,22 @@ namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 class AdvancerNumericIndex extends AdvancerIndex
 {
 
+    protected $areAllowedGaps = false;
+
+
+    public function allowGaps()
+    {
+        $this->areAllowedGaps = true;
+        return $this;
+    }
+
+
+    public function forbidGaps()
+    {
+        $this->areAllowedGaps = true;
+        return $this;
+    }
+
 
     public function getValue()
     {
@@ -15,5 +31,19 @@ class AdvancerNumericIndex extends AdvancerIndex
     public function getValueDescription()
     {
         return "{$this->getValue()}";
+    }
+
+
+    public function canWrite()
+    {
+        if (!parent::canWrite()) {
+            return false;
+        }
+        if ($this->areAllowedGaps) {
+            return true;
+        }
+        return
+            0 == $this->getValue() && empty($this->getDataCursor()) ||
+            array_key_exists($this->getValue() - 1, $this->getDataCursor());
     }
 }

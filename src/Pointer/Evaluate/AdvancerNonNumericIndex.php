@@ -29,6 +29,12 @@ class AdvancerNonNumericIndex extends AdvancerIndex
     }
 
 
+    public function canWrite()
+    {
+        return $this->isAllowed && parent::canWrite();
+    }
+
+
     public function fail()
     {
         if ($this->isAllowed) {

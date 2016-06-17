@@ -27,38 +27,42 @@ class ReferenceWriteFactory extends ReferenceEvaluateFactory
 
     protected function createProperty()
     {
-        return ReferenceWriteProperty::factory()
+        return ReferenceWrite::factory()
             ->setAdvancer(AdvancerProperty::factory());
     }
 
 
     protected function createNextIndex()
     {
-        return ReferenceWriteNextIndex::factory()
+        return ReferenceWrite::factory()
             ->setAdvancer(AdvancerNextIndex::factory());
     }
 
 
     protected function createNumericIndex()
     {
-        return $this->numericIndexGaps
-            ? ReferenceWriteNumericIndexWithGaps::factory()
-                ->setAdvancer(AdvancerNumericIndex::factory())
-            : ReferenceWriteNumericIndexWithoutGaps::factory()
-                ->setAdvancer(AdvancerNumericIndex::factory());
+        $advancer = AdvancerNumericIndex::factory();
+        if ($this->numericIndexGaps) {
+            $advancer->allowGaps();
+        }
+        return ReferenceWrite::factory()
+            ->setAdvancer($advancer);
     }
 
 
     protected function createAllowedNonNumericIndex()
     {
-        return ReferenceWriteAllowedNonNumericIndex::factory()
-            ->setAdvancer(AdvancerNonNumericIndex::factory());
+        $advancer = AdvancerNonNumericIndex::factory()
+            ->allow();
+        return ReferenceWrite::factory()
+            ->setAdvancer($advancer);
     }
 
 
     protected function createNotAllowedNonNumericIndex()
     {
-        return ReferenceWriteNotAllowedNonNumericIndex::factory();
+        return ReferenceWrite::factory()
+            ->setAdvancer(AdvancerNonNumericIndex::factory());
     }
 
 
