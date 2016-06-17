@@ -8,15 +8,15 @@ class LocatorTest extends LocatorEvaluate
 {
 
 
-    protected function processCursor()
+    protected function processLocator()
     {
         $result = true;
         return $this->setResult($result);
     }
 
 
-    protected function createReferenceEvaluateFactory()
+    protected function createReferenceEvaluate()
     {
-        return ReferenceTestFactory::factory();
+        return ReferenceTest::factory();
     }
 }

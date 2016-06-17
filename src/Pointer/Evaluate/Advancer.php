@@ -65,6 +65,40 @@ abstract class Advancer
     }
 
 
+    /**
+     * @param Cursor $cursor
+     * @return Advancer
+     */
+    final public static function byCursorFactory(Cursor $cursor)
+    {
+        if (is_object($cursor->getData())) {
+            return AdvancerProperty::factory();
+        }
+        if (is_array($cursor->getData())) {
+            $reference = $cursor->getReference();
+            switch ($reference->getType()) {
+                case $reference::TYPE_NEXT_INDEX:
+                    return AdvancerNextIndex::factory();
+
+                case $reference::TYPE_INDEX:
+                    return AdvancerNumericIndex::factory();
+
+                case $reference::TYPE_PROPERTY:
+                    return AdvancerNonNumericIndex::factory();
+            }
+            $reference = $cursor->getReference();
+            throw new DomainException(
+                "Failed to create array index advancer for reference of type {$reference->getType()}"
+            );
+        }
+        $reference = $cursor->getReference();
+        throw new EvaluateException(
+            "Cannot advance through non-structured data by reference '{$reference->getText()}'"
+        );
+
+    }
+
+
     public function setDataCursor(&$dataCursor)
     {
         $this->dataCursor = &$dataCursor;

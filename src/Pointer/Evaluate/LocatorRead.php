@@ -8,14 +8,14 @@ class LocatorRead extends LocatorEvaluate
 {
 
 
-    protected function processCursor()
+    protected function processLocator()
     {
-        return $this->setResult($this->dataCursor);
+        return $this->setResult($this->dataCursor->getData());
     }
 
     
-    protected function createReferenceEvaluateFactory()
+    protected function createReferenceEvaluate()
     {
-        return ReferenceReadFactory::factory();
+        return ReferenceRead::factory();
     }
 }

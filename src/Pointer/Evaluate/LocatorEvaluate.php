@@ -44,7 +44,7 @@ abstract class LocatorEvaluate
     /**
      * Link to data for the reference being evaluated..
      *
-     * @var mixed
+     * @var Cursor|null
      */
     protected $dataCursor;
 
@@ -61,9 +61,9 @@ abstract class LocatorEvaluate
     protected $referenceEvaluate;
 
     /**
-     * @var ReferenceEvaluateFactory|null
+     * @var bool
      */
-    protected $referenceEvaluateFactory;
+    protected $nonNumericIndices = false;
 
 
     /**
@@ -186,18 +186,14 @@ abstract class LocatorEvaluate
 
     public function allowNonNumericIndices()
     {
-        $this
-            ->getReferenceEvaluateFactory()
-            ->allowNonNumericIndices();
+        $this->nonNumericIndices = true;
         return $this;
     }
 
 
     public function forbidNonNumericIndices()
     {
-        $this
-            ->getReferenceEvaluateFactory()
-            ->forbidNonNumericIndices();
+        $this->nonNumericIndices = false;
         return $this;
     }
 
@@ -210,16 +206,21 @@ abstract class LocatorEvaluate
      */
     public function perform()
     {
-        $this->dataCursor = &$this->getData();
+        //$this->dataCursor = &$this->getData();
+        $this->dataCursor = Cursor::factory()
+            ->setData($this->getData());
         $this->resetResult();
         foreach ($this->getLocator()->getReferenceList() as $reference) {
-            $this->processReference($reference);
+            $this
+                ->dataCursor
+                ->setReference($reference);
+            $this->processReference();
             if ($this->isResultSet) {
                 break;
             }
         }
         if (!$this->isResultSet) {
-            $this->processCursor();
+            $this->processLocator();
         }
         if (!$this->isResultSet) {
             throw new LogicException("Data evaluation failed");
@@ -228,42 +229,34 @@ abstract class LocatorEvaluate
     }
 
 
-    /**
-     * @return ReferenceEvaluateFactory
-     */
-    abstract protected function createReferenceEvaluateFactory();
-
-
-    /**
-     * @return ReferenceEvaluateFactory
-     */
-    protected function getReferenceEvaluateFactory()
+    protected function setEvaluateForReference()
     {
-        if (null === $this->referenceEvaluateFactory) {
-            $this->referenceEvaluateFactory = $this->createReferenceEvaluateFactory();
-        }
-        return $this->referenceEvaluateFactory;
-    }
-
-
-    protected function setupReferenceEvaluateFactory(Reference $reference)
-    {
-        $this
-            ->getReferenceEvaluateFactory()
-            ->setReference($reference)
-            ->setDataCursor($this->dataCursor);
-        return $this;
-    }
-
-
-    protected function setEvaluateForReference(Reference $reference)
-    {
+        $reference = $this
+            ->dataCursor
+            ->getReference();
         $this->referenceEvaluate = $this
-            ->setupReferenceEvaluateFactory($reference)
-            ->getReferenceEvaluateFactory()
-            ->createEvaluate();
+            ->createReferenceEvaluate()
+            ->setAdvancer($this->createAdvancerForReference())
+            ->setReference($reference)
+            ->setDataCursor($this->dataCursor->getData());
         return $this;
     }
+
+
+    protected function createAdvancerForReference()
+    {
+        $advancer = Advancer::byCursorFactory($this->dataCursor);
+        if ($advancer instanceof AdvancerNonNumericIndex && $this->nonNumericIndices) {
+            $advancer->allow();
+        }
+        return $advancer;
+    }
+
+
+    /**
+     * @return ReferenceAdvanceable
+     */
+    abstract protected function createReferenceEvaluate();
 
 
     /**
@@ -280,15 +273,17 @@ abstract class LocatorEvaluate
 
 
     /**
-     * @param Reference $reference
      * @return $this
      * @throws EvaluateException
      */
-    protected function processReference(Reference $reference)
+    protected function processReference()
     {
         try {
-            $this->processReferenceEvaluate($reference);
+            $this->processReferenceEvaluate();
         } catch (EvaluateException $e) {
+            $reference = $this
+                ->dataCursor
+                ->getReference();
             throw new EvaluateException(
                 "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
                 null,
@@ -299,15 +294,18 @@ abstract class LocatorEvaluate
     }
 
 
-    protected function processReferenceEvaluate(Reference $reference)
+    protected function processReferenceEvaluate()
     {
         $this
-            ->setEvaluateForReference($reference)
+            ->setEvaluateForReference()
             ->getReferenceEvaluate()
             ->perform();
-        $this->dataCursor = &$this
+        $data = &$this
             ->getReferenceEvaluate()
             ->getDataCursor();
+        $this
+            ->dataCursor
+            ->setData($data);
         $isReferenceResultSet = $this
             ->getReferenceEvaluate()
             ->isResultSet();
@@ -321,5 +319,5 @@ abstract class LocatorEvaluate
     }
 
 
-    abstract protected function processCursor();
+    abstract protected function processLocator();
 }

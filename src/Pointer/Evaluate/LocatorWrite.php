@@ -36,47 +36,40 @@ class LocatorWrite extends LocatorEvaluate
 
     public function allowNumericIndexGaps()
     {
-        $factory = $this
-            ->getReferenceEvaluateFactory();
-        if ($factory instanceof ReferenceWriteFactory) {
-            $factory->allowNumericIndexGaps();
-        }
+        $this->numericIndexGaps = true;
         return $this;
     }
 
 
     public function forbidNumericIndexGaps()
     {
-        $factory = $this
-            ->getReferenceEvaluateFactory();
-        if ($factory instanceof ReferenceWriteFactory) {
-            $factory->forbidNumericIndexGaps();
-        }
+        $this->numericIndexGaps = false;
         return $this;
     }
 
 
-    protected function processCursor()
+    protected function createAdvancerForReference()
     {
-        $this->dataCursor = $this->getValue();
+        $advancer = parent::createAdvancerForReference();
+        if ($advancer instanceof AdvancerNumericIndex && $this->numericIndexGaps) {
+            $advancer->allowGaps();
+        }
+        return $advancer;
+    }
+
+
+    protected function processLocator()
+    {
+        $data = &$this->dataCursor->getData();
+        $data = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }
 
 
-    protected function createReferenceEvaluateFactory()
+    protected function createReferenceEvaluate()
     {
-        return ReferenceWriteFactory::factory();
-    }
-
-
-    protected function setEvaluateForReference(Reference $reference)
-    {
-        $referenceEvaluate = parent::setEvaluateForReference($reference)
-            ->getReferenceEvaluate();
-        if ($referenceEvaluate instanceof ReferenceWrite) {
-            $referenceEvaluate->setValue($this->getValue());
-        }
-        return $this;
+        return ReferenceWrite::factory()
+            ->setValue($this->getValue());
     }
 }
