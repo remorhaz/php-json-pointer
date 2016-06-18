@@ -1,9 +1,9 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer\Scanner;
+namespace Remorhaz\JSONPointer\Parser\Lexer;
 
 /**
- * SPL LengthException of lexical analyzer's text scanner.
+ * SPL LengthException of lexical analyzer.
  *
  * @see \LengthException
  * @package JSONPointer

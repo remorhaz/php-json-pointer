@@ -3,7 +3,7 @@
 namespace Remorhaz\JSONPointer\Parser\Lexer;
 
 /**
- * SPL LogicException of lexical analyzer's token buffer.
+ * SPL LogicException of lexical analyzer.
  *
  * @see \LogicException
  * @package JSONPointer

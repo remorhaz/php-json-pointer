@@ -11,7 +11,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Scanner\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
     public function testUninitializedTextAccessThrowsException()
     {
@@ -72,7 +72,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $text
      * @dataProvider providerBrokenUnicodeText
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Scanner\RegExpException
+     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\RegExpException
      * @expectedExceptionCode PREG_BAD_UTF8_ERROR
      * @expectedExceptionMessage PREG_BAD_UTF8_ERROR
      */

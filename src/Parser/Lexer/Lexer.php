@@ -82,7 +82,7 @@ class Lexer
                 $token = $this
                     ->getScanner()
                     ->readToken();
-            } catch (Scanner\UnknownSyntaxException $e) {
+            } catch (UnknownSyntaxException $e) {
                 throw new UnknownSyntaxException(
                     "Unknown syntax error near position #{$this->getNextPosition()}",
                     $this->getNextPosition(),

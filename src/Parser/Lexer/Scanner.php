@@ -59,12 +59,11 @@ class Scanner
      * Returns source text.
      *
      * @return string
-     * @throws Scanner\RuntimeException
      */
     public function getText()
     {
         if (null === $this->text) {
-            throw new Scanner\RuntimeException("Text is not set");
+            throw new RuntimeException("Text is not set");
         }
         return $this->text;
     }
@@ -75,13 +74,12 @@ class Scanner
      *
      * @param string $text
      * @return $this
-     * @throws Scanner\RegExpException
      */
     public function setText($text)
     {
         PregHelper::assertValidUTF8(
             $text,
-            Scanner\RegExpException::class,
+            RegExpException::class,
             "Regular expression error on checking source text"
         );
         $this->text = (string) $text;
@@ -106,7 +104,6 @@ class Scanner
      * Reads next token from text.
      *
      * @return Token
-     * @throws Scanner/UnknownSyntaxException
      */
     public function readToken()
     {
@@ -125,7 +122,7 @@ class Scanner
             $token = $this->matchNextToken($errorTypeList);
         }
         if (null === $token) {
-            throw new Scanner\UnknownSyntaxException("Unknown syntax error in source text");
+            throw new UnknownSyntaxException("Unknown syntax error in source text");
         }
         return $token;
     }
@@ -164,20 +161,18 @@ class Scanner
      *
      * @param int $byteCount
      * @return $this
-     * @throws Scanner\LogicException
-     * @throws Scanner\DomainException
      */
     protected function advanceCursor($byteCount)
     {
         if (0 >= $byteCount) {
-            throw new Scanner\DomainException("Byte count to advance cursor must be positive");
+            throw new DomainException("Byte count to advance cursor must be positive");
         }
         if ($this->isEnd()) {
-            throw new Scanner\LogicException("Cursor is at the end of text and cannot be advanced");
+            throw new LogicException("Cursor is at the end of text and cannot be advanced");
         }
         $maxByteCount = strlen($this->getText()) - $this->cursor;
         if ($byteCount > $maxByteCount) {
-            throw new Scanner\LogicException("Cursor cannot be advanced beyond the end of text");
+            throw new LogicException("Cursor cannot be advanced beyond the end of text");
         }
         $this->cursor += $byteCount;
         $this->textAtCursor = null;
@@ -190,7 +185,7 @@ class Scanner
         $length = preg_match_all('#.#us', $text);
         PregHelper::assertMatchResult(
             $length,
-            Scanner\RegExpException::class,
+            RegExpException::class,
             "Regular expression error on getting token length"
         );
         return $length;
@@ -202,7 +197,6 @@ class Scanner
      *
      * @param int $type
      * @return string
-     * @throws Scanner\DomainException
      */
     protected function getTokenPattern($type)
     {
@@ -213,7 +207,7 @@ class Scanner
             Token::TYPE_ERROR_INVALID_ESCAPE => '~',
         ];
         if (!isset($patternMap[$type])) {
-            throw new Scanner\DomainException("Unknown token type: {$type}");
+            throw new DomainException("Unknown token type: {$type}");
         }
         $pattern = $patternMap[$type];
         return "#{$pattern}#uA";
@@ -224,7 +218,6 @@ class Scanner
      * Returns part of source string that starts at current cursor position.
      *
      * @return string
-     * @throws Scanner\LengthException
      * @todo Limit substring size with maximal token length (without breaking UTF-8).
      */
     protected function getTextAtCursor()
@@ -232,7 +225,7 @@ class Scanner
         if (null === $this->textAtCursor) {
             $textAtCursor = substr($this->getText(), $this->cursor);
             if (strlen($textAtCursor) == 0) {
-                throw new Scanner\LengthException("No more text to match tokens");
+                throw new LengthException("No more text to match tokens");
             }
             $this->textAtCursor = $textAtCursor;
         }
@@ -245,21 +238,19 @@ class Scanner
      *
      * @param int $type
      * @return string|null Token text or NULL.
-     * @throws Scanner\LengthException
-     * @throws Scanner\RegExpException
      */
     protected function matchTokenTextAtCursor($type)
     {
         $result = preg_match($this->getTokenPattern($type), $this->getTextAtCursor(), $matches);
         PregHelper::assertMatchResult(
             $result,
-            Scanner\RegExpException::class,
+            RegExpException::class,
             "Failed to match token text due to regular expression error"
         );
         if (1 === $result) {
             $text = $matches[0];
             if (strlen($text) == 0) {
-                throw new Scanner\LengthException("Matched token text is empty");
+                throw new LengthException("Matched token text is empty");
             }
         } else {
             $text = null;
@@ -275,7 +266,7 @@ class Scanner
             '~1' => '/',
         ];
         if (!isset($unescapeMap[$escapedText])) {
-            throw new Scanner\DomainException("Unknown escape sequence: {$escapedText}");
+            throw new DomainException("Unknown escape sequence: {$escapedText}");
         }
         return $unescapeMap[$escapedText];
     }

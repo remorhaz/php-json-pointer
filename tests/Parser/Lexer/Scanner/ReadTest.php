@@ -112,7 +112,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Scanner\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
     public function testReadingEmptyTextEndThrowsException()
     {
