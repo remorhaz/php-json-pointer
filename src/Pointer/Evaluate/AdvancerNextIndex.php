@@ -12,7 +12,7 @@ class AdvancerNextIndex extends AdvancerIndex
     }
 
 
-    public function advance()
+    protected function &advance(&$cursorData)
     {
         throw new LogicException("New index is not advanceable");
     }

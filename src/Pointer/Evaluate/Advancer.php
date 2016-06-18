@@ -12,6 +12,8 @@ abstract class Advancer
      */
     protected $cursor;
 
+    protected $isAdvanced;
+
 
     protected function __construct()
     {
@@ -21,12 +23,12 @@ abstract class Advancer
     /**
      * @return bool
      */
-    abstract public function canAdvance();
+    abstract protected function canAdvance();
 
     /**
      * @return $this
      */
-    abstract public function advance();
+    abstract protected function &advance(&$cursorData);
 
 
     /**
@@ -107,6 +109,36 @@ abstract class Advancer
             throw new LogicException("Cursor is not set in advancer");
         }
         return $this->cursor;
+    }
+
+
+    public function advanceIfCan()
+    {
+        if (null !== $this->isAdvanced) {
+            throw new LogicException("Advance is already performed");
+        }
+        if ($this->canAdvance()) {
+            $cursorData = &$this
+                ->getCursor()
+                ->getData();
+            $cursorData = &$this->advance($cursorData);
+            $this
+                ->getCursor()
+                ->setData($cursorData);
+            $this->isAdvanced = true;
+            return $this;
+        }
+        $this->isAdvanced = false;
+        return $this;
+    }
+
+
+    public function isAdvanced()
+    {
+        if (null === $this->isAdvanced) {
+            throw new LogicException("Advance flag is not set");
+        }
+        return $this->isAdvanced;
     }
 
 

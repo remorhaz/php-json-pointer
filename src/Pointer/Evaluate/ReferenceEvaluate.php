@@ -34,7 +34,7 @@ abstract class ReferenceEvaluate
     }
 
 
-    abstract protected function performNonExisting();
+    abstract protected function onCursorAdvanceFail();
 
 
     /**
@@ -63,16 +63,14 @@ abstract class ReferenceEvaluate
      */
     public function perform()
     {
-        $canAdvance = $this
+        $isAdvanced = $this
             ->getAdvancer()
-            ->canAdvance();
-        if ($canAdvance) {
-            $this
-                ->getAdvancer()
-                ->advance();
-            return $this;
+            ->advanceIfCan()
+            ->isAdvanced();
+        if (!$isAdvanced) {
+            $this->onCursorAdvanceFail();
         }
-        return $this->performNonExisting();
+        return $this;
     }
 
     public function isResultSet()

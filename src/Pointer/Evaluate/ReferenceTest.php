@@ -6,7 +6,7 @@ class ReferenceTest extends ReferenceEvaluate
 {
 
 
-    protected function performNonExisting()
+    protected function onCursorAdvanceFail()
     {
         $result = false;
         return $this->setResult($result);

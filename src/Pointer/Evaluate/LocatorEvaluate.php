@@ -314,12 +314,10 @@ abstract class LocatorEvaluate
 
     protected function processReferenceEvaluate()
     {
-        $this
+        $isReferenceResultSet = $this
             ->setupReferenceEvaluate()
             ->getReferenceEvaluate()
-            ->perform();
-        $isReferenceResultSet = $this
-            ->getReferenceEvaluate()
+            ->perform()
             ->isResultSet();
         if ($isReferenceResultSet) {
             $referenceResult = &$this

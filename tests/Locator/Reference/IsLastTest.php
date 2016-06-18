@@ -43,22 +43,4 @@ class IsLastTest extends \PHPUnit_Framework_TestCase
         $reference->markAsNotLast();
         $this->assertFalse($reference->isLast(), "Failed to clear last reference flag in reference");
     }
-
-
-    /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Reference\Exception
-     */
-    public function testSetNotBooleanLastThrowsException()
-    {
-        Reference::factory()->setIsLast(0);
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetNotBooleanLastThrowsSplException()
-    {
-        Reference::factory()->setIsLast(0);
-    }
 }

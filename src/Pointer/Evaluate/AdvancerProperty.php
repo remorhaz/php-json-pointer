@@ -12,16 +12,9 @@ class AdvancerProperty extends Advancer
     }
 
 
-    public function advance()
+    protected function &advance(&$cursorData)
     {
-        $cursorData = &$this
-            ->getCursor()
-            ->getData();
-        $cursorData = &$cursorData->{$this->getKey()};
-        $this
-            ->getCursor()
-            ->setData($cursorData);
-        return $this;
+        return $cursorData->{$this->getKey()};
     }
 
 

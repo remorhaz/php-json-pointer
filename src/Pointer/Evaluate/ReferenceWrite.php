@@ -27,7 +27,7 @@ class ReferenceWrite extends ReferenceEvaluate
     }
 
 
-    protected function performNonExisting()
+    protected function onCursorAdvanceFail()
     {
         $canWrite = $this
             ->getAdvancer()

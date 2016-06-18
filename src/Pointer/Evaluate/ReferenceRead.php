@@ -5,7 +5,7 @@ namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 class ReferenceRead extends ReferenceEvaluate
 {
 
-    protected function performNonExisting()
+    protected function onCursorAdvanceFail()
     {
         $this
             ->getAdvancer()
