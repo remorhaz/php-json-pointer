@@ -1,13 +1,13 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 use Remorhaz\JSONPointer\Locator\Reference;
 
 /**
- * @package Remorhaz\JSONPointer\Pointer\Evaluate
+ * @package Remorhaz\JSONPointer\Pointer\Evaluator
  */
-class LocatorWrite extends LocatorEvaluate
+class LocatorEvaluatorWrite extends LocatorEvaluator
 {
 
     protected $value;
@@ -48,9 +48,9 @@ class LocatorWrite extends LocatorEvaluate
     }
 
 
-    protected function createAdvancerForCursor()
+    protected function createAdvancer()
     {
-        $advancer = parent::createAdvancerForCursor();
+        $advancer = parent::createAdvancer();
         if ($advancer instanceof AdvancerNumericIndex && $this->numericIndexGaps) {
             $advancer->allowGaps();
         }
@@ -60,16 +60,18 @@ class LocatorWrite extends LocatorEvaluate
 
     protected function processLocator()
     {
-        $data = &$this->cursor->getData();
+        $data = &$this
+            ->getCursor()
+            ->getData();
         $data = $this->getValue();
         $result = null;
         return $this->setResult($result);
     }
 
 
-    protected function createReferenceEvaluate()
+    protected function createReferenceEvaluator()
     {
-        return ReferenceWrite::factory()
+        return ReferenceEvaluatorWrite::factory()
             ->setValue($this->getValue());
     }
 }

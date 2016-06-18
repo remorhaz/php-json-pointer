@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 class AdvancerNextIndex extends AdvancerIndex
 {

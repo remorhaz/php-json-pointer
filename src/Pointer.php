@@ -121,7 +121,7 @@ class Pointer
     }
 
 
-    public function &getData()
+    protected function &getData()
     {
         if (!$this->isDataSet) {
             throw new Pointer\LogicException("Data for evaluation is not set");
@@ -130,45 +130,37 @@ class Pointer
     }
 
 
-    public function unsetData()
-    {
-        unset($this->data);
-        $this->isDataSet = false;
-        return $this;
-    }
-
-
     public function test()
     {
-        $pointer = Pointer\Evaluate\LocatorTest::factory()
+        $pointer = Pointer\Evaluator\LocatorEvaluatorTest::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData());
         if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
             $pointer->allowNonNumericIndices();
         }
         return $pointer
-            ->perform()
+            ->evaluate()
             ->getResult();
 
     }
 
     public function &read()
     {
-        $pointer = Pointer\Evaluate\LocatorRead::factory()
+        $pointer = Pointer\Evaluator\LocatorEvaluatorRead::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData());
         if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
             $pointer->allowNonNumericIndices();
         }
         return $pointer
-            ->perform()
+            ->evaluate()
             ->getResult();
     }
 
 
     public function write($value)
     {
-        $pointer = Pointer\Evaluate\LocatorWrite::factory()
+        $pointer = Pointer\Evaluator\LocatorEvaluatorWrite::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->setValue($value);
@@ -178,7 +170,7 @@ class Pointer
         if ($this->hasOption(self::OPTION_NUMERIC_INDEX_GAPS)) {
             $pointer->allowNumericIndexGaps();
         }
-        $pointer->perform();
+        $pointer->evaluate();
         return $this;
     }
 

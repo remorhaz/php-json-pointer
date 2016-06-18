@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Locator\Reference;
@@ -10,7 +10,7 @@ use Remorhaz\JSONPointer\Locator\Reference;
  *
  * @package JSONPointer
  */
-abstract class LocatorEvaluate
+abstract class LocatorEvaluator
 {
 
     /**
@@ -18,21 +18,21 @@ abstract class LocatorEvaluate
      *
      * @var Locator|null
      */
-    protected $locator;
+    private $locator;
 
     /**
      * Data for evaluation.
      *
      * @var mixed
      */
-    protected $data;
+    private $data;
 
     /**
      * Data setup flag.
      *
      * @var bool
      */
-    protected $isDataSet = false;
+    private $isDataSet = false;
 
     /**
      * Result setup flag.
@@ -46,7 +46,7 @@ abstract class LocatorEvaluate
      *
      * @var Cursor|null
      */
-    protected $cursor;
+    private $cursor;
 
     /**
      * Evaluation result.
@@ -56,9 +56,9 @@ abstract class LocatorEvaluate
     protected $result;
 
     /**
-     * @var ReferenceEvaluate|null
+     * @var ReferenceEvaluator|null
      */
-    protected $referenceEvaluate;
+    private $referenceEvaluator;
 
     /**
      * @var bool
@@ -228,7 +228,7 @@ abstract class LocatorEvaluate
      * @return $this
      * @throws LogicException
      */
-    public function perform()
+    public function evaluate()
     {
         $referenceList = $this
             ->resetCursor()
@@ -236,7 +236,18 @@ abstract class LocatorEvaluate
             ->getLocator()
             ->getReferenceList();
         foreach ($referenceList as $reference) {
-            $this->processReference($reference);
+            $this
+                ->getCursor()
+                ->setReference($reference);
+            try {
+                $this->evaluateReference();
+            } catch (EvaluatorException $e) {
+                throw new EvaluatorException(
+                    "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
+                    null,
+                    $e
+                );
+            }
             if ($this->isResultSet) {
                 break;
             }
@@ -251,16 +262,16 @@ abstract class LocatorEvaluate
     }
 
 
-    protected function setupReferenceEvaluate()
+    protected function setupReferenceEvaluator()
     {
-        $this->referenceEvaluate = $this
-            ->createReferenceEvaluate()
-            ->setAdvancer($this->createAdvancerForCursor());
+        $this->referenceEvaluator = $this
+            ->createReferenceEvaluator()
+            ->setAdvancer($this->createAdvancer());
         return $this;
     }
 
 
-    protected function createAdvancerForCursor()
+    protected function createAdvancer()
     {
         $advancer = Advancer::byCursorFactory($this->getCursor());
         if ($advancer instanceof AdvancerNonNumericIndex && $this->nonNumericIndices) {
@@ -271,57 +282,34 @@ abstract class LocatorEvaluate
 
 
     /**
-     * @return ReferenceEvaluate
+     * @return ReferenceEvaluator
      */
-    abstract protected function createReferenceEvaluate();
+    abstract protected function createReferenceEvaluator();
 
 
     /**
-     * @return ReferenceEvaluate
+     * @return ReferenceEvaluator
      * @throws LogicException
      */
-    protected function getReferenceEvaluate()
+    protected function getReferenceEvaluator()
     {
-        if (null === $this->referenceEvaluate) {
+        if (null === $this->referenceEvaluator) {
             throw new LogicException("Reference evaluator is not set in locator evaluator");
         }
-        return $this->referenceEvaluate;
+        return $this->referenceEvaluator;
     }
 
 
-    /**
-     * @param Reference $reference
-     * @return $this
-     * @throws EvaluateException
-     */
-    protected function processReference(Reference $reference)
-    {
-        try {
-            $this
-                ->getCursor()
-                ->setReference($reference);
-            $this->processReferenceEvaluate();
-        } catch (EvaluateException $e) {
-            throw new EvaluateException(
-                "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
-                null,
-                $e
-            );
-        }
-        return $this;
-    }
-
-
-    protected function processReferenceEvaluate()
+    protected function evaluateReference()
     {
         $isReferenceResultSet = $this
-            ->setupReferenceEvaluate()
-            ->getReferenceEvaluate()
-            ->perform()
+            ->setupReferenceEvaluator()
+            ->getReferenceEvaluator()
+            ->evaluate()
             ->isResultSet();
         if ($isReferenceResultSet) {
             $referenceResult = &$this
-                ->getReferenceEvaluate()
+                ->getReferenceEvaluator()
                 ->getResult();
             $this->setResult($referenceResult);
         }

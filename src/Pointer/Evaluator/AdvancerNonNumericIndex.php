@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 class AdvancerNonNumericIndex extends AdvancerIndex
 {
@@ -40,7 +40,7 @@ class AdvancerNonNumericIndex extends AdvancerIndex
         if ($this->isAllowed) {
             return parent::fail();
         }
-        throw new EvaluateException(
+        throw new EvaluatorException(
             "Non-numeric array index {$this->getKeyDescription()} is not allowed"
         );
     }

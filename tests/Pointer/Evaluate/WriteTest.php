@@ -4,7 +4,7 @@ namespace Remorhaz\JSONPointer\Test\Pointer\Evaluate;
 
 use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Parser;
-use Remorhaz\JSONPointer\Pointer\Evaluate\LocatorWrite;
+use Remorhaz\JSONPointer\Pointer\Evaluator\LocatorEvaluatorWrite;
 
 class WriteTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,17 +14,17 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerSingleDataWithValidLocator
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluate\Exception
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluator\Exception
      */
     public function testPerformWithNoValueSetThrowsException($text, $data)
     {
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -39,10 +39,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -71,11 +71,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
         $this->assertEquals($expectedData, $data, "Incorrect data after writing");
     }
 
@@ -161,18 +161,18 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerDataWithNonNumericIndexLocator
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluate\Exception
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluator\Exception
      */
     public function testAccessNonNumericIndexThrowsException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -181,18 +181,18 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerDataWithNonNumericIndexLocator
-     * @expectedException \Remorhaz\JSONPointer\EvaluateException
+     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
     public function testAccessNonNumericIndexThrowsEvaluateException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -208,11 +208,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -228,12 +228,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
             ->allowNonNumericIndices()
-            ->perform();
+            ->evaluate();
         $this->assertEquals($expectedData, $data, "Incorrect data after writing to non-numeric index");
     }
 
@@ -286,18 +286,18 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerDataWithNumericIndexGapsLocator
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluate\Exception
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluator\Exception
      */
     public function testWriteNumericIndexGapsThrowsException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -306,18 +306,18 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerDataWithNumericIndexGapsLocator
-     * @expectedException \Remorhaz\JSONPointer\EvaluateException
+     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
     public function testWriteNumericIndexGapsThrowsEvaluateException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -333,11 +333,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
-            ->perform();
+            ->evaluate();
     }
 
 
@@ -353,12 +353,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $locator = Parser::factory()
             ->setText($text)
             ->getLocator();
-        LocatorWrite::factory()
+        LocatorEvaluatorWrite::factory()
             ->setData($data)
             ->setLocator($locator)
             ->setValue($value)
             ->allowNumericIndexGaps()
-            ->perform();
+            ->evaluate();
         $this->assertEquals($expectedData, $data, "Incorrect data after writing to index with gap");
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 class AdvancerProperty extends Advancer
 {
@@ -30,6 +30,6 @@ class AdvancerProperty extends Advancer
 
     public function fail()
     {
-        throw new EvaluateException("Property {$this->getKeyDescription()} is not found");
+        throw new EvaluatorException("Property {$this->getKeyDescription()} is not found");
     }
 }

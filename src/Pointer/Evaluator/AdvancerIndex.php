@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 abstract class AdvancerIndex extends Advancer
 {
@@ -30,6 +30,6 @@ abstract class AdvancerIndex extends Advancer
 
     public function fail()
     {
-        throw new EvaluateException("Array index {$this->getKeyDescription()} is not found");
+        throw new EvaluatorException("Array index {$this->getKeyDescription()} is not found");
     }
 }

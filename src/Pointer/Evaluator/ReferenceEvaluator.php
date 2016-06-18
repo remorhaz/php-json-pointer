@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-abstract class ReferenceEvaluate
+abstract class ReferenceEvaluator
 {
 
     /**
@@ -61,7 +61,7 @@ abstract class ReferenceEvaluate
      *
      * @return $this
      */
-    public function perform()
+    public function evaluate()
     {
         $isAdvanced = $this
             ->getAdvancer()
@@ -96,7 +96,7 @@ abstract class ReferenceEvaluate
      * Sets evaluation result.
      *
      * @param mixed $result
-     * @return ReferenceEvaluate
+     * @return ReferenceEvaluator
      */
     protected function setResult(&$result)
     {

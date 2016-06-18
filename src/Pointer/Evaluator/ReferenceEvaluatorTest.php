@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-class ReferenceTest extends ReferenceEvaluate
+class ReferenceEvaluatorTest extends ReferenceEvaluator
 {
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
 use Remorhaz\JSONPointer\Locator\Reference;
 
@@ -40,7 +40,7 @@ abstract class Advancer
 
     /**
      * @return $this
-     * @throws EvaluateException
+     * @throws EvaluatorException
      */
     abstract public function fail();
 
@@ -83,7 +83,7 @@ abstract class Advancer
             );
         }
         $reference = $cursor->getReference();
-        throw new EvaluateException(
+        throw new EvaluatorException(
             "Cannot advance through non-structured data by reference '{$reference->getText()}'"
         );
     }

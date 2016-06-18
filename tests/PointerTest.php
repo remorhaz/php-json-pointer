@@ -128,7 +128,7 @@ class PointerTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerReadDataWithInvalidLocator
-     * @expectedException \Remorhaz\JSONPointer\EvaluateException
+     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
     public function testReadDataWithInvalidLocatorThrowsException($text, $data)
     {

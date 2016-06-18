@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-class ReferenceRead extends ReferenceEvaluate
+class ReferenceEvaluatorRead extends ReferenceEvaluator
 {
 
     protected function onCursorAdvanceFail()
