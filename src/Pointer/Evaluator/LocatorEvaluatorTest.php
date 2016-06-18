@@ -8,7 +8,7 @@ class LocatorEvaluatorTest extends LocatorEvaluator
 {
 
 
-    protected function processLocator()
+    protected function evaluateLocator()
     {
         $result = true;
         return $this->setResult($result);

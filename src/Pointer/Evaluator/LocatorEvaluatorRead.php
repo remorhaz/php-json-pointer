@@ -8,7 +8,7 @@ class LocatorEvaluatorRead extends LocatorEvaluator
 {
 
 
-    protected function processLocator()
+    protected function evaluateLocator()
     {
         return $this->setResult($this->getCursor()->getData());
     }

@@ -58,7 +58,7 @@ class LocatorEvaluatorWrite extends LocatorEvaluator
     }
 
 
-    protected function processLocator()
+    protected function evaluateLocator()
     {
         $data = &$this
             ->getCursor()

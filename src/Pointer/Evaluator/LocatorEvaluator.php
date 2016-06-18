@@ -35,18 +35,18 @@ abstract class LocatorEvaluator
     private $isDataSet = false;
 
     /**
-     * Result setup flag.
-     *
-     * @var bool
-     */
-    protected $isResultSet = false;
-
-    /**
      * Link to data for the reference being evaluated..
      *
      * @var Cursor|null
      */
     private $cursor;
+
+    /**
+     * Result setup flag.
+     *
+     * @var bool
+     */
+    protected $isResultSet = false;
 
     /**
      * Evaluation result.
@@ -225,30 +225,12 @@ abstract class LocatorEvaluator
      */
     public function evaluate()
     {
-        $referenceList = $this
+        $this
             ->resetCursor()
             ->resetResult()
-            ->getLocator()
-            ->getReferenceList();
-        foreach ($referenceList as $reference) {
-            $this
-                ->getCursor()
-                ->setReference($reference);
-            try {
-                $this->evaluateReference();
-            } catch (EvaluatorException $e) {
-                throw new EvaluatorException(
-                    "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
-                    null,
-                    $e
-                );
-            }
-            if ($this->isResultSet) {
-                break;
-            }
-        }
+            ->evaluateReferenceList();
         if (!$this->isResultSet) {
-            $this->processLocator();
+            $this->evaluateLocator();
         }
         if (!$this->isResultSet) {
             throw new LogicException("Data evaluation failed");
@@ -273,17 +255,33 @@ abstract class LocatorEvaluator
     abstract protected function createReferenceEvaluator();
 
 
-    protected function evaluateReference()
+    protected function evaluateReferenceList()
     {
-        $referenceEvaluator = $this
-            ->createReferenceEvaluator()
-            ->evaluate();
-        if ($referenceEvaluator->isResultSet()) {
-            $this->setResult($referenceEvaluator->getResult());
+        $referenceList = $this
+            ->getLocator()
+            ->getReferenceList();
+        foreach ($referenceList as $reference) {
+            $this
+                ->getCursor()
+                ->setReference($reference);
+            $referenceEvaluator = $this->createReferenceEvaluator();
+            try {
+                $referenceEvaluator->evaluate();
+            } catch (EvaluatorException $e) {
+                throw new EvaluatorException(
+                    "Error evaluating data for path '{$reference->getPath()}': {$e->getMessage()}",
+                    null,
+                    $e
+                );
+            }
+            if ($referenceEvaluator->isResultSet()) {
+                $this->setResult($referenceEvaluator->getResult());
+                return $this;
+            }
         }
         return $this;
     }
 
 
-    abstract protected function processLocator();
+    abstract protected function evaluateLocator();
 }
