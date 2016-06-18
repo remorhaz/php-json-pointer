@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Pointer\Evaluate;
+namespace Remorhaz\JSONPointer\Test\Pointer\Evaluator;
 
 use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Parser;
@@ -183,7 +183,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNonNumericIndexLocator
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testAccessNonNumericIndexThrowsEvaluateException($text, $data, $value)
+    public function testAccessNonNumericIndexThrowsEvaluatorException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -308,7 +308,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testWriteNumericIndexGapsThrowsEvaluateException($text, $data, $value)
+    public function testWriteNumericIndexGapsThrowsEvaluatorException($text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
