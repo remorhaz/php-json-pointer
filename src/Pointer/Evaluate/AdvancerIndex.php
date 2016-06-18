@@ -14,12 +14,13 @@ abstract class AdvancerIndex extends Advancer
 
     public function advance()
     {
-        $data = &$this
+        $cursorData = &$this
             ->getCursor()
-            ->getData()[$this->getKey()];
+            ->getData();
+        $cursorData = &$cursorData[$this->getKey()];
         $this
             ->getCursor()
-            ->setData($data);
+            ->setData($cursorData);
         return $this;
     }
 
