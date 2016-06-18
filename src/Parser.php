@@ -2,6 +2,9 @@
 
 namespace Remorhaz\JSONPointer;
 
+use Remorhaz\JSONPointer\Pointer\Locator\Locator;
+use Remorhaz\JSONPointer\Pointer\Locator\Reference;
+
 class Parser
 {
 
@@ -206,7 +209,7 @@ class Parser
     }
 
 
-    protected function setupReferenceType(Locator\Reference $reference)
+    protected function setupReferenceType(Reference $reference)
     {
         $result = preg_match('#^(0|[1-9]\d*)$#u', $reference->getValue());
         Parser\PregHelper::assertMatchResult(
@@ -215,11 +218,11 @@ class Parser
             "Regular expression error on reference type detection"
         );
         if (1 === $result) {
-            $type = Locator\Reference::TYPE_INDEX;
+            $type = Reference::TYPE_INDEX;
         } elseif ('-' == $reference->getValue()) {
-            $type = Locator\Reference::TYPE_NEXT_INDEX;
+            $type = Reference::TYPE_NEXT_INDEX;
         } else {
-            $type = Locator\Reference::TYPE_PROPERTY;
+            $type = Reference::TYPE_PROPERTY;
         }
         $reference
             ->setType($type);

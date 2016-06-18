@@ -1,8 +1,7 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Pointer\Evaluator;
+namespace Remorhaz\JSONPointer\Test\Evaluator;
 
-use Remorhaz\JSONPointer\Locator;
 use Remorhaz\JSONPointer\Parser;
 use Remorhaz\JSONPointer\Pointer\Evaluator\LocatorEvaluatorWrite;
 

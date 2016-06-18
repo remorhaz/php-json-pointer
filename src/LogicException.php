@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer;
+namespace Remorhaz\JSONPointer;
 
 class LogicException extends \LogicException implements Exception
 {

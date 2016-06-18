@@ -2,8 +2,6 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-use Remorhaz\JSONPointer\Locator\Reference;
-
 abstract class Advancer
 {
 
@@ -26,6 +24,7 @@ abstract class Advancer
     abstract protected function canAdvance();
 
     /**
+     * @param mixed $cursorData
      * @return $this
      */
     abstract protected function &advance(&$cursorData);

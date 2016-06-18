@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSONPointer\Pointer\Locator\Reference;
 
 class Cursor
 {

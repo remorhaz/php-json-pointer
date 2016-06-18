@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Test\Locator\Reference;
 
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSONPointer\Pointer\Locator\Reference;
 
 /**
  * @package JSONPointer
@@ -12,7 +12,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Reference\Exception
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Locator\Exception
      */
     public function testAccessingUninitializedValueThrowsException()
     {
@@ -40,7 +40,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Reference\Exception
+     * @expectedException \Remorhaz\JSONPointer\Pointer\Locator\Exception
      */
     public function testSettingNotStringValueThrowsException()
     {

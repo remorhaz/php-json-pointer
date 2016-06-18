@@ -2,6 +2,6 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-interface Exception extends \Remorhaz\JSONPointer\Pointer\Exception
+interface Exception extends \Remorhaz\JSONPointer\Exception
 {
 }

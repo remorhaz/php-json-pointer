@@ -9,16 +9,7 @@ engines:
     enabled: true
   phpmd:
     enabled: true
-    exclude_fingerprints:
-    # Advancer factories
-    - 11e9bd30db8bfc4d61e0ca9430bc9167
-    - 9a1da828da91460416ee9e996a6a1c54
-    - fb4d0be9a27fc82922237a42f52e4914
-    - f48e0a7391f6629215ef8a45f216864c
-    - 1b1cd95fd3955c638712d256a3bc48f3
-    # Reference evaluate factories
-    - 5fd055668841351ffaeaa5127c70d56f
-    - cd1cb14fd29e88b9a4390000d8361114
+    # exclude_fingerprints:
 ratings:
   paths:
   - "**.php"

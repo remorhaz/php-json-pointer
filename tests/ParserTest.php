@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Test;
 
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSONPointer\Pointer\Locator\Reference;
 use Remorhaz\JSONPointer\Parser;
 
 class ParserTest extends \PHPUnit_Framework_TestCase

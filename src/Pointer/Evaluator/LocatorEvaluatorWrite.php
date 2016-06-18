@@ -2,17 +2,15 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluator;
 
-use Remorhaz\JSONPointer\Locator\Reference;
-
 /**
  * @package Remorhaz\JSONPointer\Pointer\Evaluator
  */
 class LocatorEvaluatorWrite extends LocatorEvaluator
 {
 
-    protected $value;
+    private $value;
 
-    protected $isValueSet = false;
+    private $isValueSet = false;
 
     protected $numericIndexGaps = false;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer;
+namespace Remorhaz\JSONPointer\Pointer\Locator;
 
 class Locator
 {
@@ -8,12 +8,12 @@ class Locator
     /**
      * Reference list.
      *
-     * @var Locator\Reference[]
+     * @var Reference[]
      */
     protected $referenceList = [];
 
     /**
-     * @var Locator\Reference|null
+     * @var Reference|null
      */
     protected $lastReference;
 
@@ -40,7 +40,7 @@ class Locator
     /**
      * Returns reference list.
      *
-     * @return Locator\Reference[]
+     * @return Reference[]
      */
     public function getReferenceList()
     {
@@ -51,10 +51,10 @@ class Locator
     /**
      * Adds reference to list.
      *
-     * @param Locator\Reference $reference
+     * @param Reference $reference
      * @return $this
      */
-    public function addReference(Locator\Reference $reference)
+    public function addReference(Reference $reference)
     {
         $this->referenceList[] = $reference;
         $pathPrefix = null === $this->lastReference

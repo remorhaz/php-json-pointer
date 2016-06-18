@@ -2,6 +2,8 @@
 
 namespace Remorhaz\JSONPointer;
 
+use Remorhaz\JSONPointer\Pointer\Locator\Locator;
+
 class Pointer
 {
 
@@ -102,12 +104,12 @@ class Pointer
      * Returns JSON Pointer string.
      *
      * @return string
-     * @throws Pointer\LogicException
+     * @throws LogicException
      */
     public function getText()
     {
         if (null === $this->text) {
-            throw new Pointer\LogicException("JSON Pointer text is not set");
+            throw new LogicException("JSON Pointer text is not set");
         }
         return $this->text;
     }
@@ -124,7 +126,7 @@ class Pointer
     protected function &getData()
     {
         if (!$this->isDataSet) {
-            throw new Pointer\LogicException("Data for evaluation is not set");
+            throw new LogicException("Data for evaluation is not set");
         }
         return $this->data;
     }

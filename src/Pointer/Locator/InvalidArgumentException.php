@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Locator\Reference;
+namespace Remorhaz\JSONPointer\Pointer\Locator;
 
 class InvalidArgumentException extends \InvalidArgumentException implements Exception
 {
