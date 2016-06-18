@@ -2,14 +2,14 @@
 
 namespace Remorhaz\JSONPointer\Test\Locator\Reference;
 
-use Remorhaz\JSONPointer\Pointer\Locator\Reference;
+use Remorhaz\JSONPointer\Locator\Reference;
 
 class LengthTest extends \PHPUnit_Framework_TestCase
 {
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Locator\Exception
+     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
      */
     public function testAccessingUninitializedLengthThrowsException()
     {
@@ -48,7 +48,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Locator\Exception
+     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
      */
     public function testSetNegativeLengthThrowsException()
     {
@@ -66,7 +66,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Locator\Exception
+     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
      */
     public function testSetNonIntegerLengthThrowsException()
     {

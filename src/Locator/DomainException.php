@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Locator;
+namespace Remorhaz\JSONPointer\Locator;
 
 class DomainException extends \DomainException implements Exception
 {

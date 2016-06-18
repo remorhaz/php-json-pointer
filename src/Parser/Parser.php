@@ -1,9 +1,11 @@
 <?php
 
-namespace Remorhaz\JSONPointer;
+namespace Remorhaz\JSONPointer\Parser;
 
-use Remorhaz\JSONPointer\Pointer\Locator\Locator;
-use Remorhaz\JSONPointer\Pointer\Locator\Reference;
+use Remorhaz\JSONPointer\Parser\Lexer;
+use Remorhaz\JSONPointer\Parser\ReferenceBuffer;
+use Remorhaz\JSONPointer\Locator\Locator;
+use Remorhaz\JSONPointer\Locator\Reference;
 
 class Parser
 {
@@ -26,7 +28,7 @@ class Parser
     /**
      * ReferenceBuffer for a single reference.
      *
-     * @var Parser\ReferenceBuffer
+     * @var ReferenceBuffer
      */
     protected $referenceBuffer;
 
@@ -46,7 +48,7 @@ class Parser
     /**
      * Lexical analyzer.
      *
-     * @var Parser\Lexer|null
+     * @var Lexer|null
      */
     protected $lexer;
 
@@ -104,7 +106,7 @@ class Parser
      * Builds locator from source using finite state machine.
      *
      * @return $this
-     * @throws Parser\DomainException
+     * @throws DomainException
      */
     protected function buildLocator()
     {
@@ -130,7 +132,7 @@ class Parser
                     break 2;
 
                 default:
-                    throw new Parser\DomainException("Invalid parser state: {$state}");
+                    throw new DomainException("Invalid parser state: {$state}");
             }
         }
         $this->locator = $this->getLocatorBuffer();
@@ -143,7 +145,7 @@ class Parser
      * Expecting part of a pointer or end of text.
      *
      * @return int
-     * @throws Parser\SyntaxException
+     * @throws SyntaxException
      */
     protected function processPointerPartState()
     {
@@ -157,7 +159,7 @@ class Parser
             // Slash found, expecting reference token part
             return self::STATE_REFERENCE_PART;
         }
-        throw new Parser\SyntaxException(
+        throw new SyntaxException(
             "Symbol '/' expected at position #{$token->getPosition()}",
             $token->getPosition()
         );
@@ -212,9 +214,9 @@ class Parser
     protected function setupReferenceType(Reference $reference)
     {
         $result = preg_match('#^(0|[1-9]\d*)$#u', $reference->getKey());
-        Parser\PregHelper::assertMatchResult(
+        PregHelper::assertMatchResult(
             $result,
-            Parser\RegExpException::class,
+            RegExpException::class,
             "Regular expression error on reference type detection"
         );
         if (1 === $result) {
@@ -233,24 +235,24 @@ class Parser
     /**
      * Returns lexical analyzer.
      *
-     * @return Parser\Lexer
+     * @return Lexer
      */
     protected function getLexer()
     {
         if (null === $this->lexer) {
-            $this->lexer = Parser\Lexer::factory();
+            $this->lexer = Lexer::factory();
         }
         return $this->lexer;
     }
 
 
     /**
-     * @return Parser\ReferenceBuffer
+     * @return ReferenceBuffer
      */
     protected function getReferenceBuffer()
     {
         if (null === $this->referenceBuffer) {
-            $this->referenceBuffer = Parser\ReferenceBuffer::factory();
+            $this->referenceBuffer = ReferenceBuffer::factory();
         }
         return $this->referenceBuffer;
     }

@@ -1,8 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluator;
-
-use Remorhaz\JSONPointer\Locator\Reference;
+namespace Remorhaz\JSONPointer\Evaluator;
 
 class LocatorEvaluatorTest extends LocatorEvaluator
 {

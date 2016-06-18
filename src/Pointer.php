@@ -2,7 +2,11 @@
 
 namespace Remorhaz\JSONPointer;
 
-use Remorhaz\JSONPointer\Pointer\Locator\Locator;
+use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorRead;
+use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorTest;
+use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorWrite;
+use Remorhaz\JSONPointer\Locator\Locator;
+use Remorhaz\JSONPointer\Parser\Parser;
 
 class Pointer
 {
@@ -134,7 +138,7 @@ class Pointer
 
     public function test()
     {
-        $pointer = Pointer\Evaluator\LocatorEvaluatorTest::factory()
+        $pointer = LocatorEvaluatorTest::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData());
         if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
@@ -148,7 +152,7 @@ class Pointer
 
     public function &read()
     {
-        $pointer = Pointer\Evaluator\LocatorEvaluatorRead::factory()
+        $pointer = LocatorEvaluatorRead::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData());
         if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
@@ -162,7 +166,7 @@ class Pointer
 
     public function write($value)
     {
-        $pointer = Pointer\Evaluator\LocatorEvaluatorWrite::factory()
+        $pointer = LocatorEvaluatorWrite::factory()
             ->setLocator($this->getLocator())
             ->setData($this->getData())
             ->setValue($value);

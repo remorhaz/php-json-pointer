@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Pointer\Evaluator;
+namespace Remorhaz\JSONPointer\Evaluator;
 
-use Remorhaz\JSONPointer\Pointer\Locator\Reference;
+use Remorhaz\JSONPointer\Locator\Reference;
 
 class Cursor
 {

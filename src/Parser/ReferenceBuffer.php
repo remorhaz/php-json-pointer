@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Parser;
 
-use Remorhaz\JSONPointer\Pointer\Locator\Reference;
+use Remorhaz\JSONPointer\Locator\Reference;
 
 class ReferenceBuffer
 {

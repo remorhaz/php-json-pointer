@@ -2,8 +2,8 @@
 
 namespace Remorhaz\JSONPointer\Test\Evaluator;
 
-use Remorhaz\JSONPointer\Parser;
-use Remorhaz\JSONPointer\Pointer\Evaluator\LocatorEvaluatorWrite;
+use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorWrite;
+use Remorhaz\JSONPointer\Parser\Parser;
 
 class WriteTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerSingleDataWithValidLocator
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluator\Exception
+     * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
     public function testPerformWithNoValueSetThrowsException($text, $data)
     {
@@ -160,7 +160,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerDataWithNonNumericIndexLocator
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluator\Exception
+     * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
     public function testAccessNonNumericIndexThrowsException($text, $data, $value)
     {
@@ -285,7 +285,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerDataWithNumericIndexGapsLocator
-     * @expectedException \Remorhaz\JSONPointer\Pointer\Evaluator\Exception
+     * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
     public function testWriteNumericIndexGapsThrowsException($text, $data, $value)
     {
