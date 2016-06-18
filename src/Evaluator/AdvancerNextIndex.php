@@ -14,7 +14,7 @@ class AdvancerNextIndex extends AdvancerIndex
 
     protected function &advance(&$cursorData)
     {
-        throw new LogicException("New index is not advanceable");
+        throw new LogicException("New array index is not advanceable");
     }
 
 
