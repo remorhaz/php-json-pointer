@@ -81,10 +81,7 @@ abstract class Advancer
                 "of type {$reference->getType()}"
             );
         }
-        $reference = $cursor->getReference();
-        throw new EvaluatorException(
-            "Cannot advance through non-structured data by reference '{$reference->getText()}'"
-        );
+        return AdvancerScalar::factory($cursor);
     }
 
 
