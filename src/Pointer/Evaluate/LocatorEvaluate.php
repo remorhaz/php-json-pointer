@@ -255,10 +255,7 @@ abstract class LocatorEvaluate
     {
         $this->referenceEvaluate = $this
             ->createReferenceEvaluate()
-            ->setAdvancer($this->createAdvancerForCursor())
-            //->setReference($this->getCursor()->getReference())
-            //->setDataCursor($this->getCursor()->getData())
-        ;
+            ->setAdvancer($this->createAdvancerForCursor());
         return $this;
     }
 
