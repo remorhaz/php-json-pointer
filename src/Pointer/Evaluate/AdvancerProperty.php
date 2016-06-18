@@ -8,19 +8,29 @@ class AdvancerProperty extends Advancer
 
     public function canAdvance()
     {
-        return property_exists($this->getDataCursor(), $this->getValue());
+        return property_exists($this->getCursor()->getData(), $this->getValue());
     }
 
 
     public function advance()
     {
-        return $this->setNewDataCursor($this->dataCursor->{$this->getValue()});
+        $data = &$this
+            ->getCursor()
+            ->getData()
+            ->{$this->getValue()};
+        $this
+            ->getCursor()
+            ->setData($data);
+        return $this;
     }
 
 
     public function write($data)
     {
-        $this->dataCursor->{$this->getValue()} = $data;
+        $this
+            ->getCursor()
+            ->getData()
+            ->{$this->getValue()} = $data;
         return $this;
     }
 

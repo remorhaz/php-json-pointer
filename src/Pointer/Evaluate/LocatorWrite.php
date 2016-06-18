@@ -48,9 +48,9 @@ class LocatorWrite extends LocatorEvaluate
     }
 
 
-    protected function createAdvancerForReference()
+    protected function createAdvancerForCursor()
     {
-        $advancer = parent::createAdvancerForReference();
+        $advancer = parent::createAdvancerForCursor();
         if ($advancer instanceof AdvancerNumericIndex && $this->numericIndexGaps) {
             $advancer->allowGaps();
         }
@@ -60,7 +60,7 @@ class LocatorWrite extends LocatorEvaluate
 
     protected function processLocator()
     {
-        $data = &$this->dataCursor->getData();
+        $data = &$this->cursor->getData();
         $data = $this->getValue();
         $result = null;
         return $this->setResult($result);

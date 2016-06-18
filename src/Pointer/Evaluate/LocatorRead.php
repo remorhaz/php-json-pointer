@@ -10,7 +10,7 @@ class LocatorRead extends LocatorEvaluate
 
     protected function processLocator()
     {
-        return $this->setResult($this->dataCursor->getData());
+        return $this->setResult($this->cursor->getData());
     }
 
     

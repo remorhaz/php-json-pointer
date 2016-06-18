@@ -20,7 +20,9 @@ class AdvancerNextIndex extends AdvancerIndex
 
     public function write($data)
     {
-        $this->dataCursor[] = $data;
+        $this
+            ->getCursor()
+            ->getData()[] = $data;
         return $this;
     }
 

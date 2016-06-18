@@ -43,7 +43,7 @@ class AdvancerNumericIndex extends AdvancerIndex
             return true;
         }
         return
-            0 == $this->getValue() && empty($this->getDataCursor()) ||
-            array_key_exists($this->getValue() - 1, $this->getDataCursor());
+            0 == $this->getValue() && empty($this->getCursor()->getData()) ||
+            array_key_exists($this->getValue() - 1, $this->getCursor()->getData());
     }
 }

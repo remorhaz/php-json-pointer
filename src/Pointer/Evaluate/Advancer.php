@@ -7,19 +7,10 @@ use Remorhaz\JSONPointer\Locator\Reference;
 abstract class Advancer
 {
 
-
-    protected $dataCursor;
-
-    protected $isDataCursorSet = false;
-
-    protected $newDataCursor;
-
-    protected $isNewDataCursorSet = false;
-
     /**
-     * @var Reference|null
+     * @var Cursor|null
      */
-    protected $reference;
+    protected $cursor;
 
 
     protected function __construct()
@@ -45,13 +36,6 @@ abstract class Advancer
     abstract public function write($data);
 
 
-    public function canWrite()
-    {
-        return $this
-            ->getReference()
-            ->isLast();
-    }
-
     /**
      * @return $this
      * @throws EvaluateException
@@ -59,9 +43,13 @@ abstract class Advancer
     abstract public function fail();
 
 
-    public static function factory()
+    protected static function factory(Cursor $cursor = null)
     {
-        return new static();
+        $advancer = new static();
+        if (null !== $cursor) {
+            $advancer->setCursor($cursor);
+        }
+        return $advancer;
     }
 
 
@@ -72,86 +60,69 @@ abstract class Advancer
     final public static function byCursorFactory(Cursor $cursor)
     {
         if (is_object($cursor->getData())) {
-            return AdvancerProperty::factory();
+            return AdvancerProperty::factory($cursor);
         }
         if (is_array($cursor->getData())) {
             $reference = $cursor->getReference();
             switch ($reference->getType()) {
                 case $reference::TYPE_NEXT_INDEX:
-                    return AdvancerNextIndex::factory();
+                    return AdvancerNextIndex::factory($cursor);
 
                 case $reference::TYPE_INDEX:
-                    return AdvancerNumericIndex::factory();
+                    return AdvancerNumericIndex::factory($cursor);
 
                 case $reference::TYPE_PROPERTY:
-                    return AdvancerNonNumericIndex::factory();
+                    return AdvancerNonNumericIndex::factory($cursor);
             }
             $reference = $cursor->getReference();
             throw new DomainException(
-                "Failed to create array index advancer for reference of type {$reference->getType()}"
+                "Failed to create array index advancer for reference '{$reference->getText()}' " .
+                "of type {$reference->getType()}"
             );
         }
         $reference = $cursor->getReference();
         throw new EvaluateException(
             "Cannot advance through non-structured data by reference '{$reference->getText()}'"
         );
-
     }
 
 
-    public function setDataCursor(&$dataCursor)
+    /**
+     * @param Cursor $cursor
+     * @return $this
+     */
+    public function setCursor(Cursor $cursor)
     {
-        $this->dataCursor = &$dataCursor;
-        $this->isDataCursorSet = true;
+        $this->cursor = $cursor;
         return $this;
     }
 
 
-    protected function &getDataCursor()
+    /**
+     * @return Cursor
+     */
+    public function getCursor()
     {
-        if (!$this->isDataCursorSet) {
-            throw new LogicException("Data cursor is not set in advancer object");
+        if (null === $this->cursor) {
+            throw new LogicException("Cursor is not set in advancer");
         }
-        return $this->dataCursor;
+        return $this->cursor;
     }
 
 
-    protected function setNewDataCursor(&$dataCursor)
+    public function canWrite()
     {
-        $this->newDataCursor = &$dataCursor;
-        $this->isNewDataCursorSet = true;
-        return $this;
-    }
-
-
-    public function &getNewDataCursor()
-    {
-        if (!$this->isNewDataCursorSet) {
-            throw new LogicException("Data cursor is not set in advancer object");
-        }
-        return $this->newDataCursor;
-    }
-
-
-    public function setReference(Reference $reference)
-    {
-        $this->reference = $reference;
-        return $this;
-    }
-
-
-    protected function getReference()
-    {
-        if (null === $this->reference) {
-            throw new LogicException("Reference is not set in advancer object");
-        }
-        return $this->reference;
+        return $this
+            ->getCursor()
+            ->getReference()
+            ->isLast();
     }
 
 
     public function getValue()
     {
         return $this
+            ->getCursor()
             ->getReference()
             ->getValue();
     }

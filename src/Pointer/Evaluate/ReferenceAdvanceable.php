@@ -41,15 +41,12 @@ abstract class ReferenceAdvanceable extends ReferenceEvaluate
     {
         $canAdvance = $this
             ->getAdvancer()
-            ->setReference($this->getReference())
-            ->setDataCursor($this->getDataCursor())
             ->canAdvance();
         if ($canAdvance) {
-            $dataCursor = &$this
+            $this
                 ->getAdvancer()
-                ->advance()
-                ->getNewDataCursor();
-            return $this->setDataCursor($dataCursor);
+                ->advance();
+            return $this;
         }
         return $this->performNonExisting();
     }
