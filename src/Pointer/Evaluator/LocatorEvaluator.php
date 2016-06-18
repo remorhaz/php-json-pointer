@@ -56,11 +56,6 @@ abstract class LocatorEvaluator
     protected $result;
 
     /**
-     * @var ReferenceEvaluator|null
-     */
-    private $referenceEvaluator;
-
-    /**
      * @var bool
      */
     protected $nonNumericIndices = false;
@@ -262,15 +257,6 @@ abstract class LocatorEvaluator
     }
 
 
-    protected function setupReferenceEvaluator()
-    {
-        $this->referenceEvaluator = $this
-            ->createReferenceEvaluator()
-            ->setAdvancer($this->createAdvancer());
-        return $this;
-    }
-
-
     protected function createAdvancer()
     {
         $advancer = Advancer::byCursorFactory($this->getCursor());
@@ -287,31 +273,13 @@ abstract class LocatorEvaluator
     abstract protected function createReferenceEvaluator();
 
 
-    /**
-     * @return ReferenceEvaluator
-     * @throws LogicException
-     */
-    protected function getReferenceEvaluator()
-    {
-        if (null === $this->referenceEvaluator) {
-            throw new LogicException("Reference evaluator is not set in locator evaluator");
-        }
-        return $this->referenceEvaluator;
-    }
-
-
     protected function evaluateReference()
     {
-        $isReferenceResultSet = $this
-            ->setupReferenceEvaluator()
-            ->getReferenceEvaluator()
-            ->evaluate()
-            ->isResultSet();
-        if ($isReferenceResultSet) {
-            $referenceResult = &$this
-                ->getReferenceEvaluator()
-                ->getResult();
-            $this->setResult($referenceResult);
+        $referenceEvaluator = $this
+            ->createReferenceEvaluator()
+            ->evaluate();
+        if ($referenceEvaluator->isResultSet()) {
+            $this->setResult($referenceEvaluator->getResult());
         }
         return $this;
     }

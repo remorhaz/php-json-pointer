@@ -16,6 +16,7 @@ class LocatorEvaluatorRead extends LocatorEvaluator
     
     protected function createReferenceEvaluator()
     {
-        return ReferenceEvaluatorRead::factory();
+        return ReferenceEvaluatorRead::factory()
+            ->setAdvancer($this->createAdvancer());
     }
 }

@@ -17,6 +17,7 @@ class LocatorEvaluatorTest extends LocatorEvaluator
 
     protected function createReferenceEvaluator()
     {
-        return ReferenceEvaluatorTest::factory();
+        return ReferenceEvaluatorTest::factory()
+            ->setAdvancer($this->createAdvancer());
     }
 }

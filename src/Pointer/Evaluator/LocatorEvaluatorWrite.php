@@ -72,6 +72,7 @@ class LocatorEvaluatorWrite extends LocatorEvaluator
     protected function createReferenceEvaluator()
     {
         return ReferenceEvaluatorWrite::factory()
+            ->setAdvancer($this->createAdvancer())
             ->setValue($this->getValue());
     }
 }
