@@ -25,7 +25,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
             ->flush()
             ->getReference();
         $this->assertEquals($length, $reference->getLength(), "Incorrect reference length built from token list");
-        $this->assertEquals($value, $reference->getValue(), "Incorrect reference value built from token list");
+        $this->assertEquals($value, $reference->getKey(), "Incorrect reference value built from token list");
     }
 
 
@@ -99,7 +99,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
             ->getReference();
         $this->assertEquals(
             'y',
-            $reference->getValue(),
+            $reference->getKey(),
             "Incorrect reference value built from tokens added after resetting flushed buffer"
         );
     }
@@ -114,7 +114,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
             ->getReference();
         $this->assertSame(
             "",
-            $reference->getValue(),
+            $reference->getKey(),
             "Incorrect reference value built from uninitialized token buffer"
         );
     }

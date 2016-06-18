@@ -155,7 +155,7 @@ abstract class Advancer
         return $this
             ->getCursor()
             ->getReference()
-            ->getValue();
+            ->getKey();
     }
 
 

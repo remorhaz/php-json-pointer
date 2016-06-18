@@ -211,7 +211,7 @@ class Parser
 
     protected function setupReferenceType(Reference $reference)
     {
-        $result = preg_match('#^(0|[1-9]\d*)$#u', $reference->getValue());
+        $result = preg_match('#^(0|[1-9]\d*)$#u', $reference->getKey());
         Parser\PregHelper::assertMatchResult(
             $result,
             Parser\RegExpException::class,
@@ -219,7 +219,7 @@ class Parser
         );
         if (1 === $result) {
             $type = Reference::TYPE_INDEX;
-        } elseif ('-' == $reference->getValue()) {
+        } elseif ('-' == $reference->getKey()) {
             $type = Reference::TYPE_NEXT_INDEX;
         } else {
             $type = Reference::TYPE_PROPERTY;

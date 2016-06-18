@@ -10,12 +10,12 @@ class Locator
      *
      * @var Reference[]
      */
-    protected $referenceList = [];
+    private $referenceList = [];
 
     /**
      * @var Reference|null
      */
-    protected $lastReference;
+    private $lastReference;
 
 
     /**

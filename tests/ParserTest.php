@@ -40,7 +40,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         foreach ($actualReferenceList as $index => $actualReference) {
             list($expectedType, $expectedValue) = array_shift($referenceList);
             $this->assertEquals($expectedType, $actualReference->getType(), "Incorrect type in reference #{$index}");
-            $this->assertEquals($expectedValue, $actualReference->getValue(), "Incorrect value in reference #{$index}");
+            $this->assertEquals($expectedValue, $actualReference->getKey(), "Incorrect value in reference #{$index}");
         }
     }
 

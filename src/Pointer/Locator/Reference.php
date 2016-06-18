@@ -30,47 +30,47 @@ class Reference
      *
      * @var int|null
      */
-    protected $type;
+    private $type;
 
     /**
      * Reference value.
      *
      * @var string|null
      */
-    protected $value;
+    private $key;
 
     /**
      * Flag of last reference in locator.
      *
      * @var bool|null
      */
-    protected $isLast;
+    private $isLast;
 
     /**
      * Sum of token lengths.
      *
      * @var int|null
      */
-    protected $length;
+    private $length;
 
     /**
      * Reference position (Unicode symbol offset).
      *
      * @var int|null
      */
-    protected $position;
+    private $position;
 
     /**
      * Reference path (part of JSON Pointer from start to the reference inclusively).
      *
      * @var string|null
      */
-    protected $path;
+    private $path;
 
     /**
      * @var string|null
      */
-    protected $text;
+    private $text;
 
     /**
      * Constructor.
@@ -138,28 +138,28 @@ class Reference
      * @return int|string
      * @throws LogicException
      */
-    public function getValue()
+    public function getKey()
     {
-        if (null === $this->value) {
-            throw new LogicException("Reference value is not set");
+        if (null === $this->key) {
+            throw new LogicException("Reference key is not set");
         }
-        return $this->value;
+        return $this->key;
     }
 
 
     /**
      * Sets reference value.
      *
-     * @param string|int $value
+     * @param string|int $key
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setValue($value)
+    public function setKey($key)
     {
-        if (!is_string($value)) {
-            throw new InvalidArgumentException("Reference value must be string");
+        if (!is_string($key)) {
+            throw new InvalidArgumentException("Reference key must be string");
         }
-        $this->value = $value;
+        $this->key = $key;
         return $this;
     }
 

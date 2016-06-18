@@ -16,7 +16,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testAccessingUninitializedValueThrowsException()
     {
-        Reference::factory()->getValue();
+        Reference::factory()->getKey();
     }
 
 
@@ -25,7 +25,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testAccessingUninitializedValueThrowsSplException()
     {
-        Reference::factory()->getValue();
+        Reference::factory()->getKey();
     }
 
 
@@ -34,8 +34,8 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     public function testGotValueSameAsSet()
     {
         $value = 'abc';
-        $reference = Reference::factory()->setValue($value);
-        $this->assertEquals($value, $reference->getValue(), "Got value differs from the one that was set");
+        $reference = Reference::factory()->setKey($value);
+        $this->assertEquals($value, $reference->getKey(), "Got value differs from the one that was set");
     }
 
 
@@ -44,7 +44,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNotStringValueThrowsException()
     {
-        Reference::factory()->setValue(1);
+        Reference::factory()->setKey(1);
     }
 
 
@@ -53,6 +53,6 @@ class ValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNotStringValueThrowsSplException()
     {
-        Reference::factory()->setValue(1);
+        Reference::factory()->setKey(1);
     }
 }

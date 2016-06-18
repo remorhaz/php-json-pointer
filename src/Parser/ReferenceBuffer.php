@@ -52,7 +52,7 @@ class ReferenceBuffer
         }
         $this->reference = Reference::factory()
             ->setLength($this->length)
-            ->setValue($this->value)
+            ->setKey($this->value)
             ->setText($this->text);
         return $this->resetBuffer();
     }
