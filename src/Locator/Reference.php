@@ -181,6 +181,20 @@ class Reference
         $this->isLast = $isLast;
         return $this;
     }
+    
+    
+    public function markAsLast()
+    {
+        $this->isLast = true;
+        return $this;
+    }
+    
+    
+    public function markAsNotLast()
+    {
+        $this->isLast = false;
+        return $this;
+    }
 
 
     /**

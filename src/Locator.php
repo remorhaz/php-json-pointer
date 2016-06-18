@@ -61,11 +61,11 @@ class Locator
             ? ''
             : $this
                 ->lastReference
-                ->setIsLast(false)
+                ->markAsNotLast()
                 ->getPath();
 
         $this->lastReference = $reference
-            ->setIsLast()
+            ->markAsLast()
             ->setPath("{$pathPrefix}/{$reference->getText()}");
         return $this;
     }

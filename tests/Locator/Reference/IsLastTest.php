@@ -26,23 +26,22 @@ class IsLastTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    /**
-     * @param bool $on
-     * @dataProvider providerGotIsLastSameAsSet
-     */
-    public function testGotIsLastSameAsSet($on)
+    public function testMarkAsLast()
     {
-        $reference = Reference::factory()->setIsLast($on);
-        $this->assertSame($on, $reference->isLast(), "Got last reference flag differs from the one that was set");
+        $reference = Reference::factory()->markAsLast();
+        $this->assertTrue($reference->isLast(), "Failed to set last reference flag in reference");
+        return $reference;
     }
 
 
-    public function providerGotIsLastSameAsSet()
+    /**
+     * @param Reference $reference
+     * @depends testMarkAsLast
+     */
+    public function testMarkAsNotLast(Reference $reference)
     {
-        return [
-            'true' => [true],
-            'false' => [false],
-        ];
+        $reference->markAsNotLast();
+        $this->assertFalse($reference->isLast(), "Failed to clear last reference flag in reference");
     }
 
 
