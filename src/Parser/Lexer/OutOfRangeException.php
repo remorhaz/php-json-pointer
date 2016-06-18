@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer\TokenBuffer;
+namespace Remorhaz\JSONPointer\Parser\Lexer;
 
 /**
  * SPL OutOfRangeException of lexical analyzer's token buffer.

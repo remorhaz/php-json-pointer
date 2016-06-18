@@ -32,7 +32,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
     /**
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\TokenBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
     public function testUnreadingMoreTokensThanWasReadThrowsException($tokenAmount)
     {
@@ -117,7 +117,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\TokenBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
     public function testUninitializedUnreadingThrowsException()
     {

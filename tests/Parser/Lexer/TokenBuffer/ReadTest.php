@@ -69,7 +69,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\TokenBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
     public function testUninitializedReadingThrowsException()
     {

@@ -79,12 +79,11 @@ class TokenBuffer
      * Reads token from current cursor position and advances cursor.
      *
      * @return Token
-     * @throws TokenBuffer\LogicException
      */
     public function readToken()
     {
         if ($this->isEnd()) {
-            throw new TokenBuffer\LogicException("The end of buffer is reached");
+            throw new LogicException("The end of buffer is reached");
         }
         $token = $this->getTokenAtIndex($this->cursor);
         $this->cursor++;
@@ -96,12 +95,11 @@ class TokenBuffer
      * Cancels reading of last token.
      *
      * @return $this
-     * @throws TokenBuffer\LogicException
      */
     public function unreadToken()
     {
         if (0 == $this->cursor) {
-            throw new TokenBuffer\LogicException("The beginning of buffer is reached");
+            throw new LogicException("The beginning of buffer is reached");
         }
         $this->cursor--;
         return $this;
@@ -123,12 +121,11 @@ class TokenBuffer
      *
      * @param int $index
      * @return Token
-     * @throws TokenBuffer\OutOfRangeException
      */
     protected function getTokenAtIndex($index)
     {
         if (!$this->hasTokenAtIndex($index)) {
-            throw new TokenBuffer\OutOfRangeException("No token in buffer at given index");
+            throw new OutOfRangeException("No token in buffer at given index");
         }
         return $this->tokenList[$index];
     }
