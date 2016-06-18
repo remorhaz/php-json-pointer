@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Test\Parser\Lexer;
 
-use Remorhaz\JSONPointer\Parser\Lexer;
+use Remorhaz\JSONPointer\Parser\Lexer\Lexer;
 use Remorhaz\JSONPointer\Parser\Token;
 
 class TextTest extends \PHPUnit_Framework_TestCase

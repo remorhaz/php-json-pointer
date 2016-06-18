@@ -9,7 +9,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Token\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testAccessingUninitializedTextThrowsException()
     {
@@ -52,7 +52,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Token\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testSettingEmptyTextThrowsException()
     {
@@ -79,7 +79,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Token\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testSettingNonStringTextThrowsException()
     {

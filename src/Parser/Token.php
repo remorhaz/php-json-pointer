@@ -104,12 +104,11 @@ class Token
      * Returns token type (one of self::TYPE_* constants).
      *
      * @return int
-     * @throws Token\LogicException
      */
     public function getType()
     {
         if (null === $this->type) {
-            throw new Token\LogicException("Token type is not set");
+            throw new LogicException("Token type is not set");
         }
         return $this->type;
     }
@@ -157,12 +156,11 @@ class Token
      * Returns position of token's first symbol in source string.
      *
      * @return int
-     * @throws Token\LogicException
      */
     public function getPosition()
     {
         if (null === $this->position) {
-            throw new Token\LogicException("Token position is not set");
+            throw new LogicException("Token position is not set");
         }
         return $this->position;
     }
@@ -183,12 +181,11 @@ class Token
      * Returns token text.
      *
      * @return string
-     * @throws Token\LogicException
      */
     public function getText()
     {
         if (null === $this->text) {
-            throw new Token\LogicException("Token content is not set");
+            throw new LogicException("Token content is not set");
         }
         return $this->text;
     }
@@ -199,13 +196,11 @@ class Token
      *
      * @param int $type
      * @return $this
-     * @throws Token\InvalidArgumentException
-     * @throws Token\DomainException
      */
     public function setType($type)
     {
         if (!is_int($type)) {
-            throw new Token\InvalidArgumentException("Token type must be an integer");
+            throw new InvalidArgumentException("Token type must be an integer");
         }
         $typeList = [
             self::TYPE_SLASH,
@@ -214,7 +209,7 @@ class Token
             self::TYPE_ERROR_INVALID_ESCAPE,
         ];
         if (!in_array($type, $typeList)) {
-            throw new Token\DomainException("Invalid token type: {$type}");
+            throw new DomainException("Invalid token type: {$type}");
         }
         $this->type = (int) $type;
         return $this;
@@ -226,16 +221,14 @@ class Token
      *
      * @param int $position
      * @return $this
-     * @throws Token\InvalidArgumentException
-     * @throws Token\DomainException
      */
     public function setPosition($position)
     {
         if (!is_int($position)) {
-            throw new Token\InvalidArgumentException("Token position must be an integer");
+            throw new InvalidArgumentException("Token position must be an integer");
         }
         if ($position < 0) {
-            throw new Token\DomainException("Negative token position");
+            throw new DomainException("Negative token position");
         }
         $this->position = $position;
         return $this;
@@ -247,16 +240,14 @@ class Token
      *
      * @param string $text
      * @return $this
-     * @throws Token\InvalidArgumentException
-     * @throws Token\LengthException
      */
     public function setText($text)
     {
         if (!is_string($text)) {
-            throw new Token\InvalidArgumentException("Token text must be a string");
+            throw new InvalidArgumentException("Token text must be a string");
         }
         if (strlen($text) == 0) {
-            throw new Token\LengthException("Empty token content");
+            throw new LengthException("Empty token content");
         }
         $this->text = $text;
         return $this;
@@ -271,7 +262,7 @@ class Token
     public function getLength()
     {
         if (null === $this->length) {
-            throw new Token\LogicException("Token length is not set");
+            throw new LogicException("Token length is not set");
         }
         return $this->length;
     }
@@ -280,10 +271,10 @@ class Token
     public function setLength($length)
     {
         if (!is_int($length)) {
-            throw new Token\InvalidArgumentException("Token length must be an integer");
+            throw new InvalidArgumentException("Token length must be an integer");
         }
         if ($length < 0) {
-            throw new Token\DomainException("Token length must be non-negative");
+            throw new DomainException("Token length must be non-negative");
         }
         $this->length = $length;
         return $this;
@@ -293,7 +284,7 @@ class Token
     public function getValue()
     {
         if (null === $this->value) {
-            throw new Token\LogicException("Token value is not set");
+            throw new LogicException("Token value is not set");
         }
         return $this->value;
     }
@@ -302,7 +293,7 @@ class Token
     public function setValue($value)
     {
         if (!is_string($value)) {
-            throw new Token\InvalidArgumentException("Value mast be a string");
+            throw new InvalidArgumentException("Value mast be a string");
         }
         $this->value = $value;
         return $this;

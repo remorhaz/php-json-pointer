@@ -2,8 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Parser;
 
-use Remorhaz\JSONPointer\Parser\Lexer;
-use Remorhaz\JSONPointer\Parser\ReferenceBuffer;
+use Remorhaz\JSONPointer\Parser\Lexer\Lexer;
 use Remorhaz\JSONPointer\Locator\Locator;
 use Remorhaz\JSONPointer\Locator\Reference;
 

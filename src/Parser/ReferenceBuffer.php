@@ -36,7 +36,7 @@ class ReferenceBuffer
     public function addToken(Token $token)
     {
         if (null !== $this->reference) {
-            throw new ReferenceBuffer\LogicException("Token buffer was not reset before adding tokens");
+            throw new LogicException("Token buffer was not reset before adding tokens");
         }
         $this->value .= $token->getValue();
         $this->text .= $token->getText();
@@ -48,7 +48,7 @@ class ReferenceBuffer
     public function flush()
     {
         if (null !== $this->reference) {
-            throw new ReferenceBuffer\LogicException("Reference already flushed in token buffer");
+            throw new LogicException("Reference already flushed in token buffer");
         }
         $this->reference = Reference::factory()
             ->setLength($this->length)
@@ -64,7 +64,7 @@ class ReferenceBuffer
     public function getReference()
     {
         if (null === $this->reference) {
-            throw new ReferenceBuffer\LogicException("Reference is not set in token buffer");
+            throw new LogicException("Reference is not set in token buffer");
         }
         return $this->reference;
     }

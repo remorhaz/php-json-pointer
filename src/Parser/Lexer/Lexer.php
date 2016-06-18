@@ -1,6 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser;
+namespace Remorhaz\JSONPointer\Parser\Lexer;
+
+use Remorhaz\JSONPointer\Parser\Token;
 
 /**
  * Lexical analyzer.
@@ -11,12 +13,12 @@ class Lexer
 {
 
     /**
-     * @var Lexer\Scanner|null
+     * @var Scanner|null
      */
     protected $scanner;
 
     /**
-     * @var Lexer\TokenBuffer
+     * @var TokenBuffer
      */
     protected $buffer;
 
@@ -71,7 +73,7 @@ class Lexer
      * Reads next token from buffer.
      *
      * @return Token
-     * @throws Lexer\UnknownSyntaxException
+     * @throws UnknownSyntaxException
      */
     public function readToken()
     {
@@ -80,8 +82,8 @@ class Lexer
                 $token = $this
                     ->getScanner()
                     ->readToken();
-            } catch (Lexer\Scanner\UnknownSyntaxException $e) {
-                throw new Lexer\UnknownSyntaxException(
+            } catch (Scanner\UnknownSyntaxException $e) {
+                throw new UnknownSyntaxException(
                     "Unknown syntax error near position #{$this->getNextPosition()}",
                     $this->getNextPosition(),
                     $e
@@ -115,12 +117,12 @@ class Lexer
     /**
      * Returns text scanner.
      *
-     * @return Lexer\Scanner
+     * @return Scanner
      */
     protected function getScanner()
     {
         if (null === $this->scanner) {
-            $this->scanner = Lexer\Scanner::factory();
+            $this->scanner = Scanner::factory();
         }
         return $this->scanner;
     }
@@ -129,12 +131,12 @@ class Lexer
     /**
      * Returns token buffer.
      *
-     * @return Lexer\TokenBuffer
+     * @return TokenBuffer
      */
     protected function getBuffer()
     {
         if (null === $this->buffer) {
-            $this->buffer = Lexer\TokenBuffer::factory();
+            $this->buffer = TokenBuffer::factory();
         }
         return $this->buffer;
     }
@@ -158,8 +160,8 @@ class Lexer
      *
      * @param Token $token
      * @return $this
-     * @throws Lexer\SyntaxException
-     * @throws Lexer\UnknownSyntaxException
+     * @throws SyntaxException
+     * @throws UnknownSyntaxException
      */
     protected function assertErrorToken(Token $token)
     {
@@ -168,13 +170,13 @@ class Lexer
         }
         switch ($token->getType()) {
             case Token::TYPE_ERROR_INVALID_ESCAPE:
-                throw new Lexer\SyntaxException(
+                throw new SyntaxException(
                     "Invalid escape sequence at position #{$this->getNextPosition()}",
                     $this->getNextPosition()
                 );
 
             default:
-                throw new Lexer\UnknownSyntaxException(
+                throw new UnknownSyntaxException(
                     "Unknown type of error token: {$token->getType()} at position #{$this->getNextPosition()}",
                     $this->getNextPosition()
                 );

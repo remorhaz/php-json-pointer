@@ -9,7 +9,7 @@ class PositionTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Token\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testAccessingUninitializedPositionThrowsException()
     {
@@ -48,7 +48,7 @@ class PositionTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Token\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testSettingNegativePositionThrowsException()
     {
@@ -66,7 +66,7 @@ class PositionTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Token\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testSettingNonIntegerPositionThrowsException()
     {

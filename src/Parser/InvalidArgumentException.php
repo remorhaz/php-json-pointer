@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Token;
+namespace Remorhaz\JSONPointer\Parser;
 
 /**
  * SPL InvalidArgumentException of token descriptor.

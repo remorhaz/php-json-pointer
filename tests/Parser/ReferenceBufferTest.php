@@ -56,7 +56,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\ReferenceBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testAddTokenAfterFlushWithoutResetThrowsException()
     {
@@ -121,7 +121,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\ReferenceBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testDoubleFlushThrowsException()
     {
@@ -143,7 +143,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\ReferenceBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testGetUninitializedReferenceThrowsException()
     {
@@ -161,7 +161,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\ReferenceBuffer\Exception
+     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
     public function testGetReferenceAfterResetThrowsException()
     {
