@@ -26,7 +26,10 @@ abstract class AdvancerIndex extends Advancer
 
     public function write($data)
     {
-        $this->getCursor()->getData()[$this->getKey()] = $data;
+        $cursorData = &$this
+            ->getCursor()
+            ->getData();
+        $cursorData[$this->getKey()] = $data;
         return $this;
     }
 
