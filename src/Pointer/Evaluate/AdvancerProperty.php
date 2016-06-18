@@ -8,7 +8,7 @@ class AdvancerProperty extends Advancer
 
     public function canAdvance()
     {
-        return property_exists($this->getCursor()->getData(), $this->getValue());
+        return property_exists($this->getCursor()->getData(), $this->getKey());
     }
 
 
@@ -17,7 +17,7 @@ class AdvancerProperty extends Advancer
         $data = &$this
             ->getCursor()
             ->getData()
-            ->{$this->getValue()};
+            ->{$this->getKey()};
         $this
             ->getCursor()
             ->setData($data);
@@ -30,13 +30,13 @@ class AdvancerProperty extends Advancer
         $this
             ->getCursor()
             ->getData()
-            ->{$this->getValue()} = $data;
+            ->{$this->getKey()} = $data;
         return $this;
     }
 
 
     public function fail()
     {
-        throw new EvaluateException("Property {$this->getValueDescription()} is not found");
+        throw new EvaluateException("Property {$this->getKeyDescription()} is not found");
     }
 }

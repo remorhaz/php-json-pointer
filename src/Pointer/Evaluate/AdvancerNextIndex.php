@@ -27,13 +27,13 @@ class AdvancerNextIndex extends AdvancerIndex
     }
 
 
-    public function getValue()
+    public function getKey()
     {
         throw new LogicException("Next index don't have advanceable key");
     }
 
 
-    public function getValueDescription()
+    public function getKeyDescription()
     {
         return "'-'";
     }

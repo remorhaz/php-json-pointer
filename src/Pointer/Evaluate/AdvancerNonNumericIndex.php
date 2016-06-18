@@ -41,7 +41,7 @@ class AdvancerNonNumericIndex extends AdvancerIndex
             return parent::fail();
         }
         throw new EvaluateException(
-            "Non-numeric array index {$this->getValueDescription()} is not allowed"
+            "Non-numeric array index {$this->getKeyDescription()} is not allowed"
         );
     }
 }

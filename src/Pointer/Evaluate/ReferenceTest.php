@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Pointer\Evaluate;
 
-class ReferenceTest extends ReferenceAdvanceable
+class ReferenceTest extends ReferenceEvaluate
 {
 
 

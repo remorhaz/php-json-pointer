@@ -8,7 +8,7 @@ abstract class AdvancerIndex extends Advancer
 
     public function canAdvance()
     {
-        return array_key_exists($this->getValue(), $this->getCursor()->getData());
+        return array_key_exists($this->getKey(), $this->getCursor()->getData());
     }
 
 
@@ -16,7 +16,7 @@ abstract class AdvancerIndex extends Advancer
     {
         $data = &$this
             ->getCursor()
-            ->getData()[$this->getValue()];
+            ->getData()[$this->getKey()];
         $this
             ->getCursor()
             ->setData($data);
@@ -26,13 +26,13 @@ abstract class AdvancerIndex extends Advancer
 
     public function write($data)
     {
-        $this->getCursor()->getData()[$this->getValue()] = $data;
+        $this->getCursor()->getData()[$this->getKey()] = $data;
         return $this;
     }
 
 
     public function fail()
     {
-        throw new EvaluateException("Array index {$this->getValueDescription()} is not found");
+        throw new EvaluateException("Array index {$this->getKeyDescription()} is not found");
     }
 }

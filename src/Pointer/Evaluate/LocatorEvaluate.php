@@ -56,7 +56,7 @@ abstract class LocatorEvaluate
     protected $result;
 
     /**
-     * @var ReferenceAdvanceable|null
+     * @var ReferenceEvaluate|null
      */
     protected $referenceEvaluate;
 
@@ -274,13 +274,13 @@ abstract class LocatorEvaluate
 
 
     /**
-     * @return ReferenceAdvanceable
+     * @return ReferenceEvaluate
      */
     abstract protected function createReferenceEvaluate();
 
 
     /**
-     * @return ReferenceAdvanceable
+     * @return ReferenceEvaluate
      * @throws LogicException
      */
     protected function getReferenceEvaluate()

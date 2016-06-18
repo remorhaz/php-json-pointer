@@ -119,7 +119,7 @@ abstract class Advancer
     }
 
 
-    public function getValue()
+    public function getKey()
     {
         return $this
             ->getCursor()
@@ -128,8 +128,8 @@ abstract class Advancer
     }
 
 
-    public function getValueDescription()
+    public function getKeyDescription()
     {
-        return "'{$this->getValue()}'";
+        return "'{$this->getKey()}'";
     }
 }

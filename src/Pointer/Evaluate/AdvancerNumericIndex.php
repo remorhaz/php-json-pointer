@@ -22,15 +22,15 @@ class AdvancerNumericIndex extends AdvancerIndex
     }
 
 
-    public function getValue()
+    public function getKey()
     {
-        return (int) parent::getValue();
+        return (int) parent::getKey();
     }
 
 
-    public function getValueDescription()
+    public function getKeyDescription()
     {
-        return "{$this->getValue()}";
+        return "{$this->getKey()}";
     }
 
 
@@ -43,7 +43,7 @@ class AdvancerNumericIndex extends AdvancerIndex
             return true;
         }
         return
-            0 == $this->getValue() && empty($this->getCursor()->getData()) ||
-            array_key_exists($this->getValue() - 1, $this->getCursor()->getData());
+            0 == $this->getKey() && empty($this->getCursor()->getData()) ||
+            array_key_exists($this->getKey() - 1, $this->getCursor()->getData());
     }
 }
