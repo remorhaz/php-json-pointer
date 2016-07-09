@@ -53,12 +53,12 @@ $pointer = Pointer::factory()
     ->setData($data)
     ->setText($link);
     
-// Readind value.
+// Reading value.
 echo $pointer->read();  // d
 
-// Writing value
+// Writing value.
 echo $pointer
-    ->write('f')        // Sets $data->a->b[1] to 'f'.
+    ->write('f')        // Sets $data->a->b to ['c', 'f', 'e'].
     ->read();           // f
     
 // Testing value.
@@ -79,5 +79,14 @@ $result = $pointer
 $result = $pointer
     ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
     ->test();           // Sets $result to TRUE.
-echo $pointer->read();  // 2    
+echo $pointer->read();  // 2
+
+// JSON arrays don't allow gaps in indices, but we can enable them:
+// Array ['c', 'f', 'e'] has last index 2, so writing to index 4 will
+// create a gap.
+$link = '/a/b/4';
+$pointer
+    ->setOptions(Pointer::OPTION_NUMERIC_INDEX_GAPS)
+    ->setText($link)
+    ->write('i'); // Sets /a/b to ['c', 'f', 'e', 4 => 'i'].
 ```
