@@ -344,6 +344,72 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @param mixed $value
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
+     */
+    public function testWriteForbiddenNumericIndexGapsThrowsException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        LocatorEvaluatorWrite::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->allowNumericIndexGaps()
+            ->forbidNumericIndexGaps()
+            ->evaluate();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     */
+    public function testWriteForbiddenNumericIndexGapsThrowsEvaluatorException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        LocatorEvaluatorWrite::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->allowNumericIndexGaps()
+            ->forbidNumericIndexGaps()
+            ->evaluate();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
+     * @dataProvider providerDataWithNumericIndexGapsLocator
+     * @expectedException \RuntimeException
+     */
+    public function testWriteForbiddenNumericIndexGapsThrowsSplException($text, $data, $value)
+    {
+        $locator = Parser::factory()
+            ->setText($text)
+            ->getLocator();
+        LocatorEvaluatorWrite::factory()
+            ->setData($data)
+            ->setLocator($locator)
+            ->setValue($value)
+            ->allowNumericIndexGaps()
+            ->forbidNumericIndexGaps()
+            ->evaluate();
+    }
+
+
+    /**
+     * @param string $text
+     * @param mixed $data
+     * @param mixed $value
      * @param mixed $expectedData
      * @dataProvider providerDataWithNumericIndexGapsLocator
      */
