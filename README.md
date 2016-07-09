@@ -81,7 +81,7 @@ $result = $pointer
     ->test();           // Sets $result to TRUE.
 echo $pointer->read();  // 2
 
-// JSON arrays don't allow gaps in indices, but we can enable them:
+// JSON arrays don't allow gaps in indices, but we can enable them.
 // Array ['c', 'f', 'e'] has last index 2, so writing to index 4 will
 // create a gap.
 $link = '/a/b/4';
