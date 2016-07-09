@@ -88,5 +88,5 @@ $link = '/a/b/4';
 $pointer
     ->setOptions(Pointer::OPTION_NUMERIC_INDEX_GAPS)
     ->setText($link)
-    ->write('i'); // Sets /a/b to ['c', 'f', 'e', 4 => 'i'].
+    ->write('i');       // Sets /a/b to ['c', 'f', 'e', 4 => 'i'].
 ```
