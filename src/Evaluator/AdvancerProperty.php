@@ -28,6 +28,16 @@ class AdvancerProperty extends Advancer
     }
 
 
+    public function delete()
+    {
+        $cursorData = $this
+            ->getCursor()
+            ->getData();
+        unset($cursorData->{$this->getKey()});
+        return $this;
+    }
+
+
     public function fail()
     {
         throw new EvaluatorException("Property {$this->getKeyDescription()} is not found");

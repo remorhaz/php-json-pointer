@@ -6,7 +6,7 @@ class ReferenceEvaluatorRead extends ReferenceEvaluator
 {
 
 
-    protected function onCursorAdvanceFail()
+    protected function doAdvanceCursorFail()
     {
         $this
             ->getAdvancer()

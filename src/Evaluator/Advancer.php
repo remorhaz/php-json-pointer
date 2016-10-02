@@ -21,7 +21,7 @@ abstract class Advancer
     /**
      * @return bool
      */
-    abstract protected function canAdvance();
+    abstract public function canAdvance();
 
     /**
      * @param mixed $cursorData
@@ -35,6 +35,12 @@ abstract class Advancer
      * @return $this
      */
     abstract public function write($data);
+
+
+    /**
+     * @return $this
+     */
+    abstract public function delete();
 
 
     /**
@@ -108,23 +114,22 @@ abstract class Advancer
     }
 
 
-    public function advanceIfCan()
+    public function advanceCursor()
     {
         if (null !== $this->isAdvanced) {
             throw new LogicException("Advance is already performed");
         }
-        if ($this->canAdvance()) {
-            $cursorData = &$this
-                ->getCursor()
-                ->getData();
-            $cursorData = &$this->advance($cursorData);
-            $this
-                ->getCursor()
-                ->setData($cursorData);
-            $this->isAdvanced = true;
-            return $this;
+        if (!$this->canAdvance()) {
+            throw new LogicException("Advance cannot be performed");
         }
-        $this->isAdvanced = false;
+        $cursorData = &$this
+            ->getCursor()
+            ->getData();
+        $cursorData = &$this->advance($cursorData);
+        $this
+            ->getCursor()
+            ->setData($cursorData);
+        $this->isAdvanced = true;
         return $this;
     }
 

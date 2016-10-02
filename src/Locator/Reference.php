@@ -40,13 +40,6 @@ class Reference
     private $key;
 
     /**
-     * Flag of last reference in locator.
-     *
-     * @var bool|null
-     */
-    private $isLast;
-
-    /**
      * Sum of token lengths.
      *
      * @var int|null
@@ -61,16 +54,20 @@ class Reference
     private $position;
 
     /**
-     * Reference path (part of JSON Pointer from start to the reference inclusively).
-     *
-     * @var string|null
-     */
-    private $path;
-
-    /**
      * @var string|null
      */
     private $text;
+
+    /**
+     * @var int|null
+     */
+    private $index;
+
+    /**
+     * @var Locator|null
+     */
+    private $locator;
+
 
     /**
      * Constructor.
@@ -166,24 +163,28 @@ class Reference
 
     public function isLast()
     {
-        if (null === $this->isLast) {
-            throw new LogicException("Flag of last reference is not set");
-        }
-        return $this->isLast;
+        return !$this
+            ->getLocator()
+            ->hasReference($this->getIndex() + 1);
     }
 
 
-    public function markAsLast()
+    public function isFirst()
     {
-        $this->isLast = true;
-        return $this;
+        return !$this
+            ->getLocator()
+            ->hasReference($this->getIndex() - 1);
     }
 
 
-    public function markAsNotLast()
+    /**
+     * @return Reference
+     */
+    public function getPrevious()
     {
-        $this->isLast = false;
-        return $this;
+        return $this
+            ->getLocator()
+            ->getReference($this->getIndex() - 1);
     }
 
 
@@ -257,26 +258,12 @@ class Reference
      */
     public function getPath()
     {
-        if (null === $this->path) {
-            throw new LogicException("Reference path is not set");
-        }
-        return $this->path;
-    }
-
-
-    /**
-     * Sets reference path.
-     *
-     * @param string $path
-     * @return $this
-     */
-    public function setPath($path)
-    {
-        if (!is_string($path)) {
-            throw new InvalidArgumentException("Reference path must be a string");
-        }
-        $this->path = $path;
-        return $this;
+        $prefix = $this->isFirst()
+            ? ''
+            : $this
+                ->getPrevious()
+                ->getPath();
+        return "{$prefix}/{$this->getText()}";
     }
 
 
@@ -303,5 +290,58 @@ class Reference
         }
         $this->text = $text;
         return $this;
+    }
+
+
+    /**
+     * @param int $index
+     * @return $this
+     */
+    public function setIndex($index)
+    {
+        if (!is_int($index)) {
+            throw new InvalidArgumentException("Reference index must be an integer");
+        }
+        if ($index < 0) {
+            throw new DomainException("Reference index must be non-negative");
+        }
+        $this->index = $index;
+        return $this;
+
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getIndex()
+    {
+        if (null === $this->index) {
+            throw new LogicException("Reference index is not set");
+        }
+        return $this->index;
+    }
+
+
+    /**
+     * @param Locator $locator
+     * @return $this
+     */
+    public function setLocator(Locator $locator)
+    {
+        $this->locator = $locator;
+        return $this;
+    }
+
+
+    /**
+     * @return Locator
+     */
+    public function getLocator()
+    {
+        if (null === $this->locator) {
+            throw new LogicException("Locator is not set");
+        }
+        return $this->locator;
     }
 }

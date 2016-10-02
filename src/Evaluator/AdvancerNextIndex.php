@@ -28,6 +28,12 @@ class AdvancerNextIndex extends AdvancerIndex
     }
 
 
+    public function delete()
+    {
+        throw new LogicException("Next index can't point at deletable data");
+    }
+
+
     public function getKey()
     {
         throw new LogicException("Next index don't have advanceable key");

@@ -27,7 +27,7 @@ class ReferenceEvaluatorWrite extends ReferenceEvaluator
     }
 
 
-    protected function onCursorAdvanceFail()
+    protected function doAdvanceCursorFail()
     {
         $canWrite = $this
             ->getAdvancer()

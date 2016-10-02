@@ -34,7 +34,7 @@ abstract class ReferenceEvaluator
     }
 
 
-    abstract protected function onCursorAdvanceFail();
+    abstract protected function doAdvanceCursorFail();
 
 
     /**
@@ -63,13 +63,20 @@ abstract class ReferenceEvaluator
      */
     public function evaluate()
     {
-        $isAdvanced = $this
+        $canAdvance = $this
             ->getAdvancer()
-            ->advanceIfCan()
-            ->isAdvanced();
-        if (!$isAdvanced) {
-            $this->onCursorAdvanceFail();
-        }
+            ->canAdvance();
+        return $canAdvance
+            ? $this->doAdvanceCursor()
+            : $this->doAdvanceCursorFail();
+    }
+
+
+    protected function doAdvanceCursor()
+    {
+        $this
+            ->getAdvancer()
+            ->advanceCursor();
         return $this;
     }
 
@@ -77,6 +84,7 @@ abstract class ReferenceEvaluator
     {
         return $this->isResultSet;
     }
+
 
     /**
      * Returns evaluation result.
@@ -91,6 +99,7 @@ abstract class ReferenceEvaluator
         }
         return $this->result;
     }
+
 
     /**
      * Sets evaluation result.

@@ -12,11 +12,6 @@ class Locator
      */
     private $referenceList = [];
 
-    /**
-     * @var Reference|null
-     */
-    private $lastReference;
-
 
     /**
      * Constructor.
@@ -56,17 +51,33 @@ class Locator
      */
     public function addReference(Reference $reference)
     {
-        $this->referenceList[] = $reference;
-        $pathPrefix = null === $this->lastReference
-            ? ''
-            : $this
-                ->lastReference
-                ->markAsNotLast()
-                ->getPath();
-
-        $this->lastReference = $reference
-            ->markAsLast()
-            ->setPath("{$pathPrefix}/{$reference->getText()}");
+        $index = count($this->referenceList);
+        $this->referenceList[$index] = $reference
+            ->setLocator($this)
+            ->setIndex($index);
         return $this;
+    }
+
+
+    /**
+     * @param int $index
+     * @return bool
+     */
+    public function hasReference($index)
+    {
+        return isset($this->referenceList[(int) $index]);
+    }
+
+
+    /**
+     * @param int $index
+     * @return Reference
+     */
+    public function getReference($index)
+    {
+        if (!$this->hasReference($index)) {
+            throw new OutOfBoundsException("Invalid reference index {$index}");
+        }
+        return $this->referenceList[(int) $index];
     }
 }

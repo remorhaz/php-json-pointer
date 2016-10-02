@@ -34,4 +34,10 @@ class AdvancerScalar extends Advancer
     {
         throw new LogicException("Scalar is not writable");
     }
+
+
+    public function delete()
+    {
+        throw new LogicException("Scalar can't contain deletable data");
+    }
 }

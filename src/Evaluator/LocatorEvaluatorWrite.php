@@ -2,9 +2,6 @@
 
 namespace Remorhaz\JSONPointer\Evaluator;
 
-/**
- * @package Remorhaz\JSONPointer\Pointer\Evaluator
- */
 class LocatorEvaluatorWrite extends LocatorEvaluator
 {
 
