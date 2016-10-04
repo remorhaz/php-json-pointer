@@ -107,6 +107,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
                 3,
                 (object) ['a' => 1, 'b' => 2, 'c' => 3],
             ],
+            'rootObjectNewNumericProperty' => [
+                '/1',
+                (object) ['a' => 1, 'b' => 2],
+                3,
+                (object) ['a' => 1, 'b' => 2, 1 => 3],
+            ],
             'nestedObjectExistingProperty' => [
                 '/a/b',
                 (object) [

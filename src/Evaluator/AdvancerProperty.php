@@ -60,17 +60,7 @@ class AdvancerProperty extends Advancer
         $cursorData = &$this
             ->getCursor()
             ->getData();
-        if ($this->isNumericKey($key)) {
-            foreach ($cursorData as $property => &$value) {
-                if ($property === (int) $key) {
-                    $value = $data;
-                    return $this;
-                }
-            }
-            unset($value);
-            throw new EvaluatorException("Failed to write to numeric property {$key} in object");
-        }
-        $cursorData->{$this->getKey()} = $data;
+        $cursorData->{$key} = $data;
         return $this;
     }
 
