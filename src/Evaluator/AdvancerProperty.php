@@ -8,22 +8,69 @@ class AdvancerProperty extends Advancer
 
     public function canAdvance()
     {
-        return property_exists($this->getCursor()->getData(), $this->getKey());
+        $key = $this->getKey();
+        $data = $this
+            ->getCursor()
+            ->getData();
+        if ($this->isNumericKey($key)) {
+            // Numeric properties can be accessed only through iteration in PHP.
+            foreach ($data as $property => $value) {
+                if ($property === (int) $key) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return property_exists($data, $key);
     }
 
 
     protected function &advance(&$cursorData)
     {
-        return $cursorData->{$this->getKey()};
+        $key = $this->getKey();
+        if ($this->isNumericKey($key)) {
+            // Numeric properties can be accessed only through iteration in PHP.
+            foreach ($cursorData as $property => &$value) {
+                if ($property === (int) $key) {
+                    return $value;
+                }
+            }
+            unset($value);
+            throw new EvaluatorException("Failed to advance to numeric property {$key} in object");
+        }
+        return $cursorData->{$key};
+    }
+
+
+    /**
+     * Numeric properties cannot be accessed directrly in PHP, so we should detect them.
+     *
+     * @param string $key
+     * @return bool
+     */
+    protected function isNumericKey($key)
+    {
+        return preg_match('/^-?\d+$/u', $key) === 1;
     }
 
 
     public function write($data)
     {
-        $this
+        $key = $this->getKey();
+        $cursorData = &$this
             ->getCursor()
-            ->getData()
-            ->{$this->getKey()} = $data;
+            ->getData();
+        if ($this->isNumericKey($key)) {
+            foreach ($cursorData as $property => &$value) {
+                if ($property === (int) $key) {
+                    $value = $data;
+                    return $this;
+                }
+            }
+            unset($value);
+            throw new EvaluatorException("Failed to write to numeric property {$key} in object");
+        }
+        $cursorData->{$this->getKey()} = $data;
         return $this;
     }
 

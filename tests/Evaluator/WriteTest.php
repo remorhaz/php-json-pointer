@@ -89,6 +89,18 @@ class WriteTest extends \PHPUnit_Framework_TestCase
                 3,
                 (object) ['a' => 3, 'b' => 2],
             ],
+            'rootObjectExistingNumericProperty' => [
+                '/0',
+                (object) [0 => 2, 'b' => 3],
+                4,
+                (object) [0 => 4, 'b' => 3],
+            ],
+            'rootObjectExistingNegativeNumericProperty' => [
+                '/-1',
+                (object) [-1 => 2, 'b' => 3],
+                4,
+                (object) [-1 => 4, 'b' => 3],
+            ],
             'rootObjectNewProperty' => [
                 '/c',
                 (object) ['a' => 1, 'b' => 2],

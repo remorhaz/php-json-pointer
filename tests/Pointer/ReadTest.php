@@ -38,6 +38,20 @@ class ReadTest extends \PHPUnit_Framework_TestCase
                 3,
                 (object) ['a' => 3, 'b' => 2],
             ],
+            'rootNumericProperty' => [
+                '/1',
+                (object) [1 => 2, 'b' => 3],
+                2,
+                4,
+                (object) [1 => 4, 'b' => 3],
+            ],
+            'rootNegativeNumericProperty' => [
+                '/-1',
+                (object) [-1 => 2, 'b' => 3],
+                2,
+                4,
+                (object) [-1 => 4, 'b' => 3],
+            ],
             'nestedProperty' => [
                 '/a/b',
                 (object) ['a' => (object) ['b' => 1], 'c' => 2],
