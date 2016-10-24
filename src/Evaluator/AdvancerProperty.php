@@ -70,7 +70,9 @@ class AdvancerProperty extends Advancer
         $cursorData = $this
             ->getCursor()
             ->getData();
-        unset($cursorData->{$this->getKey()});
+        $key = $this->getKey();
+        $unsetKey = $this->isNumericKey($key) ? (int) $key : $key;
+        unset($cursorData->{$unsetKey});
         return $this;
     }
 

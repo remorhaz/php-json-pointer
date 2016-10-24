@@ -32,6 +32,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'rootProperty' => ['/a', (object) ['a' => 1, 'b' => 2], (object) ['b' => 2]],
+            //'rootNumericProperty' => ['/0', (object) [0 => 1, 'b' => 2], (object) ['b' => 2]],
             'nestedProperty' => [
                 '/a/b',
                 (object) ['a' => (object) ['b' => 1, 'c' => 2], 'd' => 3],
