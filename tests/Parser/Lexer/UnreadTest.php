@@ -44,7 +44,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerTokenAmountAndText
      */
-    public function testUnreadingAllReadTokensNoException($tokenAmount, $text)
+    public function testUnreadingAllReadTokensNoException(int $tokenAmount, string $text)
     {
         $lexer = Lexer::factory()->setText($text);
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -62,7 +62,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTokenAmountAndText
      * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
-    public function testUnreadingMoreTokensThanWasReadThrowsException($tokenAmount, $text)
+    public function testUnreadingMoreTokensThanWasReadThrowsException(int $tokenAmount, string $text)
     {
         $lexer = Lexer::factory()->setText($text);
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -80,7 +80,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTokenAmountAndText
      * @expectedException \LogicException
      */
-    public function testUnreadingMoreTokensThanWasReadThrowsSplException($tokenAmount, $text)
+    public function testUnreadingMoreTokensThanWasReadThrowsSplException(int $tokenAmount, string $text)
     {
         $lexer = Lexer::factory()->setText($text);
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -97,7 +97,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerTokenAmountAndText
      */
-    public function testNoEndAfterUnreadingLastToken($tokenAmount, $text)
+    public function testNoEndAfterUnreadingLastToken(int $tokenAmount, string $text)
     {
         $lexer = Lexer::factory()->setText($text);
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -108,7 +108,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerTokenAmountAndText()
+    public function providerTokenAmountAndText(): array
     {
         return [
             'singleToken' => [1, '/'],

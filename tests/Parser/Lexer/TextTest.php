@@ -51,7 +51,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerBrokenUnicodeText
      * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
-    public function testSettingBrokenUnicodeTextThrowsException($text)
+    public function testSettingBrokenUnicodeTextThrowsException(string $text)
     {
         Lexer::factory()->setText($text);
     }
@@ -62,13 +62,13 @@ class TextTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerBrokenUnicodeText
      * @expectedException \RuntimeException
      */
-    public function testSettingBrokenUnicodeTextThrowsSplException($text)
+    public function testSettingBrokenUnicodeTextThrowsSplException(string $text)
     {
         Lexer::factory()->setText($text);
     }
 
 
-    public function providerBrokenUnicodeText()
+    public function providerBrokenUnicodeText(): array
     {
         return [
             'singleBrokenUnicode' => [substr('日', -1, 1)],

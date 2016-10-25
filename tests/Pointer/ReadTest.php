@@ -16,7 +16,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerExistingData
      */
-    public function testReadExistingDataByRef($text, $data, $result, $value, $modifiedData)
+    public function testReadExistingDataByRef(string $text, $data, $result, $value, $modifiedData)
     {
         $pointer = Pointer::factory()
             ->setText($text)
@@ -28,7 +28,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerExistingData()
+    public function providerExistingData(): array
     {
         return [
             'rootProperty' => [
@@ -80,7 +80,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testReadNonExistingDataThrowsEvaluatorException($text, $data)
+    public function testReadNonExistingDataThrowsEvaluatorException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -95,7 +95,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingData
      * @expectedException \RuntimeException
      */
-    public function testReadNonExistingDataThrowsSplException($text, $data)
+    public function testReadNonExistingDataThrowsSplException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -104,7 +104,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerNonExistingData()
+    public function providerNonExistingData(): array
     {
         return [
             'nonExistingRootProperty' => ['/a', (object) ['b' => 1]],
@@ -123,7 +123,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerInvalidData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testReadInvalidDataThrowsEvaluatorException($text, $data)
+    public function testReadInvalidDataThrowsEvaluatorException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -138,7 +138,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerInvalidData
      * @expectedException \RuntimeException
      */
-    public function testReadInvalidDataThrowsSplException($text, $data)
+    public function testReadInvalidDataThrowsSplException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -147,7 +147,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerInvalidData()
+    public function providerInvalidData(): array
     {
         return [
             'rootArrayProperty' => ['/a', []],
@@ -164,7 +164,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingNonNumericIndicesData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException($text, $data)
+    public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -179,7 +179,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingNonNumericIndicesData
      * @expectedException \RuntimeException
      */
-    public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsSplException($text, $data)
+    public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -194,7 +194,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingNonNumericIndicesData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testReadNonExistingAllowedNonNumericIndicesDataThrowsEvaluatorException($text, $data)
+    public function testReadNonExistingAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
         Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -210,7 +210,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingNonNumericIndicesData
      * @expectedException \RuntimeException
      */
-    public function testReadNonExistingAllowedNonNumericIndicesDataThrowsSplException($text, $data)
+    public function testReadNonExistingAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
         Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -220,7 +220,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerNonExistingNonNumericIndicesData()
+    public function providerNonExistingNonNumericIndicesData(): array
     {
         return [
             'nonExistingRootNonNumericIndex' => ['/a', [1]],
@@ -235,7 +235,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerExistingNonNumericIndicesData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testReadExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException($text, $data)
+    public function testReadExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -250,7 +250,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerExistingNonNumericIndicesData
      * @expectedException \RuntimeException
      */
-    public function testReadExistingNotAllowedNonNumericIndicesDataThrowsSplException($text, $data)
+    public function testReadExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
         Pointer::factory()
             ->setText($text)
@@ -267,7 +267,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerExistingNonNumericIndicesData
      */
-    public function testReadExistingAllowedNonNumericIndicesData($text, $data, $result, $value, $modifiedData)
+    public function testReadExistingAllowedNonNumericIndicesData(string $text, $data, $result, $value, $modifiedData)
     {
         $pointer = Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -280,7 +280,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerExistingNonNumericIndicesData()
+    public function providerExistingNonNumericIndicesData(): array
     {
         return [
             'rootNonNumericIndex' => ["/a", ['a' => 1], 1, 2, ['a' => 2]],

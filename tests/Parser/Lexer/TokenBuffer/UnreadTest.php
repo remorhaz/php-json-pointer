@@ -13,7 +13,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
      */
-    public function testUnreadingAllReadTokensNoException($tokenAmount)
+    public function testUnreadingAllReadTokensNoException(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -34,7 +34,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTokenAmount
      * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
-    public function testUnreadingMoreTokensThanWasReadThrowsException($tokenAmount)
+    public function testUnreadingMoreTokensThanWasReadThrowsException(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -55,7 +55,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTokenAmount
      * @expectedException \LogicException
      */
-    public function testUnreadingMoreTokensThanWasReadThrowsSplException($tokenAmount)
+    public function testUnreadingMoreTokensThanWasReadThrowsSplException(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -75,7 +75,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
      */
-    public function testNoEndAfterUnreadingLastToken($tokenAmount)
+    public function testNoEndAfterUnreadingLastToken(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -90,7 +90,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerTokenAmount()
+    public function providerTokenAmount(): array
     {
         return [
             'singleToken' => [1],
@@ -99,8 +99,6 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    /**
-     */
     public function testReadingSameTokenAfterUnreading()
     {
         $buffer = TokenBuffer::factory();

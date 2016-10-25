@@ -15,7 +15,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerExistingData
      */
-    public function testWriteExistingData($text, $data, $value, $modifiedData)
+    public function testWriteExistingData(string $text, $data, $value, $modifiedData)
     {
         Pointer::factory()
             ->setText($text)
@@ -25,7 +25,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerExistingData()
+    public function providerExistingData(): array
     {
         return [
             'rootProperty' => [
@@ -73,7 +73,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerNonExistingData
      */
-    public function testWriteNonExistingData($text, $data, $value, $modifiedData)
+    public function testWriteNonExistingData(string $text, $data, $value, $modifiedData)
     {
         Pointer::factory()
             ->setText($text)
@@ -83,7 +83,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerNonExistingData()
+    public function providerNonExistingData(): array
     {
         return [
             'nonExistingRootProperty' => [
@@ -117,7 +117,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerInvalidData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testWriteInvalidDataThrowsEvaluatorException($text, $data)
+    public function testWriteInvalidDataThrowsEvaluatorException(string $text, $data)
     {
         $value = 1;
         Pointer::factory()
@@ -127,7 +127,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerInvalidData()
+    public function providerInvalidData(): array
     {
         return [
             'rootArrayProperty' => ['/a', []],
@@ -145,8 +145,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingNonNumericIndicesData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testWriteNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException($text, $data, $value)
-    {
+    public function testWriteNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(
+        string $text,
+        $data,
+        $value
+    ) {
         Pointer::factory()
             ->setText($text)
             ->setData($data)
@@ -161,7 +164,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerNonExistingNonNumericIndicesData
      * @expectedException \RuntimeException
      */
-    public function testWriteNonExistingNotAllowedNonNumericIndicesDataThrowsSplException($text, $data, $value)
+    public function testWriteNonExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data, $value)
     {
         Pointer::factory()
             ->setText($text)
@@ -177,7 +180,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerNonExistingNonNumericIndicesData
      */
-    public function testWriteNonExistingAllowedNonNumericIndicesData($text, $data, $value, $modifiedData)
+    public function testWriteNonExistingAllowedNonNumericIndicesData(string $text, $data, $value, $modifiedData)
     {
         Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -188,7 +191,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerNonExistingNonNumericIndicesData()
+    public function providerNonExistingNonNumericIndicesData(): array
     {
         return [
             'nonExistingRootNonNumericIndex' => ['/a', [1], 2, [1, 'a' => 2]],
@@ -204,8 +207,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerExistingNonNumericIndicesData
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testWriteExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException($text, $data, $value)
-    {
+    public function testWriteExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(
+        string $text,
+        $data,
+        $value
+    ) {
         Pointer::factory()
             ->setText($text)
             ->setData($data)
@@ -220,7 +226,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerExistingNonNumericIndicesData
      * @expectedException \RuntimeException
      */
-    public function testWriteExistingNotAllowedNonNumericIndicesDataThrowsSplException($text, $data, $value)
+    public function testWriteExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data, $value)
     {
         Pointer::factory()
             ->setText($text)
@@ -236,7 +242,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerExistingNonNumericIndicesData
      */
-    public function testWriteExistingAllowedNonNumericIndicesData($text, $data, $value, $modifiedData)
+    public function testWriteExistingAllowedNonNumericIndicesData(string $text, $data, $value, $modifiedData)
     {
         Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -247,7 +253,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerExistingNonNumericIndicesData()
+    public function providerExistingNonNumericIndicesData(): array
     {
         return [
             'existingRootNonNumericIndex' => ['/a', [1, 'a' => 2], 3, [1, 'a' => 3]],

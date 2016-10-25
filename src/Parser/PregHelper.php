@@ -10,7 +10,7 @@ abstract class PregHelper
 {
 
 
-    public static function assertValidUTF8($text, $exceptionClass, $message)
+    public static function assertValidUTF8(string $text, string $exceptionClass, string $message)
     {
         $result = preg_match('#^.*$#su', $text);
         PregHelper::assertMatchResult(
@@ -21,7 +21,7 @@ abstract class PregHelper
     }
 
 
-    public static function assertMatchResult($result, $exceptionClass, $message)
+    public static function assertMatchResult($result, string $exceptionClass, string $message)
     {
         if (false !== $result) {
             return; // No error.
@@ -32,11 +32,10 @@ abstract class PregHelper
             "{$message}: {$errorMessage}",
             $errorCode
         );
-
     }
 
 
-    private static function buildPregErrorMessage($errorCode)
+    private static function buildPregErrorMessage(int $errorCode): string
     {
         $errorNameList = [
             'PREG_NO_ERROR',

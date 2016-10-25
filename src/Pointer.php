@@ -94,10 +94,10 @@ class Pointer
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
-        if ($this->text !== (string) $text) {
-            $this->text = (string) $text;
+        if ($this->text !== $text) {
+            $this->text = $text;
             $this->locator = null;
         }
         return $this;
@@ -110,7 +110,7 @@ class Pointer
      * @return string
      * @throws LogicException
      */
-    public function getText()
+    public function getText(): string
     {
         if (null === $this->text) {
             throw new LogicException("JSON Pointer text is not set");
@@ -136,7 +136,7 @@ class Pointer
     }
 
 
-    public function test()
+    public function test(): bool
     {
         $pointer = LocatorEvaluatorTest::factory()
             ->setLocator($this->getLocator())
@@ -181,14 +181,14 @@ class Pointer
     }
 
 
-    public function setOptions($options)
+    public function setOptions(int $options)
     {
-        $this->options = (int) $options;
+        $this->options = $options;
         return $this;
     }
 
 
-    protected function hasOption($option)
+    protected function hasOption(int $option)
     {
         return $option == ($option & $this->options);
     }
@@ -199,7 +199,7 @@ class Pointer
      *
      * @return Parser
      */
-    protected function getParser()
+    protected function getParser(): Parser
     {
         if (null === $this->parser) {
             $this->parser = Parser::factory();
@@ -213,7 +213,7 @@ class Pointer
      *
      * @return Locator
      */
-    protected function getLocator()
+    protected function getLocator(): Locator
     {
         if (null === $this->locator) {
             $this->locator = $this

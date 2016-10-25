@@ -6,7 +6,7 @@ class AdvancerScalar extends Advancer
 {
 
 
-    public function canAdvance()
+    public function canAdvance(): bool
     {
         return false;
     }
@@ -18,7 +18,7 @@ class AdvancerScalar extends Advancer
     }
 
 
-    public function canWrite()
+    public function canWrite(): bool
     {
         return false;
     }

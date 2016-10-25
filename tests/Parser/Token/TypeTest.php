@@ -55,24 +55,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
-     */
-    public function testSettingNonIntegerTypeThrowsException()
-    {
-        Token::factory()->setType((string) Token::TYPE_SLASH);
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSettingNonIntegerTypeThrowsSplException()
-    {
-        Token::factory()->setType((string) Token::TYPE_SLASH);
-    }
-
-
-    /**
      */
     public function testIsErrorAfterSettingErrorType()
     {

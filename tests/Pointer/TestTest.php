@@ -12,7 +12,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerExistingData
      */
-    public function testExistingData($text, $data)
+    public function testExistingData(string $text, $data)
     {
         $pointer = Pointer::factory()
             ->setText($text)
@@ -21,7 +21,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerExistingData()
+    public function providerExistingData(): array
     {
         return [
             'rootProperty' => ['/a', (object) ['a' => 1, 'b' => 2]],
@@ -43,7 +43,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerNonExistingData
      */
-    public function testTestNonExistingData($text, $data)
+    public function testTestNonExistingData(string $text, $data)
     {
         $result = Pointer::factory()
             ->setText($text)
@@ -53,7 +53,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerNonExistingData()
+    public function providerNonExistingData(): array
     {
         return [
             'nonExistingRootProperty' => ['/a', (object) ['b' => 1]],
@@ -71,7 +71,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerInvalidData
      */
-    public function testTestInvalidData($text, $data)
+    public function testTestInvalidData(string $text, $data)
     {
         $result = Pointer::factory()
             ->setText($text)
@@ -81,7 +81,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerInvalidData()
+    public function providerInvalidData(): array
     {
         return [
             'rootArrayProperty' => ['/a', []],
@@ -97,7 +97,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerNonExistingNonNumericIndicesData
      */
-    public function testTestNonExistingNonAllowedNonNumericIndices($text, $data)
+    public function testTestNonExistingNonAllowedNonNumericIndices(string $text, $data)
     {
         $result = Pointer::factory()
             ->setText($text)
@@ -112,7 +112,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerNonExistingNonNumericIndicesData
      */
-    public function testTestNonExistingAllowedNonNumericIndices($text, $data)
+    public function testTestNonExistingAllowedNonNumericIndices(string $text, $data)
     {
         $result = Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -123,7 +123,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerNonExistingNonNumericIndicesData()
+    public function providerNonExistingNonNumericIndicesData(): array
     {
         return [
             'nonExistingRootNonNumericIndex' => ['/a', [1]],
@@ -137,7 +137,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerExistingNonNumericIndicesData
      */
-    public function testTestExistingAllowedNonNumericIndices($text, $data)
+    public function testTestExistingAllowedNonNumericIndices(string $text, $data)
     {
         $result = Pointer::factory()
             ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
@@ -153,7 +153,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @dataProvider providerExistingNonNumericIndicesData
      */
-    public function testTestExistingNotAllowedNonNumericIndices($text, $data)
+    public function testTestExistingNotAllowedNonNumericIndices(string $text, $data)
     {
         $result = Pointer::factory()
             ->setText($text)
@@ -163,7 +163,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerExistingNonNumericIndicesData()
+    public function providerExistingNonNumericIndicesData(): array
     {
         return [
             'rootNonNumericIndex' => ['/a', ['a' => 1]],

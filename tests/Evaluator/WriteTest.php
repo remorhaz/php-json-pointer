@@ -15,7 +15,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSingleDataWithValidLocator
      * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
-    public function testPerformWithNoValueSetThrowsException($text, $data)
+    public function testPerformWithNoValueSetThrowsException(string $text, $data)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -33,7 +33,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSingleDataWithValidLocator
      * @expectedException \LogicException
      */
-    public function testPerformWithNoValueSetThrowsSplException($text, $data)
+    public function testPerformWithNoValueSetThrowsSplException(string $text, $data)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -45,7 +45,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerSingleDataWithValidLocator()
+    public function providerSingleDataWithValidLocator(): array
     {
         return [
             [
@@ -65,7 +65,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expectedData
      * @dataProvider providerDataWithValidLocator
      */
-    public function testWriteDataWithValidLocator($text, $data, $value, $expectedData)
+    public function testWriteDataWithValidLocator(string $text, $data, $value, $expectedData)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -79,7 +79,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerDataWithValidLocator()
+    public function providerDataWithValidLocator(): array
     {
         return [
             'rootScalar' => ['', 1, 2, 2],
@@ -180,7 +180,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNonNumericIndexLocator
      * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
-    public function testAccessNonNumericIndexThrowsException($text, $data, $value)
+    public function testAccessNonNumericIndexThrowsException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -200,7 +200,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNonNumericIndexLocator
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testAccessNonNumericIndexThrowsEvaluatorException($text, $data, $value)
+    public function testAccessNonNumericIndexThrowsEvaluatorException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -220,7 +220,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNonNumericIndexLocator
      * @expectedException \RuntimeException
      */
-    public function testAccessNonNumericIndexThrowsSplException($text, $data, $value)
+    public function testAccessNonNumericIndexThrowsSplException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -240,7 +240,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expectedData
      * @dataProvider providerDataWithNonNumericIndexLocator
      */
-    public function testWriteAllowedNonNumericIndex($text, $data, $value, $expectedData)
+    public function testWriteAllowedNonNumericIndex(string $text, $data, $value, $expectedData)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -255,7 +255,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerDataWithNonNumericIndexLocator()
+    public function providerDataWithNonNumericIndexLocator(): array
     {
         return [
             'rootEmptyArray' => [
@@ -305,7 +305,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
-    public function testWriteNumericIndexGapsThrowsException($text, $data, $value)
+    public function testWriteNumericIndexGapsThrowsException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -325,7 +325,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testWriteNumericIndexGapsThrowsEvaluatorException($text, $data, $value)
+    public function testWriteNumericIndexGapsThrowsEvaluatorException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -345,7 +345,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \RuntimeException
      */
-    public function testWriteNumericIndexGapsThrowsSplException($text, $data, $value)
+    public function testWriteNumericIndexGapsThrowsSplException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -365,7 +365,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \Remorhaz\JSONPointer\Evaluator\Exception
      */
-    public function testWriteForbiddenNumericIndexGapsThrowsException($text, $data, $value)
+    public function testWriteForbiddenNumericIndexGapsThrowsException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -387,7 +387,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \Remorhaz\JSONPointer\EvaluatorException
      */
-    public function testWriteForbiddenNumericIndexGapsThrowsEvaluatorException($text, $data, $value)
+    public function testWriteForbiddenNumericIndexGapsThrowsEvaluatorException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -409,7 +409,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerDataWithNumericIndexGapsLocator
      * @expectedException \RuntimeException
      */
-    public function testWriteForbiddenNumericIndexGapsThrowsSplException($text, $data, $value)
+    public function testWriteForbiddenNumericIndexGapsThrowsSplException(string $text, $data, $value)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -431,7 +431,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expectedData
      * @dataProvider providerDataWithNumericIndexGapsLocator
      */
-    public function testWriteAllowedNumericIndexGaps($text, $data, $value, $expectedData)
+    public function testWriteAllowedNumericIndexGaps(string $text, $data, $value, $expectedData)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -446,7 +446,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerDataWithNumericIndexGapsLocator()
+    public function providerDataWithNumericIndexGapsLocator(): array
     {
         return [
             'rootEmptyArray' => [

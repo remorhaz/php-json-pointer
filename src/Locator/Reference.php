@@ -94,7 +94,7 @@ class Reference
      * @return int
      * @throws LogicException
      */
-    public function getType()
+    public function getType(): int
     {
         if (null === $this->type) {
             throw new LogicException("Reference type is not set");
@@ -109,13 +109,9 @@ class Reference
      * @param int $type
      * @return $this
      * @throws DomainException
-     * @throws InvalidArgumentException
      */
-    public function setType($type)
+    public function setType(int $type)
     {
-        if (!is_int($type)) {
-            throw new InvalidArgumentException("Reference type must be an integer");
-        }
         $typeList = [
             self::TYPE_INDEX,
             self::TYPE_NEXT_INDEX,
@@ -147,21 +143,17 @@ class Reference
     /**
      * Sets reference value.
      *
-     * @param string|int $key
+     * @param string $key
      * @return $this
-     * @throws InvalidArgumentException
      */
-    public function setKey($key)
+    public function setKey(string $key)
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException("Reference key must be string");
-        }
         $this->key = $key;
         return $this;
     }
 
 
-    public function isLast()
+    public function isLast(): bool
     {
         return !$this
             ->getLocator()
@@ -169,7 +161,7 @@ class Reference
     }
 
 
-    public function isFirst()
+    public function isFirst(): bool
     {
         return !$this
             ->getLocator()
@@ -180,7 +172,7 @@ class Reference
     /**
      * @return Reference
      */
-    public function getPrevious()
+    public function getPrevious(): Reference
     {
         return $this
             ->getLocator()
@@ -192,7 +184,7 @@ class Reference
      * @return int
      * @throws LogicException
      */
-    public function getLength()
+    public function getLength(): int
     {
         if (null === $this->length) {
             throw new LogicException("Reference length is not set");
@@ -205,11 +197,8 @@ class Reference
      * @param int $length
      * @return $this
      */
-    public function setLength($length)
+    public function setLength(int $length)
     {
-        if (!is_int($length)) {
-            throw new InvalidArgumentException("Reference length must be an integer");
-        }
         if ($length < 0) {
             throw new DomainException("Reference length must be positive");
         }
@@ -223,7 +212,7 @@ class Reference
      *
      * @return int
      */
-    public function getPosition()
+    public function getPosition(): int
     {
         if (null === $this->position) {
             throw new LogicException("Reference position is not set");
@@ -238,11 +227,8 @@ class Reference
      * @param int $position
      * @return $this
      */
-    public function setPosition($position)
+    public function setPosition(int $position)
     {
-        if (!is_int($position)) {
-            throw new InvalidArgumentException("Reference position must be an integer");
-        }
         if ($position < 0) {
             throw new DomainException("Reference position must be non-negative");
         }
@@ -256,7 +242,7 @@ class Reference
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         $prefix = $this->isFirst()
             ? ''
@@ -270,7 +256,7 @@ class Reference
     /**
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         if (null === $this->text) {
             throw new LogicException("Reference text is not set");
@@ -283,11 +269,8 @@ class Reference
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
-        if (!is_string($text)) {
-            throw new InvalidArgumentException("Reference text must be a string");
-        }
         $this->text = $text;
         return $this;
     }
@@ -297,11 +280,8 @@ class Reference
      * @param int $index
      * @return $this
      */
-    public function setIndex($index)
+    public function setIndex(int $index)
     {
-        if (!is_int($index)) {
-            throw new InvalidArgumentException("Reference index must be an integer");
-        }
         if ($index < 0) {
             throw new DomainException("Reference index must be non-negative");
         }
@@ -314,7 +294,7 @@ class Reference
     /**
      * @return int
      */
-    public function getIndex()
+    public function getIndex(): int
     {
         if (null === $this->index) {
             throw new LogicException("Reference index is not set");
@@ -337,7 +317,7 @@ class Reference
     /**
      * @return Locator
      */
-    public function getLocator()
+    public function getLocator(): Locator
     {
         if (null === $this->locator) {
             throw new LogicException("Locator is not set");

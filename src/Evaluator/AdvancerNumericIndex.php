@@ -28,13 +28,13 @@ class AdvancerNumericIndex extends AdvancerIndex
     }
 
 
-    public function getKeyDescription()
+    public function getKeyDescription(): string
     {
         return "{$this->getKey()}";
     }
 
 
-    public function canWrite()
+    public function canWrite(): bool
     {
         if (!parent::canWrite()) {
             return false;

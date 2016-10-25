@@ -50,7 +50,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerTokenAmountAndText
      */
-    public function testIsEndAfterReadingAllTokensFromBuffer($tokenAmount, $text)
+    public function testIsEndAfterReadingAllTokensFromBuffer(int $tokenAmount, string $text)
     {
         $lexer = Lexer::factory()->setText($text);
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -60,7 +60,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerTokenAmountAndText()
+    public function providerTokenAmountAndText(): array
     {
         return [
             'singleToken' => [1, '/'],
@@ -75,7 +75,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenType
      * @dataProvider providerSingleToken
      */
-    public function testReadingLastToken($sourceText, $tokenText, $tokenType)
+    public function testReadingLastToken(string $sourceText, string $tokenText, int $tokenType)
     {
         $token = Lexer::factory()
             ->setText($sourceText)
@@ -85,7 +85,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerSingleToken()
+    public function providerSingleToken(): array
     {
         return [
             'singleSlash' => ['/', '/', Token::TYPE_SLASH],
@@ -103,7 +103,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenType
      * @dataProvider providerMultipleTokens
      */
-    public function testReadingNotLastToken($sourceText, $tokenText, $tokenType)
+    public function testReadingNotLastToken(string $sourceText, string $tokenText, int $tokenType)
     {
         $token = Lexer::factory()
             ->setText($sourceText)
@@ -113,7 +113,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerMultipleTokens()
+    public function providerMultipleTokens(): array
     {
         return [
             'startsFromSlash' => ['/abc', '/', Token::TYPE_SLASH],
@@ -130,7 +130,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerInvalidText
      * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
      */
-    public function testReadingInvalidTextThrowsException($sourceText)
+    public function testReadingInvalidTextThrowsException(string $sourceText)
     {
         Lexer::factory()
             ->setText($sourceText)
@@ -144,7 +144,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Remorhaz\JSONPointer\SyntaxException
      * @expectedExceptionMessageRegExp / at position #\d+/
      */
-    public function testReadingInvalidTextThrowsSyntaxException($sourceText)
+    public function testReadingInvalidTextThrowsSyntaxException(string $sourceText)
     {
         Lexer::factory()
             ->setText($sourceText)
@@ -157,7 +157,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerInvalidText
      * @expectedException \RuntimeException
      */
-    public function testReadingInvalidTextThrowsSplException($sourceText)
+    public function testReadingInvalidTextThrowsSplException(string $sourceText)
     {
         Lexer::factory()
             ->setText($sourceText)
@@ -165,7 +165,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerInvalidText()
+    public function providerInvalidText(): array
     {
         return [
             'invalidEscapedToken' => ['~2'],

@@ -22,7 +22,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
      */
-    public function testReadTokenIsFirstAdded($tokenAmount)
+    public function testReadTokenIsFirstAdded(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         $firstToken = null;
@@ -45,7 +45,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
      */
-    public function testIsEndAfterReadingAllTokensFromBuffer($tokenAmount)
+    public function testIsEndAfterReadingAllTokensFromBuffer(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -59,7 +59,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerTokenAmount()
+    public function providerTokenAmount(): array
     {
         return [
             'singleToken' => [1],

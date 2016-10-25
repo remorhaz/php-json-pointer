@@ -32,7 +32,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @param array $referenceList
      * @dataProvider providerReferenceList
      */
-    public function testLocatorReferenceList($text, array $referenceList)
+    public function testLocatorReferenceList(string $text, array $referenceList)
     {
         $parser = Parser::factory()->setText($text);
         $actualReferenceList = $parser->getLocator()->getReferenceList();
@@ -45,7 +45,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerReferenceList()
+    public function providerReferenceList(): array
     {
         return [
             'noReferences' => ['', []],
@@ -151,7 +151,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSyntaxError
      * @expectedException \Remorhaz\JSONPointer\Parser\Exception
      */
-    public function testSyntaxErrorThrowsException($text)
+    public function testSyntaxErrorThrowsException(string $text)
     {
         Parser::factory()
             ->setText($text)
@@ -165,7 +165,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Remorhaz\JSONPointer\SyntaxException
      * @expectedExceptionMessageRegExp / at position #\d+/
      */
-    public function testSyntaxErrorThrowsSyntaxException($text)
+    public function testSyntaxErrorThrowsSyntaxException(string $text)
     {
         Parser::factory()
             ->setText($text)
@@ -178,7 +178,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSyntaxError
      * @expectedException \RuntimeException
      */
-    public function testSyntaxErrorThrowsSplException($text)
+    public function testSyntaxErrorThrowsSplException(string $text)
     {
         Parser::factory()
             ->setText($text)
@@ -186,7 +186,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerSyntaxError()
+    public function providerSyntaxError(): array
     {
         return [
             'noStartingSlash' => ['abc'],
@@ -201,7 +201,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @param int $type
      * @dataProvider providerReferenceTypeDetection
      */
-    public function testReferenceTypeDetection($text, $type)
+    public function testReferenceTypeDetection(string $text, int $type)
     {
         $referenceList = Parser::factory()
             ->setText($text)
@@ -213,7 +213,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerReferenceTypeDetection()
+    public function providerReferenceTypeDetection(): array
     {
         return [
             'text' => ['/abc', Reference::TYPE_PROPERTY],

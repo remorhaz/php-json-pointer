@@ -6,7 +6,7 @@ class AdvancerProperty extends Advancer
 {
 
 
-    public function canAdvance()
+    public function canAdvance(): bool
     {
         $key = $this->getKey();
         $data = $this
@@ -48,7 +48,7 @@ class AdvancerProperty extends Advancer
      * @param string $key
      * @return bool
      */
-    protected function isNumericKey($key)
+    protected function isNumericKey($key): bool
     {
         return preg_match('/^-?\d+$/u', $key) === 1;
     }

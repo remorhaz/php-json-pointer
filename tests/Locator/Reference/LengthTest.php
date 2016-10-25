@@ -30,14 +30,14 @@ class LengthTest extends \PHPUnit_Framework_TestCase
      * @param int $length
      * @dataProvider providerValidLength
      */
-    public function testGotLengthSameAsSet($length)
+    public function testGotLengthSameAsSet(int $length)
     {
         $reference = Reference::factory()->setLength($length);
         $this->assertEquals($length, $reference->getLength(), "Got length differs from set one");
     }
 
 
-    public function providerValidLength()
+    public function providerValidLength(): array
     {
         return [
             'zeroLength' => [0],
@@ -62,23 +62,5 @@ class LengthTest extends \PHPUnit_Framework_TestCase
     public function testSetNegativeLengthThrowsSplException()
     {
         Reference::factory()->setLength(-1);
-    }
-
-
-    /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
-     */
-    public function testSetNonIntegerLengthThrowsException()
-    {
-        Reference::factory()->setLength("5");
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetNonIntegerLengthThrowsSplException()
-    {
-        Reference::factory()->setLength("5");
     }
 }

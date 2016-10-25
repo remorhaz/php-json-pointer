@@ -37,22 +37,4 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         $reference = Reference::factory()->setKey($value);
         $this->assertEquals($value, $reference->getKey(), "Got value differs from the one that was set");
     }
-
-
-    /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
-     */
-    public function testSettingNotStringValueThrowsException()
-    {
-        Reference::factory()->setKey(1);
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSettingNotStringValueThrowsSplException()
-    {
-        Reference::factory()->setKey(1);
-    }
 }

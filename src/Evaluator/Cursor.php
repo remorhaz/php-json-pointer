@@ -51,7 +51,7 @@ class Cursor
     /**
      * @return Reference
      */
-    public function getReference()
+    public function getReference(): Reference
     {
         if (null === $this->reference) {
             throw new LogicException("Reference is not set in cursor");

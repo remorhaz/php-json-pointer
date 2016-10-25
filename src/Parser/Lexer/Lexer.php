@@ -48,7 +48,7 @@ class Lexer
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this
             ->getScanner()
@@ -63,7 +63,7 @@ class Lexer
      *
      * @return bool
      */
-    public function isEnd()
+    public function isEnd(): bool
     {
         return $this->getBuffer()->isEnd() && $this->getScanner()->isEnd();
     }
@@ -75,7 +75,7 @@ class Lexer
      * @return Token
      * @throws UnknownSyntaxException
      */
-    public function readToken()
+    public function readToken(): Token
     {
         if ($this->getBuffer()->isEnd()) {
             try {
@@ -119,7 +119,7 @@ class Lexer
      *
      * @return Scanner
      */
-    protected function getScanner()
+    protected function getScanner(): Scanner
     {
         if (null === $this->scanner) {
             $this->scanner = Scanner::factory();
@@ -133,7 +133,7 @@ class Lexer
      *
      * @return TokenBuffer
      */
-    protected function getBuffer()
+    protected function getBuffer(): TokenBuffer
     {
         if (null === $this->buffer) {
             $this->buffer = TokenBuffer::factory();
@@ -147,7 +147,7 @@ class Lexer
      *
      * @return int
      */
-    protected function getNextPosition()
+    protected function getNextPosition(): int
     {
         return $this
             ->getBuffer()

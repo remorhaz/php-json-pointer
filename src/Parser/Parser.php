@@ -77,7 +77,7 @@ class Parser
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this
             ->getLexer()
@@ -92,7 +92,7 @@ class Parser
      *
      * @return Locator
      */
-    public function getLocator()
+    public function getLocator(): Locator
     {
         if (null === $this->locator) {
             $this->buildLocator();
@@ -146,7 +146,7 @@ class Parser
      * @return int
      * @throws SyntaxException
      */
-    protected function processPointerPartState()
+    protected function processPointerPartState(): int
     {
         $lexer = $this->getLexer();
         if ($lexer->isEnd()) {
@@ -170,7 +170,7 @@ class Parser
      *
      * @return int
      */
-    protected function processReferencePartState()
+    protected function processReferencePartState(): int
     {
         $lexer = $this->getLexer();
         if ($lexer->isEnd()) {
@@ -236,7 +236,7 @@ class Parser
      *
      * @return Lexer
      */
-    protected function getLexer()
+    protected function getLexer(): Lexer
     {
         if (null === $this->lexer) {
             $this->lexer = Lexer::factory();
@@ -248,7 +248,7 @@ class Parser
     /**
      * @return ReferenceBuffer
      */
-    protected function getReferenceBuffer()
+    protected function getReferenceBuffer(): ReferenceBuffer
     {
         if (null === $this->referenceBuffer) {
             $this->referenceBuffer = ReferenceBuffer::factory();
@@ -260,7 +260,7 @@ class Parser
     /**
      * @return Locator
      */
-    protected function getLocatorBuffer()
+    protected function getLocatorBuffer(): Locator
     {
         if (null === $this->locatorBuffer) {
             $this->locatorBuffer = Locator::factory();

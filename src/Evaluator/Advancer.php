@@ -64,7 +64,7 @@ abstract class Advancer
      * @param Cursor $cursor
      * @return Advancer
      */
-    final public static function byCursorFactory(Cursor $cursor)
+    final public static function byCursorFactory(Cursor $cursor): Advancer
     {
         if (is_object($cursor->getData())) {
             return AdvancerProperty::factory($cursor);
@@ -105,7 +105,7 @@ abstract class Advancer
     /**
      * @return Cursor
      */
-    public function getCursor()
+    public function getCursor(): Cursor
     {
         if (null === $this->cursor) {
             throw new LogicException("Cursor is not set in advancer");
@@ -134,7 +134,7 @@ abstract class Advancer
     }
 
 
-    public function isAdvanced()
+    public function isAdvanced(): bool
     {
         if (null === $this->isAdvanced) {
             throw new LogicException("Advance flag is not set");
@@ -143,7 +143,7 @@ abstract class Advancer
     }
 
 
-    public function canWrite()
+    public function canWrite(): bool
     {
         return $this
             ->getCursor()
@@ -161,7 +161,7 @@ abstract class Advancer
     }
 
 
-    public function getKeyDescription()
+    public function getKeyDescription(): string
     {
         return "'{$this->getKey()}'";
     }

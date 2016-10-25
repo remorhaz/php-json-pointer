@@ -11,7 +11,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
 
     /**
      */
-    public function testTokenAddedInEmptyBufferGetsZeroPosition()
+    public function testTokenAddedInEmptyBufferGetsZeroPosition(): TokenBuffer
     {
         $token = Token::factory(Token::TYPE_SLASH, "/", 1);
         $buffer = TokenBuffer::factory()->addToken($token);
@@ -36,7 +36,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
      */
-    public function testNotIsEndAfterAddingToken($tokenAmount)
+    public function testNotIsEndAfterAddingToken(int $tokenAmount)
     {
         $buffer = TokenBuffer::factory();
         for ($i = 0; $i < $tokenAmount; $i++) {
@@ -47,7 +47,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerTokenAmount()
+    public function providerTokenAmount(): array
     {
         return [
             'singleToken' => [1],

@@ -43,7 +43,7 @@ class LocatorEvaluatorWrite extends LocatorEvaluator
     }
 
 
-    protected function createAdvancer()
+    protected function createAdvancer(): Advancer
     {
         $advancer = parent::createAdvancer();
         if ($advancer instanceof AdvancerNumericIndex && $this->numericIndexGaps) {
@@ -64,7 +64,7 @@ class LocatorEvaluatorWrite extends LocatorEvaluator
     }
 
 
-    protected function createReferenceEvaluator()
+    protected function createReferenceEvaluator(): ReferenceEvaluator
     {
         return ReferenceEvaluatorWrite::factory()
             ->setAdvancer($this->createAdvancer())

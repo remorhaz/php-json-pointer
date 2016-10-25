@@ -23,13 +23,13 @@ class AdvancerNonNumericIndex extends AdvancerIndex
     }
 
 
-    public function canAdvance()
+    public function canAdvance(): bool
     {
         return $this->isAllowed && parent::canAdvance();
     }
 
 
-    public function canWrite()
+    public function canWrite(): bool
     {
         return $this->isAllowed && parent::canWrite();
     }

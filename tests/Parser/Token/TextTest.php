@@ -30,14 +30,14 @@ class TextTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerText
      */
-    public function testGotTextSameAsSet($text)
+    public function testGotTextSameAsSet(string $text)
     {
         $token = Token::factory()->setText($text);
         $this->assertSame($text, $token->getText(), "Read text is not the same as set one");
     }
 
 
-    public function providerText()
+    public function providerText(): array
     {
         return [
             'slashToken' => ['/'],
@@ -75,23 +75,5 @@ class TextTest extends \PHPUnit_Framework_TestCase
             'singleBrokenUnicode' => [substr('日', -1, 1)],
             'containsBrokenUnicode' => ['аб' . substr('в', -1, 1) . 'г'],
         ];
-    }
-
-
-    /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
-     */
-    public function testSettingNonStringTextThrowsException()
-    {
-        Token::factory()->setText(1);
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSettingNonStringTextThrowsSplException()
-    {
-        Token::factory()->setText(1);
     }
 }

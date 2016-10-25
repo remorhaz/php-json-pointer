@@ -15,7 +15,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expectedData
      * @dataProvider providerValidLocator
      */
-    public function testDeleteDataWithValidLocator($text, $data, $expectedData)
+    public function testDeleteDataWithValidLocator(string $text, $data, $expectedData)
     {
         $locator = Parser::factory()
             ->setText($text)
@@ -28,7 +28,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerValidLocator()
+    public function providerValidLocator(): array
     {
         return [
             'rootProperty' => ['/a', (object) ['a' => 1, 'b' => 2], (object) ['b' => 2]],

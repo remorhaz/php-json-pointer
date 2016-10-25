@@ -37,7 +37,7 @@ class Locator
      *
      * @return Reference[]
      */
-    public function getReferenceList()
+    public function getReferenceList(): array
     {
         return $this->referenceList;
     }
@@ -63,9 +63,9 @@ class Locator
      * @param int $index
      * @return bool
      */
-    public function hasReference($index)
+    public function hasReference(int $index): bool
     {
-        return isset($this->referenceList[(int) $index]);
+        return isset($this->referenceList[$index]);
     }
 
 
@@ -73,11 +73,11 @@ class Locator
      * @param int $index
      * @return Reference
      */
-    public function getReference($index)
+    public function getReference(int $index): Reference
     {
         if (!$this->hasReference($index)) {
             throw new OutOfBoundsException("Invalid reference index {$index}");
         }
-        return $this->referenceList[(int) $index];
+        return $this->referenceList[$index];
     }
 }

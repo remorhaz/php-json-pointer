@@ -98,7 +98,7 @@ abstract class LocatorEvaluator
      * @return Locator
      * @throws LogicException
      */
-    protected function getLocator()
+    protected function getLocator(): Locator
     {
         if (null === $this->locator) {
             throw new LogicException("Locator is not set in evaluator");
@@ -185,7 +185,7 @@ abstract class LocatorEvaluator
     }
 
 
-    protected function getCursor()
+    protected function getCursor(): Cursor
     {
         if (null === $this->cursor) {
             throw new LogicException("Cursor is not set in reference evaluator");
@@ -238,7 +238,7 @@ abstract class LocatorEvaluator
     }
 
 
-    protected function createAdvancer()
+    protected function createAdvancer(): Advancer
     {
         $advancer = Advancer::byCursorFactory($this->getCursor());
         if ($advancer instanceof AdvancerNonNumericIndex && $this->nonNumericIndices) {
@@ -251,7 +251,7 @@ abstract class LocatorEvaluator
     /**
      * @return ReferenceEvaluator
      */
-    abstract protected function createReferenceEvaluator();
+    abstract protected function createReferenceEvaluator(): ReferenceEvaluator;
 
 
     protected function evaluateReferenceList()

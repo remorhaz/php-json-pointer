@@ -51,7 +51,7 @@ class TokenBuffer
      *
      * @return bool
      */
-    public function isEnd()
+    public function isEnd(): bool
     {
         return count($this->tokenList) == $this->cursor;
     }
@@ -65,7 +65,7 @@ class TokenBuffer
     }
 
 
-    public function getNextPosition()
+    public function getNextPosition(): int
     {
         return empty($this->tokenList)
             ? 0
@@ -80,7 +80,7 @@ class TokenBuffer
      *
      * @return Token
      */
-    public function readToken()
+    public function readToken(): Token
     {
         if ($this->isEnd()) {
             throw new LogicException("The end of buffer is reached");
@@ -109,7 +109,7 @@ class TokenBuffer
     /**
      * @return Token
      */
-    protected function getLastToken()
+    protected function getLastToken(): Token
     {
         $lastIndex = count($this->tokenList) - 1;
         return $this->getTokenAtIndex($lastIndex);
@@ -122,7 +122,7 @@ class TokenBuffer
      * @param int $index
      * @return Token
      */
-    protected function getTokenAtIndex($index)
+    protected function getTokenAtIndex(int $index): Token
     {
         if (!$this->hasTokenAtIndex($index)) {
             throw new OutOfRangeException("No token in buffer at given index");
@@ -137,7 +137,7 @@ class TokenBuffer
      * @param int $index
      * @return bool
      */
-    protected function hasTokenAtIndex($index)
+    protected function hasTokenAtIndex(int $index): bool
     {
         return isset($this->tokenList[$index]);
     }

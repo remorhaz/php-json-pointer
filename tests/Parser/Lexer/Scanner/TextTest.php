@@ -29,16 +29,17 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * @param string $text
      * @dataProvider providerText
      */
-    public function testGotTextSameAsSet($text)
+    public function testGotTextSameAsSet(string $text)
     {
         $scanner = Scanner::factory()->setText($text);
         $this->assertEquals($text, $scanner->getText(), "Got text differs from the one that was set");
     }
 
 
-    public function providerText()
+    public function providerText(): array
     {
         return [
             'emptyText' => [''],
@@ -76,7 +77,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionCode PREG_BAD_UTF8_ERROR
      * @expectedExceptionMessage PREG_BAD_UTF8_ERROR
      */
-    public function testSettingBrokenUnicodeTextThrowsException($text)
+    public function testSettingBrokenUnicodeTextThrowsException(string $text)
     {
         Scanner::factory()->setText($text);
     }
@@ -87,13 +88,13 @@ class TextTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerBrokenUnicodeText
      * @expectedException \RuntimeException
      */
-    public function testSettingBrokenUnicodeTextThrowsSplException($text)
+    public function testSettingBrokenUnicodeTextThrowsSplException(string $text)
     {
         Scanner::factory()->setText($text);
     }
 
 
-    public function providerBrokenUnicodeText()
+    public function providerBrokenUnicodeText(): array
     {
         return [
             'singleBrokenUnicode' => [substr('日', -1, 1)],

@@ -53,7 +53,7 @@ class CursorTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerData()
+    public function providerData(): array
     {
         return [
             'null' => [null, 1],

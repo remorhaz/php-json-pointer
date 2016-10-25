@@ -12,7 +12,7 @@ class LocatorEvaluatorDelete extends LocatorEvaluator
     }
 
 
-    protected function createReferenceEvaluator()
+    protected function createReferenceEvaluator(): ReferenceEvaluator
     {
         return ReferenceEvaluatorDelete::factory()
             ->setAdvancer($this->createAdvancer());

@@ -15,7 +15,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerSingleToken
      */
-    public function testIsEndAfterReadingLastToken($text)
+    public function testIsEndAfterReadingLastToken(string $text)
     {
         $scanner = Scanner::factory()->setText($text);
         $scanner->readToken();
@@ -29,7 +29,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenType
      * @dataProvider providerSingleToken
      */
-    public function testReadingLastToken($text, $tokenText, $tokenType)
+    public function testReadingLastToken(string $text, string $tokenText, int $tokenType)
     {
         $scanner = Scanner::factory()->setText($text);
         $token = $scanner->readToken();
@@ -38,7 +38,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerSingleToken()
+    public function providerSingleToken(): array
     {
         return [
             'singleSlash' => ['/', '/', Token::TYPE_SLASH],
@@ -54,7 +54,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerMultipleTokens
      */
-    public function testNoEndAfterReadingNotLastToken($text)
+    public function testNoEndAfterReadingNotLastToken(string $text)
     {
         $scanner = Scanner::factory()->setText($text);
         $scanner->readToken();
@@ -68,7 +68,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenType
      * @dataProvider providerMultipleTokens
      */
-    public function testReadingNotLastToken($text, $tokenText, $tokenType)
+    public function testReadingNotLastToken(string $text, string $tokenText, int $tokenType)
     {
         $scanner = Scanner::factory()->setText($text);
         $token = $scanner->readToken();
@@ -77,7 +77,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerMultipleTokens()
+    public function providerMultipleTokens(): array
     {
         return [
             'startsFromSlash' => ['/abc', '/', Token::TYPE_SLASH],
@@ -93,7 +93,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @dataProvider providerInvalidText
      */
-    public function testReadingErrorTokenFromInvalidText($text)
+    public function testReadingErrorTokenFromInvalidText(string $text)
     {
         $token = Scanner::factory()
             ->setText($text)
@@ -102,7 +102,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerInvalidText()
+    public function providerInvalidText(): array
     {
         return [
             'invalidEscapedToken' => ['~2'],

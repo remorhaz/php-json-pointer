@@ -27,17 +27,17 @@ class PositionTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @param mixed $position
+     * @param int $position
      * @dataProvider providerPosition
      */
-    public function testGotPositionSameAsSet($position)
+    public function testGotPositionSameAsSet(int $position)
     {
         $token = Token::factory()->setPosition($position);
         $this->assertEquals($position, $token->getPosition(), "Got position differs from the one that was set");
     }
 
 
-    public function providerPosition()
+    public function providerPosition(): array
     {
         return [
             'zero' => [0],
@@ -62,23 +62,5 @@ class PositionTest extends \PHPUnit_Framework_TestCase
     public function testSettingNegativePositionThrowsSplException()
     {
         Token::factory()->setPosition(-1);
-    }
-
-
-    /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
-     */
-    public function testSettingNonIntegerPositionThrowsException()
-    {
-        Token::factory()->setPosition('1');
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSettingNonIntegerPositionThrowsSplException()
-    {
-        Token::factory()->setPosition('1');
     }
 }

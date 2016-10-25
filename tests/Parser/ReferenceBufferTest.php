@@ -15,7 +15,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
      * @param string $value
      * @dataProvider providerValidTokens
      */
-    public function testAddTokenUpdatesLengthAndValue(array $tokenList, $length, $value)
+    public function testAddTokenUpdatesLengthAndValue(array $tokenList, int $length, string $value)
     {
         $buffer = ReferenceBuffer::factory();
         foreach ($tokenList as $token) {
@@ -29,7 +29,7 @@ class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function providerValidTokens()
+    public function providerValidTokens(): array
     {
         return [
             'noTokens' => [[], 0, ""],

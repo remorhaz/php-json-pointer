@@ -55,22 +55,4 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         Reference::factory()->setType(0xFF);
     }
-
-
-    /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
-     */
-    public function testSettingNotIntegerThrowsException()
-    {
-        Reference::factory()->setType((string) Reference::TYPE_INDEX);
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSettingNotIntegerTypeThrowsSplException()
-    {
-        Reference::factory()->setType((string) Reference::TYPE_INDEX);
-    }
 }

@@ -6,7 +6,7 @@ abstract class AdvancerIndex extends Advancer
 {
 
 
-    public function canAdvance()
+    public function canAdvance(): bool
     {
         return array_key_exists($this->getKey(), $this->getCursor()->getData());
     }

@@ -12,7 +12,7 @@ abstract class ReferenceEvaluator
 
     protected $result;
 
-    protected $isResultSet;
+    protected $isResultSet = false;
 
 
     /**
@@ -40,7 +40,7 @@ abstract class ReferenceEvaluator
     /**
      * @return Advancer
      */
-    protected function getAdvancer()
+    protected function getAdvancer(): Advancer
     {
         if (null === $this->advancer) {
             throw new LogicException("Advancer is not set in reference evaluator");
@@ -80,7 +80,7 @@ abstract class ReferenceEvaluator
         return $this;
     }
 
-    public function isResultSet()
+    public function isResultSet(): bool
     {
         return $this->isResultSet;
     }

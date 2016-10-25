@@ -6,7 +6,7 @@ class AdvancerNextIndex extends AdvancerIndex
 {
 
 
-    public function canAdvance()
+    public function canAdvance(): bool
     {
         return false;
     }
@@ -40,7 +40,7 @@ class AdvancerNextIndex extends AdvancerIndex
     }
 
 
-    public function getKeyDescription()
+    public function getKeyDescription(): string
     {
         return "'-'";
     }

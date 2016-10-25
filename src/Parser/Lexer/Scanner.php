@@ -60,7 +60,7 @@ class Scanner
      *
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         if (null === $this->text) {
             throw new RuntimeException("Text is not set");
@@ -75,14 +75,14 @@ class Scanner
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         PregHelper::assertValidUTF8(
             $text,
             RegExpException::class,
             "Regular expression error on checking source text"
         );
-        $this->text = (string) $text;
+        $this->text = $text;
         $this->textAtCursor = null;
         $this->cursor = 0;
         return $this;
@@ -94,7 +94,7 @@ class Scanner
      *
      * @return bool
      */
-    public function isEnd()
+    public function isEnd(): bool
     {
         return strlen($this->getText()) == $this->cursor;
     }
@@ -105,7 +105,7 @@ class Scanner
      *
      * @return Token
      */
-    public function readToken()
+    public function readToken(): Token
     {
         // List of types is reverse-sorted by frequency for typical locator.
         $typeList = [
@@ -131,6 +131,7 @@ class Scanner
     /**
      * @param int[] $typeList
      * @return Token|null
+     * @todo Split method in two.
      */
     protected function matchNextToken(array $typeList)
     {
@@ -162,7 +163,7 @@ class Scanner
      * @param int $byteCount
      * @return $this
      */
-    protected function advanceCursor($byteCount)
+    protected function advanceCursor(int $byteCount)
     {
         if (0 >= $byteCount) {
             throw new DomainException("Byte count to advance cursor must be positive");
@@ -180,7 +181,7 @@ class Scanner
     }
 
 
-    protected function getTextLength($text)
+    protected function getTextLength(string $text): int
     {
         $length = preg_match_all('#.#us', $text);
         PregHelper::assertMatchResult(
@@ -198,7 +199,7 @@ class Scanner
      * @param int $type
      * @return string
      */
-    protected function getTokenPattern($type)
+    protected function getTokenPattern(int $type): string
     {
         $patternMap = [
             Token::TYPE_SLASH => '/',
@@ -220,7 +221,7 @@ class Scanner
      * @return string
      * @todo Limit substring size with maximal token length (without breaking UTF-8).
      */
-    protected function getTextAtCursor()
+    protected function getTextAtCursor(): string
     {
         if (null === $this->textAtCursor) {
             $textAtCursor = substr($this->getText(), $this->cursor);
@@ -238,8 +239,9 @@ class Scanner
      *
      * @param int $type
      * @return string|null Token text or NULL.
+     * @todo Split method in two.
      */
-    protected function matchTokenTextAtCursor($type)
+    protected function matchTokenTextAtCursor(int $type)
     {
         $result = preg_match($this->getTokenPattern($type), $this->getTextAtCursor(), $matches);
         PregHelper::assertMatchResult(
@@ -259,7 +261,7 @@ class Scanner
     }
 
 
-    protected function unescape($escapedText)
+    protected function unescape(string $escapedText)
     {
         $unescapeMap = [
             '~0' => '~',
