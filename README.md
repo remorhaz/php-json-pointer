@@ -9,10 +9,10 @@
 This library allows usage of [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers with PHP variables.
 
 ##Requirements
-* PHP 5.6+
+* PHP 7.0+
 
 ##Features
-* Supports PHP 5.6, PHP 7.0 and HHVM
+* Supports PHP 7.0
 * No PHP extensions required
 * Throws SPL exceptions
 
@@ -52,7 +52,7 @@ $link = '/a/b/1';
 $pointer = Pointer::factory()
     ->setData($data)
     ->setText($link);
-    
+
 // Reading value.
 echo $pointer->read();  // d
 
@@ -60,20 +60,20 @@ echo $pointer->read();  // d
 echo $pointer
     ->write('f')        // Sets $data->a->b to ['c', 'f', 'e'].
     ->read();           // f
-    
+
 // Testing value.
 $result = $pointer->test(); // Sets $result to TRUE.
 $link = '/a/c';         // Link to non-existing property
 $result = $pointer
     ->setText($link)
     ->test();           // Sets $result to FALSE.
-    
+
 // Treating PHP arrays as objects (not compliant with RFC6901, but
 // it's the only way to access non-numeric index in PHP array).
 $subData = ['g' => 2, 'h' => 3];
 $pointer->write($subData);   // Sets $data->a->c to ['g' => 2, 'h' => 3].
 $link = '/a/c/g';       // Link to non-numeric index of array.
-$result = $pointer    
+$result = $pointer
     ->setText($link)
     ->test();           // Sets $result to FALSE.
 $result = $pointer
