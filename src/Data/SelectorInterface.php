@@ -2,16 +2,19 @@
 
 namespace Remorhaz\JSONPointer\Data;
 
-interface SelectableAccessorInterface extends AccessorInterface {
+interface SelectorInterface {
 
 
     public function selectRoot();
 
 
-    public function selectProperty(string $key);
+    public function selectProperty(string $property);
 
 
     public function selectIndex(int $index);
+
+
+    public function selectNewIndex();
 
 
     public function isArraySelected(): bool;
@@ -30,4 +33,13 @@ interface SelectableAccessorInterface extends AccessorInterface {
 
 
     public function isNullSelected(): bool;
+    
+    
+    public function isPropertySelected(): bool;
+    
+    
+    public function isIndexSelected(): bool;
+    
+    
+    public function isNewIndexSelected(): bool;
 }
