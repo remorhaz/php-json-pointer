@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Data\RawWriter;
+namespace Remorhaz\JSON\Test\Data\RawWriter;
 
-use Remorhaz\JSONPointer\Data\RawWriter;
+use Remorhaz\JSON\Data\RawWriter;
 
 class ArrayTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +63,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      * @param array $data
      * @param int $index
      * @dataProvider providerNonExistingIndex
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnDataAcessAfterSelectingNonExistingIndex(array $data, int $index)
     {
@@ -98,7 +98,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $data
      * @param int $index
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      * @dataProvider providerNonArrayData
      */
     public function testExceptionOnNonArrayIndexSelection($data, int $index)
@@ -121,7 +121,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param mixed $data
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      * @dataProvider providerNonArrayData
      */
     public function testExceptionOnNonArrayNewIndexSelection($data)
@@ -280,7 +280,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnReplaceDataAfterRemovingElement()
     {
@@ -312,7 +312,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnRemovingNonExistingElement()
     {
@@ -338,7 +338,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnRemovingNonSelectedElement()
     {
@@ -358,7 +358,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnAppendingNonSelectedNewElement()
     {
@@ -382,7 +382,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnAppendingSelectedExistingElement()
     {

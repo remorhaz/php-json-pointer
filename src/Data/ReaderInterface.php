@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Data;
+namespace Remorhaz\JSON\Data;
 
 interface ReaderInterface {
 

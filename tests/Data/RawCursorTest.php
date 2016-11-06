@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Data;
+namespace Remorhaz\JSON\Test\Data;
 
-use Remorhaz\JSONPointer\Data\RawCursor;
+use Remorhaz\JSON\Data\RawCursor;
 
 class RawCursorTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testNewCursorThrowsExceptionOnGettingDataReference()
     {
@@ -50,7 +50,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testNewCursorThrowsExceptionOnGettingDataCopy()
     {
@@ -68,7 +68,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testUnboundCursorThrowsExceptionOnGettingDataReference()
     {
@@ -88,7 +88,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testUnboundCursorThrowsExceptionOnGettingDataCopy()
     {

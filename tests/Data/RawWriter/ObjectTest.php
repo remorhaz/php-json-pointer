@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Data\RawWriter;
+namespace Remorhaz\JSON\Test\Data\RawWriter;
 
-use Remorhaz\JSONPointer\Data\RawWriter;
+use Remorhaz\JSON\Data\RawWriter;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
@@ -84,7 +84,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      * @param \stdClass $data
      * @param string $property
      * @dataProvider providerNonExistingProperty
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnDataAccessAfterNonExistingPropertySelection(\stdClass $data, string $property)
     {
@@ -111,7 +111,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $data
      * @param string $property
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      * @dataProvider providerNonObjectData
      */
     public function testExceptionOnNonObjectPropertySelection($data, string $property)
@@ -157,7 +157,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $data
      * @dataProvider providerNonObjectData
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnRemovingNonSelectedPropertyInNonObjectData($data)
     {
@@ -213,7 +213,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     /**
      * @param \stdClass $data
      * @dataProvider providerObjectData
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnRemovingNonSelectedPropertyInObjectData(\stdClass $data)
     {
@@ -311,7 +311,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      * @param \stdClass $data
      * @param string $newProperty
      * @param mixed $newValue
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      * @dataProvider providerNonExistingProperty
      */
     public function testExceptionOnReplacingNonExistingProperty(\stdClass $data, string $newProperty, $newValue)
@@ -385,7 +385,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      * @param \stdClass $data
      * @param string $property
      * @dataProvider providerNonExistingProperty
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnRemovingNonExistingProperty(\stdClass $data, string $property)
     {
@@ -424,7 +424,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      * @param \stdClass $data
      * @param string $property
      * @param mixed $newValue
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      * @dataProvider providerInsertingExistingProperty
      */
     public function testExceptionAfterInsertingExistingProperty(\stdClass $data, string $property, $newValue)
@@ -464,7 +464,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Data\Exception
+     * @expectedException \Remorhaz\JSON\Data\Exception
      */
     public function testExceptionOnInsertingNotSelectedProperty()
     {

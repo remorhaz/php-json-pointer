@@ -2,8 +2,8 @@
 
 namespace Remorhaz\JSONPointer\Evaluator;
 
-use Remorhaz\JSONPointer\Data\ReaderInterface;
-use Remorhaz\JSONPointer\Data\SelectableWriterInterface;
+use Remorhaz\JSON\Data\ReaderInterface;
+use Remorhaz\JSON\Data\SelectableWriterInterface;
 use Remorhaz\JSONPointer\Locator\Locator;
 use Remorhaz\JSONPointer\Locator\Reference;
 

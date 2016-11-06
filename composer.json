@@ -20,12 +20,14 @@
   },
   "autoload": {
     "psr-4": {
-      "Remorhaz\\JSONPointer\\": "src/"
+      "Remorhaz\\JSONPointer\\": "src/",
+      "Remorhaz\\JSON\\Data\\": "src/Data/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Remorhaz\\JSONPointer\\Test\\": "tests/"
+      "Remorhaz\\JSONPointer\\Test\\": "tests/",
+      "Remorhaz\\JSON\\Test\\Data\\": "tests/Data/"
     }
   }
 }

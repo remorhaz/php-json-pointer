@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Evaluator;
 
-use Remorhaz\JSONPointer\Data\SelectableReaderInterface;
+use Remorhaz\JSON\Data\SelectableReaderInterface;
 use Remorhaz\JSONPointer\Locator\Locator;
 use Remorhaz\JSONPointer\Locator\Reference;
 

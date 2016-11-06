@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Data;
+namespace Remorhaz\JSON\Test\Data;
 
-use Remorhaz\JSONPointer\Data\RawWriter;
+use Remorhaz\JSON\Data\RawWriter;
 
 class RootTest extends \PHPUnit_Framework_TestCase
 {

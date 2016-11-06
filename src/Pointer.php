@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer;
 
-use Remorhaz\JSONPointer\Data\RawWriter;
+use Remorhaz\JSON\Data\RawWriter;
 use Remorhaz\JSONPointer\Evaluator\OperationDelete;
 use Remorhaz\JSONPointer\Evaluator\OperationRead;
 use Remorhaz\JSONPointer\Evaluator\OperationTest;
