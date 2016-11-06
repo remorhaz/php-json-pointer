@@ -32,6 +32,19 @@ class Locator
     }
 
 
+    public function getText(): string
+    {
+        if (empty($this->referenceList)) {
+            return "";
+        }
+        $text = "";
+        foreach ($this->referenceList as $reference) {
+            $text .= "/{$reference->getText()}";
+        }
+        return $text;
+    }
+
+
     /**
      * Returns reference list.
      *

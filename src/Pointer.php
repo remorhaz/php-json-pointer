@@ -2,7 +2,11 @@
 
 namespace Remorhaz\JSONPointer;
 
-use Remorhaz\JSONPointer\Data\Raw;
+use Remorhaz\JSONPointer\Data\RawWriter;
+use Remorhaz\JSONPointer\Evaluator\OperationDelete;
+use Remorhaz\JSONPointer\Evaluator\OperationRead;
+use Remorhaz\JSONPointer\Evaluator\OperationTest;
+use Remorhaz\JSONPointer\Evaluator\OperationWrite;
 use Remorhaz\JSONPointer\Locator\Locator;
 use Remorhaz\JSONPointer\Parser\Parser;
 
@@ -114,150 +118,37 @@ class Pointer
 
     public function test(): bool
     {
-        $reader = new Raw($this->getData());
-        $referenceList = $this
-            ->getLocator()
-            ->getReferenceList();
-        foreach ($referenceList as $reference) {
-            if ($reader->isArraySelected()) {
-                if ($reference->getType() != $reference::TYPE_INDEX) {
-                    return false;
-                }
-                $index = (int) $reference->getKey();
-                $reader->selectIndex($index);
-                if (!$reader->hasData()) {
-                    return false;
-                }
-            } elseif ($reader->isObjectSelected()) {
-                $property = (string) $reference->getKey();
-                $reader->selectProperty($property);
-                if (!$reader->hasData()) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-        return true;
+        $reader = new RawWriter($this->getData());
+        return (bool) (new OperationTest($this->getLocator(), $reader))
+            ->perform()
+            ->getResult();
     }
 
 
     public function read()
     {
-        $reader = new Raw($this->getData());
-        $referenceList = $this
-            ->getLocator()
-            ->getReferenceList();
-        foreach ($referenceList as $reference) {
-            if ($reader->isArraySelected()) {
-                if ($reference->getType() != $reference::TYPE_INDEX) {
-                    throw new Evaluator\EvaluatorException(
-                        "Invalid index '{$reference->getKey()}' at {$reference->getPath()}"
-                    );
-                }
-                $index = (int) $reference->getKey();
-                $reader->selectIndex($index);
-                if (!$reader->hasData()) {
-                    throw new Evaluator\EvaluatorException("No index #{$index} at {$reference->getPath()}");
-                }
-            } elseif ($reader->isObjectSelected()) {
-                $property = (string) $reference->getKey();
-                $reader->selectProperty($property);
-                if (!$reader->hasData()) {
-                    throw new Evaluator\EvaluatorException("No property '{$property}' at {$reference->getPath()}");
-                }
-            } else {
-                throw new Evaluator\EvaluatorException("Scalar data at {$reference->getPath()}");
-            }
-        }
-        return $reader->getData();
+        $reader = new RawWriter($this->getData());
+        return (new OperationRead($this->getLocator(), $reader))
+            ->perform()
+            ->getResult();
     }
 
 
     public function write($value)
     {
-        $writer = new Raw($this->getData());
-        $referenceList = $this
-            ->getLocator()
-            ->getReferenceList();
-        foreach ($referenceList as $reference) {
-            if (!$writer->hasData()) {
-                throw new Evaluator\EvaluatorException("No data at {$reference->getPath()}");
-            }
-            if ($writer->isArraySelected()) {
-                if ($reference->getType() == $reference::TYPE_NEXT_INDEX) {
-                    $writer->selectNewIndex();
-                } elseif ($reference->getType() == $reference::TYPE_INDEX) {
-                    $index = (int) $reference->getKey();
-                    $writer->selectIndex($index);
-                } else {
-                    throw new Evaluator\EvaluatorException(
-                        "Invalid index '{$reference->getKey()}' at {$reference->getPath()}"
-                    );
-                }
-            } elseif ($writer->isObjectSelected()) {
-                $property = (string) $reference->getKey();
-                $writer->selectProperty($property);
-            } else {
-                throw new Evaluator\EvaluatorException("Scalar data at {$reference->getPath()}");
-            }
-        }
-        $valueReader = new Raw($value);
-        if ($writer->hasData()) {
-            $writer->replaceData($valueReader);
-        } else {
-            if ($writer->isNewIndexSelected()) {
-                $writer->appendElement($valueReader);
-            } elseif ($writer->isIndexSelected()) {
-                throw new Evaluator\EvaluatorException("No data at {$this->getText()}");
-            } elseif ($writer->isPropertySelected()) {
-                $writer->insertProperty($valueReader);
-            } else {
-                throw new Evaluator\EvaluatorException("Failed to write data at {$this->getText()}");
-            }
-        }
+        $writer = new RawWriter($this->getData());
+        $valueReader = new RawWriter($value);
+        (new OperationWrite($this->getLocator(), $writer, $valueReader))
+            ->perform();
         return $this;
     }
 
 
     public function delete()
     {
-        $writer = new Raw($this->getData());
-        $referenceList = $this
-            ->getLocator()
-            ->getReferenceList();
-        if (empty($referenceList)) {
-            throw new Evaluator\EvaluatorException("Data root can't be deleted");
-        }
-        foreach ($referenceList as $reference) {
-            if ($writer->isArraySelected()) {
-                if ($reference->getType() != $reference::TYPE_INDEX) {
-                    throw new Evaluator\EvaluatorException(
-                        "Invalid index '{$reference->getKey()}' at '{$reference->getPath()}''"
-                    );
-                }
-                $index = (int) $reference->getKey();
-                $writer->selectIndex($index);
-                if (!$writer->hasData()) {
-                    throw new Evaluator\EvaluatorException("No element #{$index} at '{$reference->getPath()}'");
-                }
-            } elseif ($writer->isObjectSelected()) {
-                $property = (string) $reference->getKey();
-                $writer->selectProperty($property);
-                if (!$writer->hasData()) {
-                    throw new Evaluator\EvaluatorException("No property '{$property}' at '{$reference->getPath()}'");
-                }
-            } else {
-                throw new Evaluator\EvaluatorException("Scalar data at '{$reference->getPath()}'");
-            }
-        }
-        if ($writer->isIndexSelected()) {
-            $writer->removeElement();
-        } elseif ($writer->isPropertySelected()) {
-            $writer->removeProperty();
-        } else {
-            throw new Evaluator\LogicException("Failed to remove data at '{$this->getText()}'");
-        }
+        $writer = new RawWriter($this->getData());
+        (new OperationDelete($this->getLocator(), $writer))
+            ->perform();
         return $this;
     }
 

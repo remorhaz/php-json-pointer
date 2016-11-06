@@ -2,9 +2,9 @@
 
 namespace Remorhaz\JSONPointer\Test\Data;
 
-use Remorhaz\JSONPointer\Data\Raw;
+use Remorhaz\JSONPointer\Data\RawWriter;
 
-class RawRootTest extends \PHPUnit_Framework_TestCase
+class RootTest extends \PHPUnit_Framework_TestCase
 {
 
 
@@ -14,7 +14,7 @@ class RawRootTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectDataAfterCreation($data)
     {
-        $actualData = (new Raw($data))->getData();
+        $actualData = (new RawWriter($data))->getData();
         $this->assertEquals($data, $actualData);
     }
 
@@ -25,7 +25,7 @@ class RawRootTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasDataAfterCreation($data)
     {
-        $hasData = (new Raw($data))->hasData();
+        $hasData = (new RawWriter($data))->hasData();
         $this->assertTrue($hasData);
     }
 
@@ -47,8 +47,8 @@ class RawRootTest extends \PHPUnit_Framework_TestCase
     public function testCorrectDataAfterReplace($sourceData, $targetData)
     {
         $expectedData = $sourceData;
-        $sourceRaw = new Raw($sourceData);
-        $actualData = (new Raw($targetData))->replaceData($sourceRaw)->getData();
+        $sourceRaw = new RawWriter($sourceData);
+        $actualData = (new RawWriter($targetData))->replaceData($sourceRaw)->getData();
         $this->assertEquals($expectedData, $actualData);
     }
 
@@ -60,8 +60,8 @@ class RawRootTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasDataAfterReplace($sourceData, $targetData)
     {
-        $sourceRaw = new Raw($sourceData);
-        $hasData = (new Raw($targetData))->replaceData($sourceRaw)->hasData();
+        $sourceRaw = new RawWriter($sourceData);
+        $hasData = (new RawWriter($targetData))->replaceData($sourceRaw)->hasData();
         $this->assertTrue($hasData);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSONPointer\Data;
 
-class Raw implements WriterInterface, SelectorInterface
+class RawWriter implements SelectableWriterInterface
 {
 
     /**
