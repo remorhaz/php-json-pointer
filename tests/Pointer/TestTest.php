@@ -4,6 +4,9 @@ namespace Remorhaz\JSONPointer\Test\Pointer;
 
 use Remorhaz\JSONPointer\Pointer;
 
+/**
+ * @todo Merge tests for non-numeric indices.
+ */
 class TestTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -62,6 +65,10 @@ class TestTest extends \PHPUnit_Framework_TestCase
             'nonExistingNestedNumericIndex' => ['/0/1', [[1], 2]],
             'rootNextIndex' => ['/-', [1, 2]],
             'nestedNextIndex' => ['/a/-', (object) ['a' => [1, 2]]],
+            'nonExistingNotLastNestedProperty' => [
+                '/a/b/c/d',
+                (object) ['a' => (object) ['e' => (object) ['f' => 'g']]]
+            ],
         ];
     }
 
@@ -107,44 +114,12 @@ class TestTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    /**
-     * @param string $text
-     * @param mixed $data
-     * @dataProvider providerNonExistingNonNumericIndicesData
-     */
-    public function testTestNonExistingAllowedNonNumericIndices(string $text, $data)
-    {
-        $result = Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data)
-            ->test();
-        $this->assertFalse($result, "Error testing non-numeric array index");
-    }
-
-
     public function providerNonExistingNonNumericIndicesData(): array
     {
         return [
             'nonExistingRootNonNumericIndex' => ['/a', [1]],
             'nonExistingNestedNonNumericIndex' => ['/0/a', [[1], 2]],
         ];
-    }
-
-
-    /**
-     * @param string $text
-     * @param mixed $data
-     * @dataProvider providerExistingNonNumericIndicesData
-     */
-    public function testTestExistingAllowedNonNumericIndices(string $text, $data)
-    {
-        $result = Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data)
-            ->test();
-        $this->assertTrue($result, "Error testing non-numeric array index");
     }
 
 

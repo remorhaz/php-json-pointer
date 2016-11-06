@@ -115,7 +115,7 @@ class Raw implements WriterInterface, SelectorInterface
         $parentData = &$this
             ->getParentCursor()
             ->getDataReference();
-        if (isset($parentData->{$property})) {
+        if (property_exists($parentData, $property)) {
             unset($parentData->{$property});
         } else {
             if ($this->isNumericProperty($property)) {
@@ -181,7 +181,7 @@ class Raw implements WriterInterface, SelectorInterface
         $this
             ->getParentCursor()
             ->bind($parentData);
-        if (isset($parentData->{$property})) {
+        if (property_exists($parentData, $property)) {
             $data = &$parentData->{$property};
             $this
                 ->getCursor()

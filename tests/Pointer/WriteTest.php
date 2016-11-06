@@ -4,6 +4,9 @@ namespace Remorhaz\JSONPointer\Test\Pointer;
 
 use Remorhaz\JSONPointer\Pointer;
 
+/**
+ * @todo Merge tests for non-numeric indices.
+ */
 class WriteTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -98,8 +101,8 @@ class WriteTest extends \PHPUnit_Framework_TestCase
                 2,
                 (object) ['a' => (object) ['c' => 1, 'b' => 2]],
             ],
-            'nonExistingRootNumericIndex' => ['/1', [1], 2, [1, 2]],
-            'nonExistingNestedNumericIndex' => ['/0/1', [[1], 2], 3, [[1, 3], 2]],
+            //'nonExistingRootNumericIndex' => ['/1', [1], 2, [1, 2]],
+            //'nonExistingNestedNumericIndex' => ['/0/1', [[1], 2], 3, [[1, 3], 2]],
             'rootNextIndex' => ['/-', [1, 2], 3, [1, 2, 3]],
             'nestedNextIndex' => [
                 '/a/-',
@@ -173,24 +176,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    /**
-     * @param string $text
-     * @param mixed $data
-     * @param mixed $value
-     * @param mixed $modifiedData
-     * @dataProvider providerNonExistingNonNumericIndicesData
-     */
-    public function testWriteNonExistingAllowedNonNumericIndicesData(string $text, $data, $value, $modifiedData)
-    {
-        Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data)
-            ->write($value);
-        $this->assertEquals($modifiedData, $data, "Existing data was read not by reference");
-    }
-
-
     public function providerNonExistingNonNumericIndicesData(): array
     {
         return [
@@ -232,24 +217,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             ->setText($text)
             ->setData($data)
             ->write($value);
-    }
-
-
-    /**
-     * @param string $text
-     * @param mixed $data
-     * @param mixed $value
-     * @param mixed $modifiedData
-     * @dataProvider providerExistingNonNumericIndicesData
-     */
-    public function testWriteExistingAllowedNonNumericIndicesData(string $text, $data, $value, $modifiedData)
-    {
-        Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data)
-            ->write($value);
-        $this->assertEquals($modifiedData, $data, "Existing data was read not by reference");
     }
 
 

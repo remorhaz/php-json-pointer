@@ -4,6 +4,9 @@ namespace Remorhaz\JSONPointer\Test\Pointer;
 
 use Remorhaz\JSONPointer\Pointer;
 
+/**
+ * @todo Merge tests for non-numeric indices.
+ */
 class ReadTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -16,15 +19,13 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param mixed $modifiedData
      * @dataProvider providerExistingData
      */
-    public function testReadExistingDataByRef(string $text, $data, $result, $value, $modifiedData)
+    public function testReadExistingData(string $text, $data, $result, $value, $modifiedData)
     {
         $pointer = Pointer::factory()
             ->setText($text)
             ->setData($data);
-        $readData = &$pointer->read();
+        $readData = $pointer->read();
         $this->assertEquals($result, $readData, "Error reading existing data");
-        $readData = $value;
-        $this->assertEquals($modifiedData, $data, "Existing data was read not by reference");
     }
 
 
@@ -197,7 +198,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
         Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
+            //->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
             ->setText($text)
             ->setData($data)
             ->read();
@@ -213,7 +214,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
         Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
+            //->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
             ->setText($text)
             ->setData($data)
             ->read();
@@ -256,27 +257,6 @@ class ReadTest extends \PHPUnit_Framework_TestCase
             ->setText($text)
             ->setData($data)
             ->read();
-    }
-
-
-    /**
-     * @param string $text
-     * @param mixed $data
-     * @param mixed $result
-     * @param mixed $value
-     * @param mixed $modifiedData
-     * @dataProvider providerExistingNonNumericIndicesData
-     */
-    public function testReadExistingAllowedNonNumericIndicesData(string $text, $data, $result, $value, $modifiedData)
-    {
-        $pointer = Pointer::factory()
-            ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data);
-        $readData = &$pointer->read();
-        $this->assertEquals($result, $readData, "Error reading non-numeric array index");
-        $readData = $value;
-        $this->assertEquals($modifiedData, $data, "Non-numeric data was read not by reference");
     }
 
 

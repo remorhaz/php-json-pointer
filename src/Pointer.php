@@ -2,36 +2,12 @@
 
 namespace Remorhaz\JSONPointer;
 
-use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorRead;
-use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorTest;
-use Remorhaz\JSONPointer\Evaluator\LocatorEvaluatorWrite;
+use Remorhaz\JSONPointer\Data\Raw;
 use Remorhaz\JSONPointer\Locator\Locator;
 use Remorhaz\JSONPointer\Parser\Parser;
 
 class Pointer
 {
-
-    /**
-     * By default, RFC-6901 allows addressing only numeric indices in array,
-     * because JSON arrays can have only numeric indices. But PHP arrays can
-     * have string indices. This option can be used to enable non-numeric
-     * array indices addressing.
-     */
-    const OPTION_NON_NUMERIC_INDICES = 0x01;
-    /**
-     * "Native" JSON arrays have consistent indices, so allowing to create
-     * arbitrary numeric indices will break them. But PHP arrays support
-     * arrays with "gaps" between indices, and this option enables writing
-     * to array at any index.
-     */
-    const OPTION_NUMERIC_INDEX_GAPS = 0x02;
-
-    /**
-     * Bit-packed options.
-     *
-     * @var int
-     */
-    protected $options = 0;
 
     /**
      * JSON Pointer string buffer.
@@ -138,59 +114,151 @@ class Pointer
 
     public function test(): bool
     {
-        $pointer = LocatorEvaluatorTest::factory()
-            ->setLocator($this->getLocator())
-            ->setData($this->getData());
-        if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
-            $pointer->allowNonNumericIndices();
+        $reader = new Raw($this->getData());
+        $referenceList = $this
+            ->getLocator()
+            ->getReferenceList();
+        foreach ($referenceList as $reference) {
+            if ($reader->isArraySelected()) {
+                if ($reference->getType() != $reference::TYPE_INDEX) {
+                    return false;
+                }
+                $index = (int) $reference->getKey();
+                $reader->selectIndex($index);
+                if (!$reader->hasData()) {
+                    return false;
+                }
+            } elseif ($reader->isObjectSelected()) {
+                $property = (string) $reference->getKey();
+                $reader->selectProperty($property);
+                if (!$reader->hasData()) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
-        return $pointer
-            ->evaluate()
-            ->getResult();
-
+        return true;
     }
 
-    public function &read()
+
+    public function read()
     {
-        $pointer = LocatorEvaluatorRead::factory()
-            ->setLocator($this->getLocator())
-            ->setData($this->getData());
-        if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
-            $pointer->allowNonNumericIndices();
+        $reader = new Raw($this->getData());
+        $referenceList = $this
+            ->getLocator()
+            ->getReferenceList();
+        foreach ($referenceList as $reference) {
+            if ($reader->isArraySelected()) {
+                if ($reference->getType() != $reference::TYPE_INDEX) {
+                    throw new Evaluator\EvaluatorException(
+                        "Invalid index '{$reference->getKey()}' at {$reference->getPath()}"
+                    );
+                }
+                $index = (int) $reference->getKey();
+                $reader->selectIndex($index);
+                if (!$reader->hasData()) {
+                    throw new Evaluator\EvaluatorException("No index #{$index} at {$reference->getPath()}");
+                }
+            } elseif ($reader->isObjectSelected()) {
+                $property = (string) $reference->getKey();
+                $reader->selectProperty($property);
+                if (!$reader->hasData()) {
+                    throw new Evaluator\EvaluatorException("No property '{$property}' at {$reference->getPath()}");
+                }
+            } else {
+                throw new Evaluator\EvaluatorException("Scalar data at {$reference->getPath()}");
+            }
         }
-        return $pointer
-            ->evaluate()
-            ->getResult();
+        return $reader->getData();
     }
 
 
     public function write($value)
     {
-        $pointer = LocatorEvaluatorWrite::factory()
-            ->setLocator($this->getLocator())
-            ->setData($this->getData())
-            ->setValue($value);
-        if ($this->hasOption(self::OPTION_NON_NUMERIC_INDICES)) {
-            $pointer->allowNonNumericIndices();
+        $writer = new Raw($this->getData());
+        $referenceList = $this
+            ->getLocator()
+            ->getReferenceList();
+        foreach ($referenceList as $reference) {
+            if (!$writer->hasData()) {
+                throw new Evaluator\EvaluatorException("No data at {$reference->getPath()}");
+            }
+            if ($writer->isArraySelected()) {
+                if ($reference->getType() == $reference::TYPE_NEXT_INDEX) {
+                    $writer->selectNewIndex();
+                } elseif ($reference->getType() == $reference::TYPE_INDEX) {
+                    $index = (int) $reference->getKey();
+                    $writer->selectIndex($index);
+                } else {
+                    throw new Evaluator\EvaluatorException(
+                        "Invalid index '{$reference->getKey()}' at {$reference->getPath()}"
+                    );
+                }
+            } elseif ($writer->isObjectSelected()) {
+                $property = (string) $reference->getKey();
+                $writer->selectProperty($property);
+            } else {
+                throw new Evaluator\EvaluatorException("Scalar data at {$reference->getPath()}");
+            }
         }
-        if ($this->hasOption(self::OPTION_NUMERIC_INDEX_GAPS)) {
-            $pointer->allowNumericIndexGaps();
+        $valueReader = new Raw($value);
+        if ($writer->hasData()) {
+            $writer->replaceData($valueReader);
+        } else {
+            if ($writer->isNewIndexSelected()) {
+                $writer->appendElement($valueReader);
+            } elseif ($writer->isIndexSelected()) {
+                throw new Evaluator\EvaluatorException("No data at {$this->getText()}");
+            } elseif ($writer->isPropertySelected()) {
+                $writer->insertProperty($valueReader);
+            } else {
+                throw new Evaluator\EvaluatorException("Failed to write data at {$this->getText()}");
+            }
         }
-        $pointer->evaluate();
         return $this;
     }
 
 
-    public function setOptions(int $options)
+    public function delete()
     {
-        $this->options = $options;
+        $writer = new Raw($this->getData());
+        $referenceList = $this
+            ->getLocator()
+            ->getReferenceList();
+        if (empty($referenceList)) {
+            throw new Evaluator\EvaluatorException("Data root can't be deleted");
+        }
+        foreach ($referenceList as $reference) {
+            if ($writer->isArraySelected()) {
+                if ($reference->getType() != $reference::TYPE_INDEX) {
+                    throw new Evaluator\EvaluatorException(
+                        "Invalid index '{$reference->getKey()}' at '{$reference->getPath()}''"
+                    );
+                }
+                $index = (int) $reference->getKey();
+                $writer->selectIndex($index);
+                if (!$writer->hasData()) {
+                    throw new Evaluator\EvaluatorException("No element #{$index} at '{$reference->getPath()}'");
+                }
+            } elseif ($writer->isObjectSelected()) {
+                $property = (string) $reference->getKey();
+                $writer->selectProperty($property);
+                if (!$writer->hasData()) {
+                    throw new Evaluator\EvaluatorException("No property '{$property}' at '{$reference->getPath()}'");
+                }
+            } else {
+                throw new Evaluator\EvaluatorException("Scalar data at '{$reference->getPath()}'");
+            }
+        }
+        if ($writer->isIndexSelected()) {
+            $writer->removeElement();
+        } elseif ($writer->isPropertySelected()) {
+            $writer->removeProperty();
+        } else {
+            throw new Evaluator\LogicException("Failed to remove data at '{$this->getText()}'");
+        }
         return $this;
-    }
-
-
-    protected function hasOption(int $option)
-    {
-        return $option == ($option & $this->options);
     }
 
 
