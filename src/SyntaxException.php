@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer;
+namespace Remorhaz\JSON\Pointer;
 
 interface SyntaxException extends Exception
 {

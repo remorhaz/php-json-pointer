@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Lexer\Scanner;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\Scanner;
 
-use Remorhaz\JSONPointer\Parser\Lexer\Scanner;
+use Remorhaz\JSON\Pointer\Parser\Lexer\Scanner;
 
 /**
  */
@@ -11,7 +11,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testUninitializedTextAccessThrowsException()
     {
@@ -73,7 +73,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $text
      * @dataProvider providerBrokenUnicodeText
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\RegExpException
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\RegExpException
      * @expectedExceptionCode PREG_BAD_UTF8_ERROR
      * @expectedExceptionMessage PREG_BAD_UTF8_ERROR
      */

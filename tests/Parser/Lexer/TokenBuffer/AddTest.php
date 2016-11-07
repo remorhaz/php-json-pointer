@@ -1,9 +1,9 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Lexer\TokenBuffer;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\TokenBuffer;
 
-use Remorhaz\JSONPointer\Parser\Lexer\TokenBuffer;
-use Remorhaz\JSONPointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\Lexer\TokenBuffer;
+use Remorhaz\JSON\Pointer\Parser\Token;
 
 class AddTest extends \PHPUnit_Framework_TestCase
 {

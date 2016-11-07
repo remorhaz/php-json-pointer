@@ -1,13 +1,11 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Parser\Lexer;
 
-use Remorhaz\JSONPointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\Token;
 
 /**
  * Stores scanned tokens.
- *
- * @package JSONPointer
  */
 class TokenBuffer
 {

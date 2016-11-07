@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Pointer;
+namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSONPointer\Pointer;
+use Remorhaz\JSON\Pointer\Pointer;
 
 /**
  * @todo Merge tests for non-numeric indices.

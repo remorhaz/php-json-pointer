@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Locator;
+namespace Remorhaz\JSON\Pointer\Locator;
 
 class OutOfBoundsException extends \OutOfBoundsException implements Exception
 {

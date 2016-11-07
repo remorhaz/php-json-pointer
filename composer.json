@@ -12,7 +12,8 @@
     }
   ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.0",
+    "remorhaz/php-json-data" : "0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "@stable",
@@ -20,14 +21,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Remorhaz\\JSONPointer\\": "src/",
-      "Remorhaz\\JSON\\Data\\": "src/Data/"
+      "Remorhaz\\JSON\\Pointer\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Remorhaz\\JSONPointer\\Test\\": "tests/",
-      "Remorhaz\\JSON\\Test\\Data\\": "tests/Data/"
+      "Remorhaz\\JSON\\Pointer\\Test\\": "tests/"
     }
   }
 }

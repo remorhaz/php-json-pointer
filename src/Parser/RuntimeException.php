@@ -1,6 +1,6 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser;
+namespace Remorhaz\JSON\Pointer\Parser;
 
 class RuntimeException extends \RuntimeException implements Exception
 {

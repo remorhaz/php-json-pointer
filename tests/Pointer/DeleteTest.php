@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Pointer;
+namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSONPointer\Pointer;
+use Remorhaz\JSON\Pointer\Pointer;
 
 class DeleteTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,7 +59,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessage Data root can't be deleted
      */
     public function testDelete_LocatorPointsToWholeDocument_ExceptionThrown()
@@ -87,7 +87,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^Invalid index '-' at '(.*)'$/
      */
     public function testDelete_LocatorContainsNewIndex_ExceptionThrown()
@@ -115,7 +115,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^No element #([1-9]\d*) at '(.*)'$/
      */
     public function testDelete_NonExistingElement_ExceptionThrown()
@@ -143,7 +143,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^No property '(.*)' at '(.*)'$/
      */
     public function testDelete_NonExistingProperty_ExceptionThrown()
@@ -171,7 +171,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^Scalar data at '(.*)'$/
      */
     public function testDelete_LocatorContainsScalar_ExceptionThrown()

@@ -1,9 +1,9 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Lexer\Scanner;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\Scanner;
 
-use Remorhaz\JSONPointer\Parser\Lexer\Scanner;
-use Remorhaz\JSONPointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\Lexer\Scanner;
+use Remorhaz\JSON\Pointer\Parser\Token;
 
 /**
  */
@@ -112,7 +112,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testReadingEmptyTextEndThrowsException()
     {

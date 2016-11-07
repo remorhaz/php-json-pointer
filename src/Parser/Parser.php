@@ -1,10 +1,10 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser;
+namespace Remorhaz\JSON\Pointer\Parser;
 
-use Remorhaz\JSONPointer\Parser\Lexer\Lexer;
-use Remorhaz\JSONPointer\Locator\Locator;
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
+use Remorhaz\JSON\Pointer\Locator\Locator;
+use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class Parser
 {

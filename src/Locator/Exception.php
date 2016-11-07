@@ -1,7 +1,7 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Locator;
+namespace Remorhaz\JSON\Pointer\Locator;
 
-interface Exception extends \Remorhaz\JSONPointer\Exception
+interface Exception extends \Remorhaz\JSON\Pointer\Exception
 {
 }

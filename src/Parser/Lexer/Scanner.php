@@ -1,14 +1,12 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Parser\Lexer;
 
-use Remorhaz\JSONPointer\Parser\Token;
-use Remorhaz\JSONPointer\Parser\PregHelper;
+use Remorhaz\JSON\Pointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\PregHelper;
 
 /**
  * Lexical analyzer's text scanner. It reads tokens directly from text string.
- *
- * @package JSONPointer
  */
 class Scanner
 {

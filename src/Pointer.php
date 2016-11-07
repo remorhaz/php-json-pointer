@@ -1,14 +1,14 @@
 <?php
 
-namespace Remorhaz\JSONPointer;
+namespace Remorhaz\JSON\Pointer;
 
 use Remorhaz\JSON\Data\RawWriter;
-use Remorhaz\JSONPointer\Evaluator\OperationDelete;
-use Remorhaz\JSONPointer\Evaluator\OperationRead;
-use Remorhaz\JSONPointer\Evaluator\OperationTest;
-use Remorhaz\JSONPointer\Evaluator\OperationWrite;
-use Remorhaz\JSONPointer\Locator\Locator;
-use Remorhaz\JSONPointer\Parser\Parser;
+use Remorhaz\JSON\Pointer\Evaluator\OperationDelete;
+use Remorhaz\JSON\Pointer\Evaluator\OperationRead;
+use Remorhaz\JSON\Pointer\Evaluator\OperationTest;
+use Remorhaz\JSON\Pointer\Evaluator\OperationWrite;
+use Remorhaz\JSON\Pointer\Locator\Locator;
+use Remorhaz\JSON\Pointer\Parser\Parser;
 
 class Pointer
 {

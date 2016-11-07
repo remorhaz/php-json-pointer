@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Pointer;
+namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSONPointer\Pointer;
+use Remorhaz\JSON\Pointer\Pointer;
 
 /**
  * @todo Merge tests for non-numeric indices.
@@ -79,7 +79,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerNonExistingData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testReadNonExistingDataThrowsEvaluatorException(string $text, $data)
     {
@@ -122,7 +122,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerInvalidData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testReadInvalidDataThrowsEvaluatorException(string $text, $data)
     {
@@ -163,7 +163,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerNonExistingNonNumericIndicesData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
@@ -193,7 +193,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerNonExistingNonNumericIndicesData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
@@ -234,7 +234,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerExistingNonNumericIndicesData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testReadExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {

@@ -1,13 +1,11 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Parser\Lexer;
 
 /**
  * Is thrown by lexical analyzer on recognized lexical errors. Code
  * of exception contains position of error in string.
- *
- * @package JSONPointer
  */
-class SyntaxException extends RuntimeException implements \Remorhaz\JSONPointer\SyntaxException
+class SyntaxException extends RuntimeException implements \Remorhaz\JSON\Pointer\SyntaxException
 {
 }

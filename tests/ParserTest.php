@@ -1,16 +1,16 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test;
+namespace Remorhaz\JSON\Pointer\Test;
 
-use Remorhaz\JSONPointer\Locator\Reference;
-use Remorhaz\JSONPointer\Parser\Parser;
+use Remorhaz\JSON\Pointer\Locator\Reference;
+use Remorhaz\JSON\Pointer\Parser\Parser;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
      */
     public function testUninitializedLocatorAccessThrowsException()
     {
@@ -149,7 +149,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $text
      * @dataProvider providerSyntaxError
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
      */
     public function testSyntaxErrorThrowsException(string $text)
     {
@@ -162,7 +162,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $text
      * @dataProvider providerSyntaxError
-     * @expectedException \Remorhaz\JSONPointer\SyntaxException
+     * @expectedException \Remorhaz\JSON\Pointer\SyntaxException
      * @expectedExceptionMessageRegExp / at position #\d+/
      */
     public function testSyntaxErrorThrowsSyntaxException(string $text)

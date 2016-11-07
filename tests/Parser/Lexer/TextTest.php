@@ -1,9 +1,9 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer;
 
-use Remorhaz\JSONPointer\Parser\Lexer\Lexer;
-use Remorhaz\JSONPointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
+use Remorhaz\JSON\Pointer\Parser\Token;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +49,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $text
      * @dataProvider providerBrokenUnicodeText
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testSettingBrokenUnicodeTextThrowsException(string $text)
     {

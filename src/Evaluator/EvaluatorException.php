@@ -1,7 +1,7 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Evaluator;
+namespace Remorhaz\JSON\Pointer\Evaluator;
 
-class EvaluatorException extends RuntimeException implements \Remorhaz\JSONPointer\EvaluatorException
+class EvaluatorException extends RuntimeException implements \Remorhaz\JSON\Pointer\EvaluatorException
 {
 }

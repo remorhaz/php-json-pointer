@@ -1,15 +1,15 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Token;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Token;
 
-use Remorhaz\JSONPointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\Token;
 
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
      */
     public function testAccessingUninitializedTypeThrowsException()
     {
@@ -37,7 +37,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
      */
     public function testSettingInvalidTypeThrowsException()
     {

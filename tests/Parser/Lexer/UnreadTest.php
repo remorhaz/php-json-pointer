@@ -1,15 +1,15 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer;
 
-use Remorhaz\JSONPointer\Parser\Lexer\Lexer;
+use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
 
 class UnreadTest extends \PHPUnit_Framework_TestCase
 {
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testUninitializedUnreadingThrowsException()
     {
@@ -60,7 +60,7 @@ class UnreadTest extends \PHPUnit_Framework_TestCase
      * @param int $tokenAmount
      * @param string $text
      * @dataProvider providerTokenAmountAndText
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testUnreadingMoreTokensThanWasReadThrowsException(int $tokenAmount, string $text)
     {

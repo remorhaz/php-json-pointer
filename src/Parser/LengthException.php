@@ -1,12 +1,11 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser;
+namespace Remorhaz\JSON\Pointer\Parser;
 
 /**
  * SPL LengthException of token descriptor.
  *
  * @see \LengthException
- * @package JSONPointer
  */
 class LengthException extends \LengthException implements Exception
 {

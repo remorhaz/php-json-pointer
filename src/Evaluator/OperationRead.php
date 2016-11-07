@@ -1,10 +1,10 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Evaluator;
+namespace Remorhaz\JSON\Pointer\Evaluator;
 
 use Remorhaz\JSON\Data\SelectableReaderInterface;
-use Remorhaz\JSONPointer\Locator\Locator;
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSON\Pointer\Locator\Locator;
+use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class OperationRead extends Operation
 {

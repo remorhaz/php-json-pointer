@@ -1,12 +1,10 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Parser\Lexer;
 
 /**
  * Interface of lexical analyzer exceptions.
- *
- * @package JSONPointer
  */
-interface Exception extends \Remorhaz\JSONPointer\Parser\Exception
+interface Exception extends \Remorhaz\JSON\Pointer\Parser\Exception
 {
 }

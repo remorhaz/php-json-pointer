@@ -1,18 +1,15 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Locator\Reference;
+namespace Remorhaz\JSON\Pointer\Test\Locator\Reference;
 
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSON\Pointer\Locator\Reference;
 
-/**
- * @package JSONPointer
- */
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
      */
     public function testAccessingUninitializedTypeThrowsException()
     {
@@ -40,7 +37,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Locator\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
      */
     public function testSettingInvalidTypeThrowsException()
     {

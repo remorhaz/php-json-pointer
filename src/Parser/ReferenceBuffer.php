@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser;
+namespace Remorhaz\JSON\Pointer\Parser;
 
-use Remorhaz\JSONPointer\Locator\Reference;
+use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class ReferenceBuffer
 {

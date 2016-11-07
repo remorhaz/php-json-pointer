@@ -1,9 +1,9 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser;
+namespace Remorhaz\JSON\Pointer\Parser;
 
 class SyntaxException
     extends RuntimeException
-    implements \Remorhaz\JSONPointer\SyntaxException
+    implements \Remorhaz\JSON\Pointer\SyntaxException
 {
 }

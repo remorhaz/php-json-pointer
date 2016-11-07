@@ -1,12 +1,11 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Parser\Lexer;
 
 /**
  * SPL RuntimeException of lexical analyzer.
  *
  * @see \RuntimeException
- * @package JSONPointer
  */
 class RuntimeException extends \RuntimeException implements Exception
 {

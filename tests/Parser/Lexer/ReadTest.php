@@ -1,16 +1,16 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Parser\Lexer;
+namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer;
 
-use Remorhaz\JSONPointer\Parser\Lexer\Lexer;
-use Remorhaz\JSONPointer\Parser\Token;
+use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
+use Remorhaz\JSON\Pointer\Parser\Token;
 
 class ReadTest extends \PHPUnit_Framework_TestCase
 {
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testUninitializedIsEndThrowsException()
     {
@@ -28,7 +28,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testUninitializedReadingThrowsException()
     {
@@ -128,7 +128,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $sourceText
      * @dataProvider providerInvalidText
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testReadingInvalidTextThrowsException(string $sourceText)
     {
@@ -141,7 +141,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $sourceText
      * @dataProvider providerInvalidText
-     * @expectedException \Remorhaz\JSONPointer\SyntaxException
+     * @expectedException \Remorhaz\JSON\Pointer\SyntaxException
      * @expectedExceptionMessageRegExp / at position #\d+/
      */
     public function testReadingInvalidTextThrowsSyntaxException(string $sourceText)
@@ -175,7 +175,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Remorhaz\JSONPointer\Parser\Lexer\Exception
+     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testReadingEmptyTextEndThrowsException()
     {

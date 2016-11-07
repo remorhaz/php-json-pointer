@@ -1,11 +1,9 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Locator;
+namespace Remorhaz\JSON\Pointer\Locator;
 
 /**
  * Single reference of locator.
- *
- * @package JSONPointer
  */
 class Reference
 {

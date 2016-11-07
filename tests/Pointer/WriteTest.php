@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSONPointer\Test\Pointer;
+namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSONPointer\Pointer;
+use Remorhaz\JSON\Pointer\Pointer;
 
 /**
  * @todo Merge tests for non-numeric indices.
@@ -118,7 +118,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @dataProvider providerInvalidData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testWriteInvalidDataThrowsEvaluatorException(string $text, $data)
     {
@@ -146,7 +146,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerNonExistingNonNumericIndicesData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testWriteNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(
         string $text,
@@ -190,7 +190,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      * @param mixed $data
      * @param mixed $value
      * @dataProvider providerExistingNonNumericIndicesData
-     * @expectedException \Remorhaz\JSONPointer\EvaluatorException
+     * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      */
     public function testWriteExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(
         string $text,
