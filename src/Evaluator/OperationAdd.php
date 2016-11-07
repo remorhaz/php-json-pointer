@@ -7,7 +7,10 @@ use Remorhaz\JSON\Data\SelectableWriterInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
-class OperationWrite extends Operation
+/**
+ * Implements 'add' operation compliant with RFC-6902.
+ */
+class OperationAdd extends Operation
 {
 
     protected $writer;
@@ -27,16 +30,18 @@ class OperationWrite extends Operation
     {
         parent::perform();
         if ($this->writer->hasData()) {
-            $this->writer->replaceData($this->valueReader);
+            if ($this->writer->isIndexSelected()) {
+                $this->writer->insertElement($this->valueReader);
+            } else {
+                $this->writer->replaceData($this->valueReader);
+            }
         } else {
             if ($this->writer->isNewIndexSelected()) {
                 $this->writer->appendElement($this->valueReader);
-            } elseif ($this->writer->isIndexSelected()) {
-                throw new EvaluatorException("No data at {$this->locator->getText()}");
             } elseif ($this->writer->isPropertySelected()) {
                 $this->writer->insertProperty($this->valueReader);
             } else {
-                throw new EvaluatorException("Failed to write data at {$this->locator->getText()}");
+                throw new EvaluatorException("No data at {$this->locator->getText()}");
             }
         }
         return $this;
@@ -46,22 +51,29 @@ class OperationWrite extends Operation
     protected function applyReference(Reference $reference)
     {
         if (!$this->writer->hasData()) {
-            throw new EvaluatorException("No data at {$reference->getPath()}");
+            throw new EvaluatorException("No data at '{$reference->getPath()}'");
         }
         if ($this->writer->isArraySelected()) {
             if ($reference->getType() == $reference::TYPE_NEXT_INDEX) {
                 $this->writer->selectNewIndex();
             } elseif ($reference->getType() == $reference::TYPE_INDEX) {
                 $index = (int) $reference->getKey();
-                $this->writer->selectIndex($index);
+                $elementCount = $this->writer->getElementCount();
+                if ($index == $elementCount) {
+                    $this->writer->selectNewIndex();
+                } elseif ($index < $elementCount && $index >= 0) {
+                    $this->writer->selectIndex($index);
+                } else {
+                    throw new EvaluatorException("Invalid index #{$index} at '{$reference->getPath()}'");
+                }
             } else {
-                throw new EvaluatorException("Invalid index '{$reference->getKey()}' at {$reference->getPath()}");
+                throw new EvaluatorException("Invalid index '{$reference->getKey()}' at '{$reference->getPath()}'");
             }
         } elseif ($this->writer->isObjectSelected()) {
             $property = (string) $reference->getKey();
             $this->writer->selectProperty($property);
         } else {
-            throw new EvaluatorException("Scalar data at {$reference->getPath()}");
+            throw new EvaluatorException("Scalar data at '{$reference->getPath()}'");
         }
         return $this;
     }

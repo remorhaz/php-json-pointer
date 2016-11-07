@@ -4,7 +4,7 @@ namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
 use Remorhaz\JSON\Pointer\Pointer;
 
-class DeleteTest extends \PHPUnit_Framework_TestCase
+class RemoveTest extends \PHPUnit_Framework_TestCase
 {
 
 
@@ -14,16 +14,20 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @param $expectedData
      * @dataProvider providerExistingData
      */
-    public function testDeleteExistingData(string $text, $data, $expectedData)
+    public function testRemove_ExistingData_Removed(string $text, $data, $expectedData)
     {
         Pointer::factory()
             ->setText($text)
             ->setData($data)
-            ->delete();
+            ->remove();
         $this->assertEquals($expectedData, $data);
     }
 
 
+    /**
+     * @todo Shorten dataset list.
+     * @return array
+     */
     public function providerExistingData(): array
     {
         return [
@@ -60,29 +64,29 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
-     * @expectedExceptionMessage Data root can't be deleted
+     * @expectedExceptionMessage Data root can't be removed
      */
-    public function testDelete_LocatorPointsToWholeDocument_ExceptionThrown()
+    public function testRemove_LocatorPointsToWholeDocument_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
         Pointer::factory()
             ->setText("")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Data root can't be deleted
+     * @expectedExceptionMessage Data root can't be removed
      */
-    public function testDelete_LocatorPointsToWholeDocument_SplExceptionThrown()
+    public function testRemove_LocatorPointsToWholeDocument_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
         Pointer::factory()
             ->setText("")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -90,13 +94,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^Invalid index '-' at '(.*)'$/
      */
-    public function testDelete_LocatorContainsNewIndex_ExceptionThrown()
+    public function testRemove_LocatorContainsNewIndex_ExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
         Pointer::factory()
             ->setText("/0/1/-")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -104,13 +108,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessageRegExp /^Invalid index '-' at '(.*)'$/
      */
-    public function testDelete_LocatorContainsNewIndex_SplExceptionThrown()
+    public function testRemove_LocatorContainsNewIndex_SplExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
         Pointer::factory()
             ->setText("/0/1/-")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -118,13 +122,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^No element #([1-9]\d*) at '(.*)'$/
      */
-    public function testDelete_NonExistingElement_ExceptionThrown()
+    public function testRemove_NonExistingElement_ExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
         Pointer::factory()
             ->setText("/0/2")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -132,13 +136,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessageRegExp /^No element #([1-9]\d*) at '(.*)'$/
      */
-    public function testDelete_NonExistingElement_SplExceptionThrown()
+    public function testRemove_NonExistingElement_SplExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
         Pointer::factory()
             ->setText("/0/2")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -146,13 +150,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^No property '(.*)' at '(.*)'$/
      */
-    public function testDelete_NonExistingProperty_ExceptionThrown()
+    public function testRemove_NonExistingProperty_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
         Pointer::factory()
             ->setText("/c")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -160,13 +164,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessageRegExp /^No property '(.*)' at '(.*)'$/
      */
-    public function testDelete_NonExistingProperty_SplExceptionThrown()
+    public function testRemove_NonExistingProperty_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
         Pointer::factory()
             ->setText("/c")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -174,13 +178,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^Scalar data at '(.*)'$/
      */
-    public function testDelete_LocatorContainsScalar_ExceptionThrown()
+    public function testRemove_LocatorContainsScalar_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
         Pointer::factory()
             ->setText("/a/b")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 
 
@@ -188,12 +192,12 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessageRegExp /^Scalar data at '(.*)'$/
      */
-    public function testDelete_LocatorContainsScalar_SplExceptionThrown()
+    public function testRemove_LocatorContainsScalar_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
         Pointer::factory()
             ->setText("/a/b")
             ->setData($data)
-            ->delete();
+            ->remove();
     }
 }

@@ -3,10 +3,11 @@
 namespace Remorhaz\JSON\Pointer;
 
 use Remorhaz\JSON\Data\RawWriter;
-use Remorhaz\JSON\Pointer\Evaluator\OperationDelete;
+use Remorhaz\JSON\Pointer\Evaluator\OperationAdd;
+use Remorhaz\JSON\Pointer\Evaluator\OperationRemove;
 use Remorhaz\JSON\Pointer\Evaluator\OperationRead;
+use Remorhaz\JSON\Pointer\Evaluator\OperationReplace;
 use Remorhaz\JSON\Pointer\Evaluator\OperationTest;
-use Remorhaz\JSON\Pointer\Evaluator\OperationWrite;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Parser\Parser;
 
@@ -134,20 +135,30 @@ class Pointer
     }
 
 
-    public function write($value)
+    public function add($value)
     {
         $writer = new RawWriter($this->getData());
         $valueReader = new RawWriter($value);
-        (new OperationWrite($this->getLocator(), $writer, $valueReader))
+        (new OperationAdd($this->getLocator(), $writer, $valueReader))
             ->perform();
         return $this;
     }
 
 
-    public function delete()
+    public function replace($value)
     {
         $writer = new RawWriter($this->getData());
-        (new OperationDelete($this->getLocator(), $writer))
+        $valueReader = new RawWriter($value);
+        (new OperationReplace($this->getLocator(), $writer, $valueReader))
+            ->perform();
+        return $this;
+    }
+
+
+    public function remove()
+    {
+        $writer = new RawWriter($this->getData());
+        (new OperationRemove($this->getLocator(), $writer))
             ->perform();
         return $this;
     }

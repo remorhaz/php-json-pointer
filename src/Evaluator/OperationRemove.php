@@ -6,7 +6,10 @@ use Remorhaz\JSON\Data\SelectableWriterInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
-class OperationDelete extends Operation
+/**
+ * Implements 'remove' operation compliant with RFC-6902.
+ */
+class OperationRemove extends Operation
 {
 
     protected $writer;
@@ -22,7 +25,7 @@ class OperationDelete extends Operation
     public function perform()
     {
         if (empty($this->locator->getReferenceList())) {
-            throw new EvaluatorException("Data root can't be deleted");
+            throw new EvaluatorException("Data root can't be removed");
         }
         parent::perform();
         if ($this->writer->isIndexSelected()) {

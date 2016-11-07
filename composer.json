@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "remorhaz/php-json-data" : "0.1"
+    "remorhaz/php-json-data" : "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "@stable",

@@ -35,20 +35,14 @@ class OperationRead extends Operation
                 );
             }
             $index = (int) $reference->getKey();
-            $hasData = $this
-                ->reader
-                ->selectIndex($index)
-                ->hasData();
-            if (!$hasData) {
+            $this->reader->selectIndex($index);
+            if (!$this->reader->hasData()) {
                 throw new EvaluatorException("No index #{$index} at {$reference->getPath()}");
             }
         } elseif ($this->reader->isObjectSelected()) {
             $property = (string) $reference->getKey();
-            $hasData = $this
-                ->reader
-                ->selectProperty($property)
-                ->hasData();
-            if (!$hasData) {
+            $this->reader->selectProperty($property);
+            if (!$this->reader->hasData()) {
                 throw new EvaluatorException("No property '{$property}' at {$reference->getPath()}");
             }
         } else {
