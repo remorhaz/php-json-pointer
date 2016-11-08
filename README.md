@@ -38,7 +38,7 @@ with another sort of data (like unparsed JSON text, for example).
 To access data with JSON Pointer links you need just 3 simple steps:
 
 1. Create an instance of accessor bound to your data.
-2. Create an object of `\Remorhaz\JSONPointer\Pointer` by calling it's constructor with an accessor as an argument.
+2. Create an object of `\Remorhaz\JSON\Pointer\Pointer` by calling it's constructor with an accessor as an argument.
 3. Call one of operation methods: `test()`, `read()`, `add()`, `replace()` or `remove()`. You will also need an instance
 of accessor bound to source data for `add()` and `replace()` operations.
 
