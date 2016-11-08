@@ -6,7 +6,7 @@
 [![Code Climate](https://codeclimate.com/github/remorhaz/php-json-pointer/badges/gpa.svg)](https://codeclimate.com/github/remorhaz/php-json-pointer)
 [![Test Coverage](https://codeclimate.com/github/remorhaz/php-json-pointer/badges/coverage.svg)](https://codeclimate.com/github/remorhaz/php-json-pointer/coverage)
 
-This library allows usage of [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers with PHP variables.
+This library implements [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers.
 
 ##Requirements
 * PHP 7.0+
@@ -26,19 +26,29 @@ composer require remorhaz/php-json-pointer
 ```
 
 #Documentation
-To get ready to access data with JSON Pointer links you need just 3 simple steps:
+## Data accessors
+Pointer utilizes JSON data accessor interfaces defined in package
+**[remorhaz/php-json-data](https://github.com/remorhaz/php-json-data)**. Read more about them in package documentation.
+There is a ready-to-work implementation in that package that works with native PHP structures (like the ones you get as
+a result of `json_decode` function). You can use `RawSelectableReader` class for read-only operations like _test_ and
+_read_, or `RawSelectableWriter` class for all operations. You can also implement your own accessors if you need to work
+with another sort of data (like unparsed JSON text, for example).
 
-1. Create an object of `\Remorhaz\JSONPointer\Pointer` class by calling it's static `factory()` method.
-2. Link data to the pointer object by calling it's `setData()` method.
-3. Set up JSON Pointer link text by calling it's `setText()` method.
+## Using pointer
+To access data with JSON Pointer links you need just 3 simple steps:
 
-After doing so, you can call `test()`, `read()` and `write()` methods to access data.
+1. Create an instance of accessor bound to your data.
+2. Create an object of `\Remorhaz\JSONPointer\Pointer` by calling it's constructor with an accessor as an argument.
+3. Call one of operation methods: `test()`, `read()`, `add()`, `replace()` or `remove()`. You will also need an instance
+of accessor bound to source data for `add()` and `replace()` operations.
 
 ##Example of usage
 ```php
 <?php
 
-use \Remorhaz\JSONPointer\Pointer;
+use \Remorhaz\JSON\Data\RawSelectableReader;
+use \Remorhaz\JSON\Data\RawSelectableWriter;
+use \Remorhaz\JSON\Pointer\Pointer;
 
 // Setting up data.
 $data = (object) [
@@ -47,46 +57,30 @@ $data = (object) [
     ],
 ];
 
-// Setting up pointer.
-$link = '/a/b/1';
-$pointer = Pointer::factory()
-    ->setData($data)
-    ->setText($link);
+// Setting up read-only pointer.
+$reader = new RawSelectableReader($data);
+$readPointer = new Pointer($reader);
 
 // Reading value.
-echo $pointer->read();  // d
-
-// Writing value.
-echo $pointer
-    ->write('f')        // Sets $data->a->b to ['c', 'f', 'e'].
-    ->read();           // f
+echo $readPointer->read("/a/b/1")->getData();  // d
 
 // Testing value.
-$result = $pointer->test(); // Sets $result to TRUE.
-$link = '/a/c';         // Link to non-existing property
-$result = $pointer
-    ->setText($link)
-    ->test();           // Sets $result to FALSE.
+$trueResult = $readPointer->test("/a/b/1"); // Sets $trueResult to TRUE (value exists).
+$falseResult = $readPointer->test("/a/c"); // Sets $falseResalt to FALSE (value doesn't exist).
 
-// Treating PHP arrays as objects (not compliant with RFC6901, but
-// it's the only way to access non-numeric index in PHP array).
-$subData = ['g' => 2, 'h' => 3];
-$pointer->write($subData);   // Sets $data->a->c to ['g' => 2, 'h' => 3].
-$link = '/a/c/g';       // Link to non-numeric index of array.
-$result = $pointer
-    ->setText($link)
-    ->test();           // Sets $result to FALSE.
-$result = $pointer
-    ->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-    ->test();           // Sets $result to TRUE.
-echo $pointer->read();  // 2
+// Setting up writable pointer.
+$writer = new RawSelectableWriter($data);
+$writePointer = new Pointer($writer);
 
-// JSON arrays don't allow gaps in indices, but we can enable them.
-// Array ['c', 'f', 'e'] has last index 2, so writing to index 4 will
-// create a gap.
-$link = '/a/b/4';
-$pointer
-    ->setOptions(Pointer::OPTION_NUMERIC_INDEX_GAPS)
-    ->setText($link)
-    ->write('i');       // Sets /a/b to ['c', 'f', 'e', 4 => 'i'].
+// Appending element to array.
+$value = 'f';
+$valueReader = new RawSelectableReader($value);
+$writePointer->replace("/a/b/1", $valueReader); // Sets $data->a->b to ['c', 'f', 'e'].
+$value = 'g';
+$valueReader = new RawSelectableReader($value);
+$writePointer->add("/a/c", $valueReader); // Adds $data->a->c property and sets it to 'g'.
+$writePointer->remove("/a/b/0"); // Sets $data->a->b to ['f', 'e'].
+$value = 'h';
+$valueReader = new RawSelectableReader($value);
+$writePointer->add("/a/b/-", $valueReader); // Sets $data->a->b to ['f', 'e', 'h'].
 ```
