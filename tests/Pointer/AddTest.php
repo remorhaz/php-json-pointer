@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use Remorhaz\JSON\Data\RawSelectableReader;
 use Remorhaz\JSON\Data\RawSelectableWriter;
 use Remorhaz\JSON\Pointer\Pointer;
 
@@ -13,7 +14,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/a", 'c');
+        $value = 'c';
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/a", $valueReader);
         $expectedData = (object) ['a' => 'c'];
         $this->assertEquals($expectedData, $data);
     }
@@ -23,7 +26,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/c", 'd');
+        $value = 'd';
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/c", $valueReader);
         $expectedData = (object) ['a' => 'b', 'c' => 'd'];
         $this->assertEquals($expectedData, $data);
     }
@@ -33,7 +38,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 3];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/1", 2);
+        $value = 2;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/1", $valueReader);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
     }
@@ -43,7 +50,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 2];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/2", 3);
+        $value = 3;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/2", $valueReader);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
     }
@@ -53,7 +62,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 2];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/-", 3);
+        $value = 3;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/-", $valueReader);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
     }
@@ -67,7 +78,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 2];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/3", 3);
+        $value = 3;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/3", $valueReader);
     }
 
 
@@ -79,7 +92,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 2];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/3", 3);
+        $value = 3;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/3", $valueReader);
     }
 
 
@@ -91,7 +106,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 2];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/a", 3);
+        $value = 3;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/a", $valueReader);
     }
 
 
@@ -103,37 +120,41 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = [1, 2];
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/a", 3);
+        $value = 3;
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/a", $valueReader);
     }
 
 
     /**
      * @param $data
      * @param string $text
-     * @param mixed $newValue
+     * @param mixed $value
      * @dataProvider providerNonExistingSelection
      * @expectedException \Remorhaz\JSON\Pointer\EvaluatorException
      * @expectedExceptionMessageRegExp /^No data at '(.*)'$/
      */
-    public function testAdd_NonExistingSelection_ExceptionThrown($data, string $text, $newValue)
+    public function testAdd_NonExistingSelection_ExceptionThrown($data, string $text, $value)
     {
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add($text, $newValue);
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add($text, $valueReader);
     }
 
 
     /**
      * @param $data
      * @param string $text
-     * @param mixed $newValue
+     * @param mixed $value
      * @dataProvider providerNonExistingSelection
      * @expectedException \RuntimeException
      * @expectedExceptionMessageRegExp /^No data at '(.*)'$/
      */
-    public function testAdd_NonExistingSelection_SplExceptionThrown($data, string $text, $newValue)
+    public function testAdd_NonExistingSelection_SplExceptionThrown($data, string $text, $value)
     {
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add($text, $newValue);
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add($text, $valueReader);
     }
 
 
@@ -155,6 +176,22 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $data = 'a';
         $writer = new RawSelectableWriter($data);
-        (new Pointer($writer))->add("/a", 'b');
+        $value = 'b';
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/a", $valueReader);
+    }
+
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessageRegExp /^Scalar data at '(.*)'$/
+     */
+    public function testAdd_ScalarSelection_SplExceptionThrown()
+    {
+        $data = 'a';
+        $writer = new RawSelectableWriter($data);
+        $value = 'b';
+        $valueReader = new RawSelectableReader($value);
+        (new Pointer($writer))->add("/a", $valueReader);
     }
 }

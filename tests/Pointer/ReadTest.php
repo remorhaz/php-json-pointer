@@ -21,7 +21,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function testReadExistingData(string $text, $data, $result)
     {
         $reader = new RawSelectableReader($data);
-        $readData = (new Pointer($reader))->read($text);
+        $readData = (new Pointer($reader))->read($text)->getData();
         $this->assertEquals($result, $readData, "Error reading existing data");
     }
 

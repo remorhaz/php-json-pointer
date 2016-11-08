@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Evaluator;
 
+use Remorhaz\JSON\Data\RawSelectableReader;
 use Remorhaz\JSON\Data\SelectableReaderInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
@@ -23,7 +24,7 @@ class OperationTest extends Operation
     {
         parent::perform();
         if (!$this->isResultSet()) {
-            $this->setResult(true);
+            $this->setResultFromBool(true);
         }
         return $this;
     }
@@ -33,7 +34,7 @@ class OperationTest extends Operation
     {
         if ($this->reader->isArraySelected()) {
             if ($reference->getType() != $reference::TYPE_INDEX) {
-                return $this->setResult(false);
+                return $this->setResultFromBool(false);
             }
             $index = (int) $reference->getKey();
             $hasData = $this
@@ -41,7 +42,7 @@ class OperationTest extends Operation
                 ->selectIndex($index)
                 ->hasData();
             if (!$hasData) {
-                return $this->setResult(false);
+                return $this->setResultFromBool(false);
             }
         } elseif ($this->reader->isObjectSelected()) {
             $property = (string) $reference->getKey();
@@ -50,11 +51,18 @@ class OperationTest extends Operation
                 ->selectProperty($property)
                 ->hasData();
             if (!$hasData) {
-                return $this->setResult(false);
+                return $this->setResultFromBool(false);
             }
         } else {
-            return $this->setResult(false);
+            return $this->setResultFromBool(false);
         }
         return $this;
+    }
+    
+    
+    private function setResultFromBool($resultData)
+    {
+        $result = new RawSelectableReader($resultData);
+        return $this->setResult($result);
     }
 }

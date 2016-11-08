@@ -2,8 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer;
 
-use Remorhaz\JSON\Data\RawSelectableReader;
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\ReaderInterface;
 use Remorhaz\JSON\Data\SelectableReaderInterface;
 use Remorhaz\JSON\Data\SelectableWriterInterface;
 use Remorhaz\JSON\Pointer\Evaluator\OperationAdd;
@@ -48,11 +47,12 @@ class Pointer
         $this->getReader()->selectRoot();
         return (bool) (new OperationTest($this->getLocator($text), $this->getReader()))
             ->perform()
-            ->getResult();
+            ->getResult()
+            ->getData();
     }
 
 
-    public function read(string $text)
+    public function read(string $text): ReaderInterface
     {
         $this->getReader()->selectRoot();
         return (new OperationRead($this->getLocator($text), $this->getReader()))
@@ -61,20 +61,18 @@ class Pointer
     }
 
 
-    public function add(string $text, $value)
+    public function add(string $text, ReaderInterface $valueReader)
     {
         $this->getReader()->selectRoot();
-        $valueReader = new RawSelectableReader($value);
         (new OperationAdd($this->getLocator($text), $this->getWriter(), $valueReader))
             ->perform();
         return $this;
     }
 
 
-    public function replace(string $text, $value)
+    public function replace(string $text, ReaderInterface $valueReader)
     {
         $this->getReader()->selectRoot();
-        $valueReader = new RawSelectableWriter($value);
         (new OperationReplace($this->getLocator($text), $this->getWriter(), $valueReader))
             ->perform();
         return $this;
@@ -107,6 +105,7 @@ class Pointer
     /**
      * Returns locator built from source text.
      *
+     * @param string $text
      * @return Locator
      */
     protected function getLocator(string $text): Locator

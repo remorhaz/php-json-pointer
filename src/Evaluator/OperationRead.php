@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Evaluator;
 
+use Remorhaz\JSON\Data\RawSelectableReader;
 use Remorhaz\JSON\Data\SelectableReaderInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
@@ -21,8 +22,10 @@ class OperationRead extends Operation
 
     public function perform()
     {
-        return parent::perform()
-            ->setResult($this->reader->getData());
+        parent::perform();
+        $resultData = $this->reader->getData();
+        $result = new RawSelectableReader($resultData);
+        return $this->setResult($result);
     }
 
 

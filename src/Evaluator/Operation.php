@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Evaluator;
 
+use Remorhaz\JSON\Data\ReaderInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
@@ -45,7 +46,7 @@ abstract class Operation
     }
 
 
-    public function getResult()
+    public function getResult(): ReaderInterface
     {
         if (!$this->isResultSet()) {
             throw new LogicException("Operation result is not set");
@@ -54,7 +55,7 @@ abstract class Operation
     }
 
 
-    protected function setResult($result)
+    protected function setResult(ReaderInterface $result)
     {
         $this->result = $result;
         $this->isResultSet = true;
