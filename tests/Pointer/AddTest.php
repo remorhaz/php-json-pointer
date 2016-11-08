@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use Remorhaz\JSON\Data\RawSelectableWriter;
 use Remorhaz\JSON\Pointer\Pointer;
 
 class AddTest extends \PHPUnit_Framework_TestCase
@@ -11,10 +12,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_PropertyExists_Replaced()
     {
         $data = (object) ['a' => 'b'];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/a")
-            ->add('c');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/a", 'c');
         $expectedData = (object) ['a' => 'c'];
         $this->assertEquals($expectedData, $data);
     }
@@ -23,10 +22,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_PropertyNotExists_Inserted()
     {
         $data = (object) ['a' => 'b'];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/c")
-            ->add('d');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/c", 'd');
         $expectedData = (object) ['a' => 'b', 'c' => 'd'];
         $this->assertEquals($expectedData, $data);
     }
@@ -35,10 +32,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_ElementExists_Inserted()
     {
         $data = [1, 3];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/1")
-            ->add(2);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/1", 2);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
     }
@@ -47,10 +42,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NextElementNotExists_Appended()
     {
         $data = [1, 2];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/2")
-            ->add(3);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/2", 3);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
     }
@@ -59,10 +52,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NewElement_Appended()
     {
         $data = [1, 2];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/-")
-            ->add(3);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/-", 3);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
     }
@@ -75,10 +66,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NotNextElementNotExists_ExceptionThrown()
     {
         $data = [1, 2];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/3")
-            ->add(3);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/3", 3);
     }
 
 
@@ -89,10 +78,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NotNextElementNotExists_SplExceptionThrown()
     {
         $data = [1, 2];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/3")
-            ->add(3);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/3", 3);
     }
 
 
@@ -103,10 +90,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_IvalidElementIndex_ExceptionThrown()
     {
         $data = [1, 2];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/a")
-            ->add(3);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/a", 3);
     }
 
 
@@ -117,10 +102,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_IvalidElementIndex_SplExceptionThrown()
     {
         $data = [1, 2];
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/a")
-            ->add(3);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/a", 3);
     }
 
 
@@ -134,10 +117,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd_NonExistingSelection_ExceptionThrown($data, string $text, $newValue)
     {
-        Pointer::factory()
-            ->setData($data)
-            ->setText($text)
-            ->add($newValue);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add($text, $newValue);
     }
 
 
@@ -151,10 +132,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd_NonExistingSelection_SplExceptionThrown($data, string $text, $newValue)
     {
-        Pointer::factory()
-            ->setData($data)
-            ->setText($text)
-            ->add($newValue);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add($text, $newValue);
     }
 
 
@@ -175,9 +154,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_ScalarSelection_ExceptionThrown()
     {
         $data = 'a';
-        Pointer::factory()
-            ->setData($data)
-            ->setText("/a")
-            ->add('b');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->add("/a", 'b');
     }
 }

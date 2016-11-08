@@ -2,7 +2,10 @@
 
 namespace Remorhaz\JSON\Pointer;
 
-use Remorhaz\JSON\Data\RawWriter;
+use Remorhaz\JSON\Data\RawSelectableReader;
+use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\SelectableReaderInterface;
+use Remorhaz\JSON\Data\SelectableWriterInterface;
 use Remorhaz\JSON\Pointer\Evaluator\OperationAdd;
 use Remorhaz\JSON\Pointer\Evaluator\OperationRemove;
 use Remorhaz\JSON\Pointer\Evaluator\OperationRead;
@@ -15,32 +18,11 @@ class Pointer
 {
 
     /**
-     * JSON Pointer string buffer.
+     * Data reader.
      *
-     * @var string|null
+     * @var SelectableReaderInterface
      */
-    protected $text;
-
-    /**
-     * Data for evaluation.
-     *
-     * @var mixed
-     */
-    protected $data;
-
-    /**
-     * Internal flag of data being set.
-     *
-     * @var bool
-     */
-    protected $isDataSet = false;
-
-    /**
-     * Locator buffer.
-     *
-     * @var Locator|null
-     */
-    protected $locator;
+    protected $reader;
 
     /**
      * Parser object.
@@ -52,113 +34,57 @@ class Pointer
 
     /**
      * Constructor.
-     */
-    protected function __construct()
-    {
-    }
-
-
-    /**
-     * Creates object instance.
      *
-     * @return static
+     * @param SelectableReaderInterface $reader
      */
-    public static function factory()
+    public function __construct(SelectableReaderInterface $reader)
     {
-        return new static();
+        $this->reader = $reader;
     }
 
 
-    /**
-     * Sets JSON Pointer string.
-     *
-     * @param string $text
-     * @return $this
-     */
-    public function setText(string $text)
+    public function test(string $text): bool
     {
-        if ($this->text !== $text) {
-            $this->text = $text;
-            $this->locator = null;
-        }
-        return $this;
-    }
-
-
-    /**
-     * Returns JSON Pointer string.
-     *
-     * @return string
-     * @throws LogicException
-     */
-    public function getText(): string
-    {
-        if (null === $this->text) {
-            throw new LogicException("JSON Pointer text is not set");
-        }
-        return $this->text;
-    }
-
-
-    public function setData(&$data)
-    {
-        $this->data = &$data;
-        $this->isDataSet = true;
-        return $this;
-    }
-
-
-    protected function &getData()
-    {
-        if (!$this->isDataSet) {
-            throw new LogicException("Data for evaluation is not set");
-        }
-        return $this->data;
-    }
-
-
-    public function test(): bool
-    {
-        $reader = new RawWriter($this->getData());
-        return (bool) (new OperationTest($this->getLocator(), $reader))
+        $this->getReader()->selectRoot();
+        return (bool) (new OperationTest($this->getLocator($text), $this->getReader()))
             ->perform()
             ->getResult();
     }
 
 
-    public function read()
+    public function read(string $text)
     {
-        $reader = new RawWriter($this->getData());
-        return (new OperationRead($this->getLocator(), $reader))
+        $this->getReader()->selectRoot();
+        return (new OperationRead($this->getLocator($text), $this->getReader()))
             ->perform()
             ->getResult();
     }
 
 
-    public function add($value)
+    public function add(string $text, $value)
     {
-        $writer = new RawWriter($this->getData());
-        $valueReader = new RawWriter($value);
-        (new OperationAdd($this->getLocator(), $writer, $valueReader))
+        $this->getReader()->selectRoot();
+        $valueReader = new RawSelectableReader($value);
+        (new OperationAdd($this->getLocator($text), $this->getWriter(), $valueReader))
             ->perform();
         return $this;
     }
 
 
-    public function replace($value)
+    public function replace(string $text, $value)
     {
-        $writer = new RawWriter($this->getData());
-        $valueReader = new RawWriter($value);
-        (new OperationReplace($this->getLocator(), $writer, $valueReader))
+        $this->getReader()->selectRoot();
+        $valueReader = new RawSelectableWriter($value);
+        (new OperationReplace($this->getLocator($text), $this->getWriter(), $valueReader))
             ->perform();
         return $this;
     }
 
 
-    public function remove()
+    public function remove($text)
     {
-        $writer = new RawWriter($this->getData());
-        (new OperationRemove($this->getLocator(), $writer))
+        $this->getReader()->selectRoot();
+        (new OperationRemove($this->getLocator($text), $this->getWriter()))
             ->perform();
         return $this;
     }
@@ -183,14 +109,26 @@ class Pointer
      *
      * @return Locator
      */
-    protected function getLocator(): Locator
+    protected function getLocator(string $text): Locator
     {
-        if (null === $this->locator) {
-            $this->locator = $this
-                ->getParser()
-                ->setText($this->getText())
-                ->getLocator();
+        return $this
+            ->getParser()
+            ->setText($text)
+            ->getLocator();
+    }
+
+
+    protected function getReader(): SelectableReaderInterface
+    {
+        return $this->reader;
+    }
+
+
+    protected function getWriter(): SelectableWriterInterface
+    {
+        if (!$this->reader instanceof SelectableWriterInterface) {
+            throw new LogicException("Modifying data is not supported by data accessor");
         }
-        return $this->locator;
+        return $this->reader;
     }
 }

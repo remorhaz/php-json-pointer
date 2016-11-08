@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use Remorhaz\JSON\Data\RawSelectableReader;
 use Remorhaz\JSON\Pointer\Pointer;
 
 /**
@@ -15,16 +16,12 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @param string $text
      * @param mixed $data
      * @param mixed $result
-     * @param mixed $value
-     * @param mixed $modifiedData
      * @dataProvider providerExistingData
      */
-    public function testReadExistingData(string $text, $data, $result, $value, $modifiedData)
+    public function testReadExistingData(string $text, $data, $result)
     {
-        $pointer = Pointer::factory()
-            ->setText($text)
-            ->setData($data);
-        $readData = $pointer->read();
+        $reader = new RawSelectableReader($data);
+        $readData = (new Pointer($reader))->read($text);
         $this->assertEquals($result, $readData, "Error reading existing data");
     }
 
@@ -32,45 +29,15 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function providerExistingData(): array
     {
         return [
-            'rootProperty' => [
-                '/a',
-                (object) ['a' => 1, 'b' => 2],
-                1,
-                3,
-                (object) ['a' => 3, 'b' => 2],
-            ],
-            'rootNumericProperty' => [
-                '/1',
-                (object) [1 => 2, 'b' => 3],
-                2,
-                4,
-                (object) [1 => 4, 'b' => 3],
-            ],
-            'rootNegativeNumericProperty' => [
-                '/-1',
-                (object) [-1 => 2, 'b' => 3],
-                2,
-                4,
-                (object) [-1 => 4, 'b' => 3],
-            ],
-            'nestedProperty' => [
-                '/a/b',
-                (object) ['a' => (object) ['b' => 1], 'c' => 2],
-                1,
-                3,
-                (object) ['a' => (object) ['b' => 3], 'c' => 2],
-            ],
-            'rootIndex' => ['/1', [1, 2], 2, 3, [1, 3]],
-            'nestedIndex' => ['/0/1', [[1, 2], 3], 2, 4, [[1, 4], 3]],
-            'rootScalar' => ['', 'abc', 'abc', 1, 1],
-            'rootNull' => ['', null, null, 'a', 'a'],
-            'nestedNull' => [
-                '/a',
-                (object) ['a' => null],
-                null,
-                true,
-                (object) ['a' => true],
-            ],
+            'rootProperty' => ['/a', (object) ['a' => 1, 'b' => 2], 1],
+            'rootNumericProperty' => ['/1', (object) [1 => 2, 'b' => 3], 2],
+            'rootNegativeNumericProperty' => ['/-1', (object) [-1 => 2, 'b' => 3], 2],
+            'nestedProperty' => ['/a/b', (object) ['a' => (object) ['b' => 1], 'c' => 2], 1],
+            'rootIndex' => ['/1', [1, 2], 2],
+            'nestedIndex' => ['/0/1', [[1, 2], 3], 2],
+            'rootScalar' => ['', 'abc', 'abc'],
+            'rootNull' => ['', null, null],
+            'nestedNull' => ['/a', (object) ['a' => null], null],
         ];
     }
 
@@ -83,10 +50,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingDataThrowsEvaluatorException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -98,10 +63,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingDataThrowsSplException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -126,10 +89,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadInvalidDataThrowsEvaluatorException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -141,10 +102,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadInvalidDataThrowsSplException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -167,10 +126,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -182,10 +139,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -197,11 +152,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
-        Pointer::factory()
-            //->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -213,11 +165,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
-        Pointer::factory()
-            //->setOptions(Pointer::OPTION_NON_NUMERIC_INDICES)
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -238,10 +187,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 
@@ -253,10 +200,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->read();
+        $reader = new RawSelectableReader($data);
+        (new Pointer($reader))->read($text);
     }
 
 

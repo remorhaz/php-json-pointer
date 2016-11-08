@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use Remorhaz\JSON\Data\RawSelectableReader;
 use Remorhaz\JSON\Pointer\Pointer;
 
 /**
@@ -17,10 +18,9 @@ class TestTest extends \PHPUnit_Framework_TestCase
      */
     public function testExistingData(string $text, $data)
     {
-        $pointer = Pointer::factory()
-            ->setText($text)
-            ->setData($data);
-        $this->assertTrue($pointer->test(), "Error testing existing data");
+        $reader = new RawSelectableReader($data);
+        $result = (new Pointer($reader))->test($text);
+        $this->assertTrue($result, "Error testing existing data");
     }
 
 
@@ -48,10 +48,8 @@ class TestTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestNonExistingData(string $text, $data)
     {
-        $result = Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->test();
+        $reader = new RawSelectableReader($data);
+        $result = (new Pointer($reader))->test($text);
         $this->assertFalse($result, "Error testing non-existing data");
     }
 
@@ -80,10 +78,8 @@ class TestTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestInvalidData(string $text, $data)
     {
-        $result = Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->test();
+        $reader = new RawSelectableReader($data);
+        $result = (new Pointer($reader))->test($text);
         $this->assertFalse($result, "Error testing non-existing data");
     }
 
@@ -106,10 +102,8 @@ class TestTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestNonExistingNonAllowedNonNumericIndices(string $text, $data)
     {
-        $result = Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->test();
+        $reader = new RawSelectableReader($data);
+        $result = (new Pointer($reader))->test($text);
         $this->assertFalse($result, "Error testing non-numeric array index");
     }
 
@@ -130,10 +124,8 @@ class TestTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestExistingNotAllowedNonNumericIndices(string $text, $data)
     {
-        $result = Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->test();
+        $reader = new RawSelectableReader($data);
+        $result = (new Pointer($reader))->test($text);
         $this->assertFalse($result, "Error testing non-numeric array index");
     }
 

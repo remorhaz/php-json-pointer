@@ -2,6 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use Remorhaz\JSON\Data\RawSelectableWriter;
 use Remorhaz\JSON\Pointer\Pointer;
 
 class ReplaceTest extends \PHPUnit_Framework_TestCase
@@ -17,10 +18,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace_ValueExists_DataReplaced($data, string $text, $value, $expectedData)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->replace($value);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace($text, $value);
         $this->assertEquals($expectedData, $data, "Existing value was not replaced");
     }
 
@@ -42,10 +41,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ElementNotExists_ExceptionThrown()
     {
         $data = [1];
-        Pointer::factory()
-            ->setText("/1")
-            ->setData($data)
-            ->replace(2);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace("/1", 2);
     }
 
 
@@ -56,10 +53,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ElementNotExists_SplExceptionThrown()
     {
         $data = [1];
-        Pointer::factory()
-            ->setText("/1")
-            ->setData($data)
-            ->replace(2);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace("/1", 2);
     }
 
 
@@ -70,10 +65,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_PropertyNotExists_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        Pointer::factory()
-            ->setText("/c")
-            ->setData($data)
-            ->replace('d');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace("/c", 'd');
     }
 
 
@@ -84,10 +77,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_PropertyNotExists_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        Pointer::factory()
-            ->setText("/c")
-            ->setData($data)
-            ->replace('d');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace("/c", 'd');
     }
 
 
@@ -98,10 +89,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ScalarSelection_ExceptionThrown()
     {
         $data = 'a';
-        Pointer::factory()
-            ->setText("/a")
-            ->setData($data)
-            ->replace('d');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace("/a", 'd');
     }
 
 
@@ -112,10 +101,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ScalarSelection_SplExceptionThrown()
     {
         $data = 'a';
-        Pointer::factory()
-            ->setText("/a")
-            ->setData($data)
-            ->replace('d');
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace("/a", 'd');
     }
 
 
@@ -129,10 +116,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace_InvalidElementIndex_ExceptionThrown($data, string $text, $value)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->replace($value);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace($text, $value);
     }
 
 
@@ -146,10 +131,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace_InvalidElementIndex_SplExceptionThrown($data, string $text, $value)
     {
-        Pointer::factory()
-            ->setText($text)
-            ->setData($data)
-            ->replace($value);
+        $writer = new RawSelectableWriter($data);
+        (new Pointer($writer))->replace($text, $value);
     }
 
 
