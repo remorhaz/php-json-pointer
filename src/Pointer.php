@@ -126,7 +126,7 @@ class Pointer
     protected function getWriter(): SelectableWriterInterface
     {
         if (!$this->reader instanceof SelectableWriterInterface) {
-            throw new LogicException("Modifying data is not supported by data accessor");
+            throw new LogicException("Can't modify data with read-only accessor");
         }
         return $this->reader;
     }
