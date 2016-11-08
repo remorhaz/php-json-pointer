@@ -9,11 +9,15 @@ use Remorhaz\JSON\Pointer\Locator\Reference;
 abstract class Operation
 {
 
+    /**
+     * @var Locator
+     */
     protected $locator;
 
-    protected $result;
-
-    protected $isResultSet = false;
+    /**
+     * @var ReaderInterface|null
+     */
+    private $result;
 
 
     public function __construct(Locator $locator)
@@ -58,13 +62,12 @@ abstract class Operation
     protected function setResult(ReaderInterface $result)
     {
         $this->result = $result;
-        $this->isResultSet = true;
         return $this;
     }
 
 
     protected function isResultSet(): bool
     {
-        return $this->isResultSet;
+        return null !== $this->result;
     }
 }
