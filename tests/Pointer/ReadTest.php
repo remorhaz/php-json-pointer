@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSON\Data\RawSelectableReader;
+use Remorhaz\JSON\Data\Reference\Selector;
 use Remorhaz\JSON\Pointer\Pointer;
 
 /**
@@ -20,8 +20,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadExistingData(string $text, $data, $result)
     {
-        $reader = new RawSelectableReader($data);
-        $readData = (new Pointer($reader))->read($text)->getData();
+        $reader = new Selector($data);
+        $readData = (new Pointer($reader))->read($text)->getAsStruct();
         $this->assertEquals($result, $readData, "Error reading existing data");
     }
 
@@ -50,7 +50,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingDataThrowsEvaluatorException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -63,7 +63,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingDataThrowsSplException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -89,7 +89,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadInvalidDataThrowsEvaluatorException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -102,7 +102,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadInvalidDataThrowsSplException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -126,7 +126,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -139,7 +139,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -152,7 +152,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -165,7 +165,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadNonExistingAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -187,7 +187,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadExistingNotAllowedNonNumericIndicesDataThrowsEvaluatorException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 
@@ -200,7 +200,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadExistingNotAllowedNonNumericIndicesDataThrowsSplException(string $text, $data)
     {
-        $reader = new RawSelectableReader($data);
+        $reader = new Selector($data);
         (new Pointer($reader))->read($text);
     }
 

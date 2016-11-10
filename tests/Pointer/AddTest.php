@@ -2,8 +2,8 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSON\Data\RawSelectableReader;
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\Reference\Reader;
+use Remorhaz\JSON\Data\Reference\Writer;
 use Remorhaz\JSON\Pointer\Pointer;
 
 class AddTest extends \PHPUnit_Framework_TestCase
@@ -13,9 +13,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_PropertyExists_Replaced()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'c';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/a", $valueReader);
         $expectedData = (object) ['a' => 'c'];
         $this->assertEquals($expectedData, $data);
@@ -25,9 +25,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_PropertyNotExists_Inserted()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'd';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/c", $valueReader);
         $expectedData = (object) ['a' => 'b', 'c' => 'd'];
         $this->assertEquals($expectedData, $data);
@@ -37,9 +37,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_ElementExists_Inserted()
     {
         $data = [1, 3];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 2;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/1", $valueReader);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
@@ -49,9 +49,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NextElementNotExists_Appended()
     {
         $data = [1, 2];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 3;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/2", $valueReader);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
@@ -61,9 +61,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NewElement_Appended()
     {
         $data = [1, 2];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 3;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/-", $valueReader);
         $expectedData = [1, 2, 3];
         $this->assertEquals($expectedData, $data);
@@ -77,9 +77,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NotNextElementNotExists_ExceptionThrown()
     {
         $data = [1, 2];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 3;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/3", $valueReader);
     }
 
@@ -91,9 +91,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_NotNextElementNotExists_SplExceptionThrown()
     {
         $data = [1, 2];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 3;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/3", $valueReader);
     }
 
@@ -105,9 +105,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_IvalidElementIndex_ExceptionThrown()
     {
         $data = [1, 2];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 3;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/a", $valueReader);
     }
 
@@ -119,9 +119,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_IvalidElementIndex_SplExceptionThrown()
     {
         $data = [1, 2];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 3;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/a", $valueReader);
     }
 
@@ -136,8 +136,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd_NonExistingSelection_ExceptionThrown($data, string $text, $value)
     {
-        $writer = new RawSelectableWriter($data);
-        $valueReader = new RawSelectableReader($value);
+        $writer = new Writer($data);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add($text, $valueReader);
     }
 
@@ -152,8 +152,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd_NonExistingSelection_SplExceptionThrown($data, string $text, $value)
     {
-        $writer = new RawSelectableWriter($data);
-        $valueReader = new RawSelectableReader($value);
+        $writer = new Writer($data);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add($text, $valueReader);
     }
 
@@ -175,9 +175,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_ScalarSelection_ExceptionThrown()
     {
         $data = 'a';
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'b';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/a", $valueReader);
     }
 
@@ -189,9 +189,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAdd_ScalarSelection_SplExceptionThrown()
     {
         $data = 'a';
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'b';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->add("/a", $valueReader);
     }
 }

@@ -3,8 +3,8 @@
 namespace Remorhaz\JSON\Pointer;
 
 use Remorhaz\JSON\Data\ReaderInterface;
-use Remorhaz\JSON\Data\SelectableReaderInterface;
-use Remorhaz\JSON\Data\SelectableWriterInterface;
+use Remorhaz\JSON\Data\SelectorInterface;
+use Remorhaz\JSON\Data\WriterInterface;
 use Remorhaz\JSON\Pointer\Evaluator\OperationAdd;
 use Remorhaz\JSON\Pointer\Evaluator\OperationRemove;
 use Remorhaz\JSON\Pointer\Evaluator\OperationRead;
@@ -19,9 +19,9 @@ class Pointer
     /**
      * Data reader.
      *
-     * @var SelectableReaderInterface
+     * @var SelectorInterface
      */
-    protected $reader;
+    protected $selector;
 
     /**
      * Parser object.
@@ -34,28 +34,28 @@ class Pointer
     /**
      * Constructor.
      *
-     * @param SelectableReaderInterface $reader
+     * @param SelectorInterface $selector
      */
-    public function __construct(SelectableReaderInterface $reader)
+    public function __construct(SelectorInterface $selector)
     {
-        $this->reader = $reader;
+        $this->selector = $selector;
     }
 
 
     public function test(string $text): bool
     {
-        $this->getReader()->selectRoot();
-        return (bool) (new OperationTest($this->getLocator($text), $this->getReader()))
+        $this->getSelector()->selectRoot();
+        return (bool) (new OperationTest($this->getLocator($text), $this->getSelector()))
             ->perform()
             ->getResult()
-            ->getData();
+            ->getAsStruct();
     }
 
 
     public function read(string $text): ReaderInterface
     {
-        $this->getReader()->selectRoot();
-        return (new OperationRead($this->getLocator($text), $this->getReader()))
+        $this->getSelector()->selectRoot();
+        return (new OperationRead($this->getLocator($text), $this->getSelector()))
             ->perform()
             ->getResult();
     }
@@ -63,7 +63,7 @@ class Pointer
 
     public function add(string $text, ReaderInterface $valueReader)
     {
-        $this->getReader()->selectRoot();
+        $this->getSelector()->selectRoot();
         (new OperationAdd($this->getLocator($text), $this->getWriter(), $valueReader))
             ->perform();
         return $this;
@@ -72,7 +72,7 @@ class Pointer
 
     public function replace(string $text, ReaderInterface $valueReader)
     {
-        $this->getReader()->selectRoot();
+        $this->getSelector()->selectRoot();
         (new OperationReplace($this->getLocator($text), $this->getWriter(), $valueReader))
             ->perform();
         return $this;
@@ -81,7 +81,7 @@ class Pointer
 
     public function remove($text)
     {
-        $this->getReader()->selectRoot();
+        $this->getSelector()->selectRoot();
         (new OperationRemove($this->getLocator($text), $this->getWriter()))
             ->perform();
         return $this;
@@ -117,17 +117,17 @@ class Pointer
     }
 
 
-    protected function getReader(): SelectableReaderInterface
+    protected function getSelector(): SelectorInterface
     {
-        return $this->reader;
+        return $this->selector;
     }
 
 
-    protected function getWriter(): SelectableWriterInterface
+    protected function getWriter(): WriterInterface
     {
-        if (!$this->reader instanceof SelectableWriterInterface) {
-            throw new LogicException("Can't modify data with read-only accessor");
+        if (!$this->selector instanceof WriterInterface) {
+            throw new LogicException("Can't modify data with read-only selector");
         }
-        return $this->reader;
+        return $this->selector;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\Reference\Writer;
 use Remorhaz\JSON\Pointer\Pointer;
 
 class RemoveTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +17,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemove_ExistingData_Removed(string $text, $data, $expectedData)
     {
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove($text);
         $this->assertEquals($expectedData, $data);
     }
@@ -68,7 +68,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_LocatorPointsToWholeDocument_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("");
     }
 
@@ -80,7 +80,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_LocatorPointsToWholeDocument_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("");
     }
 
@@ -92,7 +92,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_LocatorContainsNewIndex_ExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/0/1/-");
     }
 
@@ -104,7 +104,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_LocatorContainsNewIndex_SplExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/0/1/-");
     }
 
@@ -116,7 +116,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_NonExistingElement_ExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/0/2");
     }
 
@@ -128,7 +128,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_NonExistingElement_SplExceptionThrown()
     {
         $data = [[1, [2, [3]]]];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/0/2");
     }
 
@@ -140,7 +140,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_NonExistingProperty_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/c");
     }
 
@@ -152,7 +152,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_NonExistingProperty_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/c");
     }
 
@@ -164,7 +164,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_LocatorContainsScalar_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/a/b");
     }
 
@@ -176,7 +176,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     public function testRemove_LocatorContainsScalar_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         (new Pointer($writer))->remove("/a/b");
     }
 }

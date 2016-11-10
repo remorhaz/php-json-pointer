@@ -3,7 +3,7 @@
 namespace Remorhaz\JSON\Pointer\Evaluator;
 
 use Remorhaz\JSON\Data\ReaderInterface;
-use Remorhaz\JSON\Data\SelectableWriterInterface;
+use Remorhaz\JSON\Data\WriterInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
@@ -18,7 +18,7 @@ class OperationReplace extends Operation
     protected $valueReader;
 
 
-    public function __construct(Locator $locator, SelectableWriterInterface $writer, ReaderInterface $valueReader)
+    public function __construct(Locator $locator, WriterInterface $writer, ReaderInterface $valueReader)
     {
         parent::__construct($locator);
         $this->writer = $writer;
@@ -36,16 +36,16 @@ class OperationReplace extends Operation
 
     protected function applyReference(Reference $reference)
     {
-        if ($this->writer->isArraySelected()) {
+        if ($this->writer->isArray()) {
             if ($reference->getType() != $reference::TYPE_INDEX) {
                 throw new EvaluatorException("Invalid index '{$reference->getKey()}' at '{$reference->getPath()}'");
             }
             $index = (int) $reference->getKey();
-            $this->writer->selectIndex($index);
+            $this->writer->selectElement($index);
             if (!$this->writer->hasData()) {
                 throw new EvaluatorException("No element #{$index} at '{$reference->getPath()}'");
             }
-        } elseif ($this->writer->isObjectSelected()) {
+        } elseif ($this->writer->isObject()) {
             $property = (string) $reference->getKey();
             $this->writer->selectProperty($property);
             if (!$this->writer->hasData()) {

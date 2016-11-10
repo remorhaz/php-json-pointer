@@ -2,21 +2,21 @@
 
 namespace Remorhaz\JSON\Pointer\Evaluator;
 
-use Remorhaz\JSON\Data\RawSelectableReader;
-use Remorhaz\JSON\Data\SelectableReaderInterface;
+use Remorhaz\JSON\Data\Reference\Reader;
+use Remorhaz\JSON\Data\SelectorInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class OperationTest extends Operation
 {
 
-    protected $reader;
+    protected $selector;
 
 
-    public function __construct(Locator $locator, SelectableReaderInterface $reader)
+    public function __construct(Locator $locator, SelectorInterface $selector)
     {
         parent::__construct($locator);
-        $this->reader = $reader;
+        $this->selector = $selector;
     }
 
 
@@ -32,22 +32,22 @@ class OperationTest extends Operation
 
     protected function applyReference(Reference $reference)
     {
-        if ($this->reader->isArraySelected()) {
+        if ($this->selector->isArray()) {
             if ($reference->getType() != $reference::TYPE_INDEX) {
                 return $this->setResultFromBool(false);
             }
             $index = (int) $reference->getKey();
             $hasData = $this
-                ->reader
-                ->selectIndex($index)
+                ->selector
+                ->selectElement($index)
                 ->hasData();
             if (!$hasData) {
                 return $this->setResultFromBool(false);
             }
-        } elseif ($this->reader->isObjectSelected()) {
+        } elseif ($this->selector->isObject()) {
             $property = (string) $reference->getKey();
             $hasData = $this
-                ->reader
+                ->selector
                 ->selectProperty($property)
                 ->hasData();
             if (!$hasData) {
@@ -58,11 +58,11 @@ class OperationTest extends Operation
         }
         return $this;
     }
-    
-    
+
+
     private function setResultFromBool($resultData)
     {
-        $result = new RawSelectableReader($resultData);
+        $result = new Reader($resultData);
         return $this->setResult($result);
     }
 }

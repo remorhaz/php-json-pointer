@@ -2,8 +2,8 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
-use Remorhaz\JSON\Data\RawSelectableReader;
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\Reference\Reader;
+use Remorhaz\JSON\Data\Reference\Writer;
 use Remorhaz\JSON\Pointer\Pointer;
 
 class ReplaceTest extends \PHPUnit_Framework_TestCase
@@ -19,8 +19,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace_ValueExists_DataReplaced($data, string $text, $value, $expectedData)
     {
-        $writer = new RawSelectableWriter($data);
-        $valueReader = new RawSelectableReader($value);
+        $writer = new Writer($data);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace($text, $valueReader);
         $this->assertEquals($expectedData, $data, "Existing value was not replaced");
     }
@@ -43,9 +43,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ElementNotExists_ExceptionThrown()
     {
         $data = [1];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 2;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace("/1", $valueReader);
     }
 
@@ -57,9 +57,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ElementNotExists_SplExceptionThrown()
     {
         $data = [1];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 2;
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace("/1", $valueReader);
     }
 
@@ -71,9 +71,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_PropertyNotExists_ExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'd';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace("/c", $valueReader);
     }
 
@@ -85,9 +85,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_PropertyNotExists_SplExceptionThrown()
     {
         $data = (object) ['a' => 'b'];
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'd';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace("/c", $valueReader);
     }
 
@@ -99,9 +99,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ScalarSelection_ExceptionThrown()
     {
         $data = 'a';
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'd';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace("/a", $valueReader);
     }
 
@@ -113,9 +113,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
     public function testReplace_ScalarSelection_SplExceptionThrown()
     {
         $data = 'a';
-        $writer = new RawSelectableWriter($data);
+        $writer = new Writer($data);
         $value = 'd';
-        $valueReader = new RawSelectableReader($value);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace("/a", $valueReader);
     }
 
@@ -130,8 +130,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace_InvalidElementIndex_ExceptionThrown($data, string $text, $value)
     {
-        $writer = new RawSelectableWriter($data);
-        $valueReader = new RawSelectableReader($value);
+        $writer = new Writer($data);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace($text, $valueReader);
     }
 
@@ -146,8 +146,8 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace_InvalidElementIndex_SplExceptionThrown($data, string $text, $value)
     {
-        $writer = new RawSelectableWriter($data);
-        $valueReader = new RawSelectableReader($value);
+        $writer = new Writer($data);
+        $valueReader = new Reader($value);
         (new Pointer($writer))->replace($text, $valueReader);
     }
 
