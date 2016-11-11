@@ -47,10 +47,10 @@ of accessor bound to source data for `add()` and `replace()` operations.
 ```php
 <?php
 
-use \Remorhaz\JSON\Data\Reference\Reader;
-use \Remorhaz\JSON\Data\Reference\Selector;
-use \Remorhaz\JSON\Data\Reference\Writer;
-use \Remorhaz\JSON\Pointer\Pointer;
+use Remorhaz\JSON\Data\Reference\Reader;
+use Remorhaz\JSON\Data\Reference\Selector;
+use Remorhaz\JSON\Data\Reference\Writer;
+use Remorhaz\JSON\Pointer\Pointer;
 
 // Setting up data.
 $data = (object) [
