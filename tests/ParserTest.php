@@ -2,10 +2,11 @@
 
 namespace Remorhaz\JSON\Pointer\Test;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 use Remorhaz\JSON\Pointer\Parser\Parser;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends TestCase
 {
 
 

@@ -2,9 +2,10 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Parser\Token;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends TestCase
 {
 
 

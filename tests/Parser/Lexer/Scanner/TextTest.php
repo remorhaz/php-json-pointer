@@ -6,7 +6,7 @@ use Remorhaz\JSON\Pointer\Parser\Lexer\Scanner;
 
 /**
  */
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit\Framework\TestCase
 {
 
 

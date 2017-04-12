@@ -2,11 +2,12 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Reference\Reader;
 use Remorhaz\JSON\Data\Reference\Writer;
 use Remorhaz\JSON\Pointer\Pointer;
 
-class AddTest extends \PHPUnit_Framework_TestCase
+class AddTest extends TestCase
 {
 
 

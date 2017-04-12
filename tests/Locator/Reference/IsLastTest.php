@@ -2,9 +2,10 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Locator\Reference;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
-class IsLastTest extends \PHPUnit_Framework_TestCase
+class IsLastTest extends TestCase
 {
 
 

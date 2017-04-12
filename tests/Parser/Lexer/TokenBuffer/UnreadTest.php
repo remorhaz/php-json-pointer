@@ -2,52 +2,12 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\TokenBuffer;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Parser\Lexer\TokenBuffer;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
-class UnreadTest extends \PHPUnit_Framework_TestCase
+class UnreadTest extends TestCase
 {
-
-
-    /**
-     * @param int $tokenAmount
-     * @dataProvider providerTokenAmount
-     */
-    public function testUnreadingAllReadTokensNoException(int $tokenAmount)
-    {
-        $buffer = TokenBuffer::factory();
-        for ($i = 0; $i < $tokenAmount; $i++) {
-            $token = Token::factory(Token::TYPE_SLASH, "/", 1);
-            $buffer->addToken($token);
-        }
-        for ($i = 0; $i < $tokenAmount; $i++) {
-            $buffer->readToken();
-        }
-        for ($i = 0; $i < $tokenAmount; $i++) {
-            $buffer->unreadToken();
-        }
-    }
-
-
-    /**
-     * @param int $tokenAmount
-     * @dataProvider providerTokenAmount
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
-    public function testUnreadingMoreTokensThanWasReadThrowsException(int $tokenAmount)
-    {
-        $buffer = TokenBuffer::factory();
-        for ($i = 0; $i < $tokenAmount; $i++) {
-            $token = Token::factory(Token::TYPE_SLASH, "/", 1);
-            $buffer->addToken($token);
-        }
-        for ($i = 0; $i < $tokenAmount; $i++) {
-            $buffer->readToken();
-        }
-        for ($i = 0; $i <= $tokenAmount; $i++) {
-            $buffer->unreadToken();
-        }
-    }
 
 
     /**

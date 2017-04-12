@@ -2,13 +2,14 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Reference\Selector;
 use Remorhaz\JSON\Pointer\Pointer;
 
 /**
  * @todo Merge tests for non-numeric indices.
  */
-class TestTest extends \PHPUnit_Framework_TestCase
+class TestTest extends TestCase
 {
 
     /**

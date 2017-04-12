@@ -2,12 +2,13 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\Scanner;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Parser\Lexer\Scanner;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 /**
  */
-class ReadTest extends \PHPUnit_Framework_TestCase
+class ReadTest extends TestCase
 {
 
 

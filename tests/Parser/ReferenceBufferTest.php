@@ -2,10 +2,11 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Parser;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Parser\ReferenceBuffer;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
-class ReferenceBufferTest extends \PHPUnit_Framework_TestCase
+class ReferenceBufferTest extends TestCase
 {
 
 
