@@ -8,24 +8,24 @@
 
 This library implements [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers.
 
-##Requirements
+## Requirements
 * PHP 7.0+
 
-##Features
+## Features
 * Supports PHP 7.0
 * No PHP extensions required
 * Throws SPL exceptions
 
-#License
+# License
 PHP JSON Pointer is licensed under MIT license.
 
-#Installation
+# Installation
 You will need [composer](https://getcomposer.org) to perform install.
 ```
 composer require remorhaz/php-json-pointer
 ```
 
-#Documentation
+# Documentation
 ## Data accessors
 Pointer utilizes JSON data accessor interfaces defined in package
 **[remorhaz/php-json-data](https://github.com/remorhaz/php-json-data)**. Read more about them in package documentation.
@@ -43,7 +43,7 @@ To access data with JSON Pointer links you need just 3 simple steps:
 3. Call one of operation methods: `test()`, `read()`, `add()`, `replace()` or `remove()`. You will also need an instance
 of accessor bound to source data for `add()` and `replace()` operations.
 
-##Example of usage
+## Example of usage
 ```php
 <?php
 
