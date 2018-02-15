@@ -9,10 +9,10 @@
 This library implements [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers.
 
 ## Requirements
-* PHP 7.0+
+* PHP 7.1+
 
 ## Features
-* Supports PHP 7.0
+* Supports PHP 7.1
 * No PHP extensions required
 * Throws SPL exceptions
 
