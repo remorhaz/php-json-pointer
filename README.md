@@ -3,8 +3,8 @@
 [![Latest Stable Version](https://poser.pugx.org/remorhaz/php-json-pointer/v/stable)](https://packagist.org/packages/remorhaz/php-json-pointer)
 [![License](https://poser.pugx.org/remorhaz/php-json-pointer/license)](https://packagist.org/packages/remorhaz/php-json-pointer)
 [![Build Status](https://travis-ci.org/remorhaz/php-json-pointer.svg?branch=master)](https://travis-ci.org/remorhaz/php-json-pointer)
-[![Code Climate](https://codeclimate.com/github/remorhaz/php-json-pointer/badges/gpa.svg)](https://codeclimate.com/github/remorhaz/php-json-pointer)
-[![Test Coverage](https://codeclimate.com/github/remorhaz/php-json-pointer/badges/coverage.svg)](https://codeclimate.com/github/remorhaz/php-json-pointer/coverage)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remorhaz/php-json-pointer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remorhaz/php-json-pointer/?branch=master)
+[![codecov](https://codecov.io/gh/remorhaz/php-json-data/branch/master/graph/badge.svg)](https://codecov.io/gh/remorhaz/php-json-data)
 
 This library implements [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers.
 

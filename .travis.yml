@@ -3,12 +3,16 @@ language: php
 php:
   - '7.1'
   - '7.2'
+  - '7.3'
 
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction
 
-script: vendor/bin/phpunit
+script:
+  - vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --coverage-xml=build/logs/coverage-xml --log-junit=build/logs/phpunit.junit.xml
 
-after_script:
-  - vendor/bin/test-reporter
+after_success:
+  - bash <(curl -s https://codecov.io/bash -s "build/logs")
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --access-token=$SCRUTINIZER_TOKEN --format=php-clover build/logs/clover.xml
