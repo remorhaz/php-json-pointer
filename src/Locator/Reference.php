@@ -5,23 +5,8 @@ namespace Remorhaz\JSON\Pointer\Locator;
 /**
  * Single reference of locator.
  */
-class Reference
+class Reference implements ReferenceInterface
 {
-
-    /**
-     * Reference is an array index (decimal digit with no leading zeros).
-     */
-    const TYPE_INDEX = 0x01;
-
-    /**
-     * Reference is a non-existing array index (single "-" symbol).
-     */
-    const TYPE_NEXT_INDEX = 0x02;
-
-    /**
-     * Reference is an object property (any other string).
-     */
-    const TYPE_PROPERTY = 0x03;
 
     /**
      * Reference type (self::TYPE_*).
@@ -66,14 +51,12 @@ class Reference
      */
     private $locator;
 
-
     /**
      * Constructor.
      */
     protected function __construct()
     {
     }
-
 
     /**
      * Creates object instance.
@@ -84,7 +67,6 @@ class Reference
     {
         return new static();
     }
-
 
     /**
      * Returns reference type.
@@ -97,9 +79,9 @@ class Reference
         if (null === $this->type) {
             throw new LogicException("Reference type is not set");
         }
+
         return $this->type;
     }
-
 
     /**
      * Sets reference type.
@@ -119,9 +101,9 @@ class Reference
             throw new DomainException("Invalid reference type: {$type}");
         }
         $this->type = (int) $type;
+
         return $this;
     }
-
 
     /**
      * Returns reference value.
@@ -134,9 +116,9 @@ class Reference
         if (null === $this->key) {
             throw new LogicException("Reference key is not set");
         }
+
         return $this->key;
     }
-
 
     /**
      * Sets reference value.
@@ -147,9 +129,9 @@ class Reference
     public function setKey(string $key)
     {
         $this->key = $key;
+
         return $this;
     }
-
 
     public function isLast(): bool
     {
@@ -158,14 +140,12 @@ class Reference
             ->hasReference($this->getIndex() + 1);
     }
 
-
     public function isFirst(): bool
     {
         return !$this
             ->getLocator()
             ->hasReference($this->getIndex() - 1);
     }
-
 
     /**
      * @return Reference
@@ -177,7 +157,6 @@ class Reference
             ->getReference($this->getIndex() - 1);
     }
 
-
     /**
      * @return int
      * @throws LogicException
@@ -187,9 +166,9 @@ class Reference
         if (null === $this->length) {
             throw new LogicException("Reference length is not set");
         }
+
         return $this->length;
     }
-
 
     /**
      * @param int $length
@@ -201,9 +180,9 @@ class Reference
             throw new DomainException("Reference length must be positive");
         }
         $this->length = $length;
+
         return $this;
     }
-
 
     /**
      * Returns reference position in string (Unicode symbol offest).
@@ -215,9 +194,9 @@ class Reference
         if (null === $this->position) {
             throw new LogicException("Reference position is not set");
         }
+
         return $this->position;
     }
-
 
     /**
      * Sets reference position.
@@ -231,9 +210,9 @@ class Reference
             throw new DomainException("Reference position must be non-negative");
         }
         $this->position = $position;
+
         return $this;
     }
-
 
     /**
      * Returns reference path.
@@ -247,9 +226,9 @@ class Reference
             : $this
                 ->getPrevious()
                 ->getPath();
+
         return "{$prefix}/{$this->getText()}";
     }
-
 
     /**
      * @return string
@@ -259,9 +238,9 @@ class Reference
         if (null === $this->text) {
             throw new LogicException("Reference text is not set");
         }
+
         return $this->text;
     }
-
 
     /**
      * @param string $text
@@ -270,9 +249,9 @@ class Reference
     public function setText(string $text)
     {
         $this->text = $text;
+
         return $this;
     }
-
 
     /**
      * @param int $index
@@ -284,10 +263,9 @@ class Reference
             throw new DomainException("Reference index must be non-negative");
         }
         $this->index = $index;
+
         return $this;
-
     }
-
 
     /**
      * @return int
@@ -297,9 +275,9 @@ class Reference
         if (null === $this->index) {
             throw new LogicException("Reference index is not set");
         }
+
         return $this->index;
     }
-
 
     /**
      * @param Locator $locator
@@ -308,9 +286,9 @@ class Reference
     public function setLocator(Locator $locator)
     {
         $this->locator = $locator;
+
         return $this;
     }
-
 
     /**
      * @return Locator
@@ -320,6 +298,7 @@ class Reference
         if (null === $this->locator) {
             throw new LogicException("Locator is not set");
         }
+
         return $this->locator;
     }
 }

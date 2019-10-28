@@ -2,31 +2,23 @@
 
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\Scanner;
 
+use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\Lexer\RegExpException;
+use Remorhaz\JSON\Pointer\Parser\Lexer\RuntimeException as LexerRuntimeException;
 use Remorhaz\JSON\Pointer\Parser\Lexer\Scanner;
+use const PREG_BAD_UTF8_ERROR;
 
 /**
  */
-class TextTest extends \PHPUnit\Framework\TestCase
+class TextTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testUninitializedTextAccessThrowsException()
     {
-        Scanner::factory()->getText();
+        $scanner = Scanner::factory();
+        $this->expectException(LexerRuntimeException::class);
+        $scanner->getText();
     }
-
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testUninitializedTextAccessThrowsSplException()
-    {
-        Scanner::factory()->getText();
-    }
-
 
     /**
      * @param string $text
@@ -37,7 +29,6 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $scanner = Scanner::factory()->setText($text);
         $this->assertEquals($text, $scanner->getText(), "Got text differs from the one that was set");
     }
-
 
     public function providerText(): array
     {
@@ -51,7 +42,6 @@ class TextTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-
     /**
      */
     public function testIsEndAfterSettingEmptyText()
@@ -59,7 +49,6 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $scanner = Scanner::factory()->setText('');
         $this->assertTrue($scanner->isEnd(), "End of text is not reached after setting empty string");
     }
-
 
     /**
      */
@@ -69,30 +58,18 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scanner->isEnd(), "End of text is reached after setting non-empty string");
     }
 
-
     /**
      * @param string $text
      * @dataProvider providerBrokenUnicodeText
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\RegExpException
-     * @expectedExceptionCode PREG_BAD_UTF8_ERROR
-     * @expectedExceptionMessage PREG_BAD_UTF8_ERROR
      */
     public function testSettingBrokenUnicodeTextThrowsException(string $text)
     {
-        Scanner::factory()->setText($text);
+        $scanner = Scanner::factory();
+        $this->expectException(RegExpException::class);
+        $this->expectExceptionCode(PREG_BAD_UTF8_ERROR);
+        $this->expectExceptionMessage('PREG_BAD_UTF8_ERROR');
+        $scanner->setText($text);
     }
-
-
-    /**
-     * @param string $text
-     * @dataProvider providerBrokenUnicodeText
-     * @expectedException \RuntimeException
-     */
-    public function testSettingBrokenUnicodeTextThrowsSplException(string $text)
-    {
-        Scanner::factory()->setText($text);
-    }
-
 
     public function providerBrokenUnicodeText(): array
     {

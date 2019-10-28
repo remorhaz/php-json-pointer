@@ -3,17 +3,16 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\TokenBuffer;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\Lexer\LogicException as LexerLogicException;
 use Remorhaz\JSON\Pointer\Parser\Lexer\TokenBuffer;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class UnreadTest extends TestCase
 {
 
-
     /**
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
-     * @expectedException \LogicException
      */
     public function testUnreadingMoreTokensThanWasReadThrowsSplException(int $tokenAmount)
     {
@@ -25,6 +24,7 @@ class UnreadTest extends TestCase
         for ($i = 0; $i < $tokenAmount; $i++) {
             $buffer->readToken();
         }
+        $this->expectException(LexerLogicException::class);
         for ($i = 0; $i <= $tokenAmount; $i++) {
             $buffer->unreadToken();
         }
@@ -73,21 +73,10 @@ class UnreadTest extends TestCase
         $this->assertSame($firstToken, $secondToken, "Reading after unreading returns different tokens");
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testUninitializedUnreadingThrowsException()
     {
-        TokenBuffer::factory()->unreadToken();
-    }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testUninitializedUnreadingThrowsSplException()
-    {
-        TokenBuffer::factory()->unreadToken();
+        $buffer = TokenBuffer::factory();
+        $this->expectException(LexerLogicException::class);
+        $buffer->unreadToken();
     }
 }

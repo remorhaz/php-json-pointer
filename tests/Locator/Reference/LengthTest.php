@@ -3,29 +3,19 @@
 namespace Remorhaz\JSON\Pointer\Test\Locator\Reference;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Locator\DomainException as LocatorDomainException;
+use Remorhaz\JSON\Pointer\Locator\LogicException as LocatorLogicException;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class LengthTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
-     */
     public function testAccessingUninitializedLengthThrowsException()
     {
-        Reference::factory()->getLength();
+        $factory = Reference::factory();
+        $this->expectException(LocatorLogicException::class);
+        $factory->getLength();
     }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAccessingUninitializedLengthThrowsSplException()
-    {
-        Reference::factory()->getLength();
-    }
-
 
     /**
      * @param int $length
@@ -37,7 +27,6 @@ class LengthTest extends TestCase
         $this->assertEquals($length, $reference->getLength(), "Got length differs from set one");
     }
 
-
     public function providerValidLength(): array
     {
         return [
@@ -47,21 +36,10 @@ class LengthTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
-     */
     public function testSetNegativeLengthThrowsException()
     {
-        Reference::factory()->setLength(-1);
-    }
-
-
-    /**
-     * @expectedException \DomainException
-     */
-    public function testSetNegativeLengthThrowsSplException()
-    {
-        Reference::factory()->setLength(-1);
+        $factory = Reference::factory();
+        $this->expectException(LocatorDomainException::class);
+        $factory->setLength(-1);
     }
 }

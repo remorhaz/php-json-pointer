@@ -4,14 +4,12 @@ namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
+use Remorhaz\JSON\Pointer\Parser\Lexer\RegExpException;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class TextTest extends TestCase
 {
 
-
-    /**
-     */
     public function testSettingTextResetsBuffer()
     {
         $lexer = Lexer::factory()
@@ -28,46 +26,28 @@ class TextTest extends TestCase
         );
     }
 
-
-    /**
-     */
     public function testIsEndAfterSettingEmptyText()
     {
         $lexer = Lexer::factory()->setText('');
         $this->assertTrue($lexer->isEnd(), "End of text is not reached after setting empty string");
     }
 
-
-    /**
-     */
     public function testIsNotEndAfterSettingNonEmptyText()
     {
         $lexer = Lexer::factory()->setText('abc');
         $this->assertFalse($lexer->isEnd(), "End of text is reached after setting non-empty string");
     }
 
-
     /**
      * @param string $text
      * @dataProvider providerBrokenUnicodeText
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testSettingBrokenUnicodeTextThrowsException(string $text)
     {
-        Lexer::factory()->setText($text);
+        $lexer = Lexer::factory();
+        $this->expectException(RegExpException::class);
+        $lexer->setText($text);
     }
-
-
-    /**
-     * @param string $text
-     * @dataProvider providerBrokenUnicodeText
-     * @expectedException \RuntimeException
-     */
-    public function testSettingBrokenUnicodeTextThrowsSplException(string $text)
-    {
-        Lexer::factory()->setText($text);
-    }
-
 
     public function providerBrokenUnicodeText(): array
     {

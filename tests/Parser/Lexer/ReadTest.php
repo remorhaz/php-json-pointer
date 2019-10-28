@@ -3,48 +3,28 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\Lexer\LengthException as LexerLengthException;
 use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
+use Remorhaz\JSON\Pointer\Parser\Lexer\RuntimeException as LexerRuntimeException;
+use Remorhaz\JSON\Pointer\Parser\Lexer\SyntaxException as LexerSyntaxException;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class ReadTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testUninitializedIsEndThrowsException()
     {
-        Lexer::factory()->isEnd();
+        $lexer = Lexer::factory();
+        $this->expectException(LexerRuntimeException::class);
+        $lexer->isEnd();
     }
 
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testUninitializedIsEndThrowsSplException()
-    {
-        Lexer::factory()->isEnd();
-    }
-
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testUninitializedReadingThrowsException()
     {
-        Lexer::factory()->readToken();
+        $lexer = Lexer::factory();
+        $this->expectException(LexerRuntimeException::class);
+        $lexer->readToken();
     }
-
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testUninitializedReadingThrowsSplException()
-    {
-        Lexer::factory()->readToken();
-    }
-
 
     /**
      * @param int $tokenAmount
@@ -60,7 +40,6 @@ class ReadTest extends TestCase
         $this->assertTrue($lexer->isEnd(), "No end condition after reading");
     }
 
-
     public function providerTokenAmountAndText(): array
     {
         return [
@@ -68,7 +47,6 @@ class ReadTest extends TestCase
             'multipleTokens' => [3, 'aб日'],
         ];
     }
-
 
     /**
      * @param string $sourceText
@@ -85,7 +63,6 @@ class ReadTest extends TestCase
         $this->assertEquals($tokenText, $token->getText(), "Incorrect text of token");
     }
 
-
     public function providerSingleToken(): array
     {
         return [
@@ -96,7 +73,6 @@ class ReadTest extends TestCase
             'singleUnescapedKanji' => ['日', '日', Token::TYPE_UNESCAPED],
         ];
     }
-
 
     /**
      * @param string $sourceText
@@ -113,7 +89,6 @@ class ReadTest extends TestCase
         $this->assertEquals($tokenText, $token->getText(), "Incorrect text of token");
     }
 
-
     public function providerMultipleTokens(): array
     {
         return [
@@ -125,46 +100,17 @@ class ReadTest extends TestCase
         ];
     }
 
-
     /**
      * @param string $sourceText
      * @dataProvider providerInvalidText
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
      */
     public function testReadingInvalidTextThrowsException(string $sourceText)
     {
-        Lexer::factory()
-            ->setText($sourceText)
-            ->readToken();
+        $lexer = Lexer::factory()
+            ->setText($sourceText);
+        $this->expectException(LexerSyntaxException::class);
+        $lexer->readToken();
     }
-
-
-    /**
-     * @param string $sourceText
-     * @dataProvider providerInvalidText
-     * @expectedException \Remorhaz\JSON\Pointer\SyntaxException
-     * @expectedExceptionMessageRegExp / at position #\d+/
-     */
-    public function testReadingInvalidTextThrowsSyntaxException(string $sourceText)
-    {
-        Lexer::factory()
-            ->setText($sourceText)
-            ->readToken();
-    }
-
-
-    /**
-     * @param string $sourceText
-     * @dataProvider providerInvalidText
-     * @expectedException \RuntimeException
-     */
-    public function testReadingInvalidTextThrowsSplException(string $sourceText)
-    {
-        Lexer::factory()
-            ->setText($sourceText)
-            ->readToken();
-    }
-
 
     public function providerInvalidText(): array
     {
@@ -174,25 +120,11 @@ class ReadTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testReadingEmptyTextEndThrowsException()
     {
-        Lexer::factory()
-            ->setText('')
-            ->readToken();
-    }
-
-
-    /**
-     * @expectedException \LengthException
-     */
-    public function testReadingEmptyTextEndThrowsSplException()
-    {
-        Lexer::factory()
-            ->setText('')
-            ->readToken();
+        $lexer = Lexer::factory()
+            ->setText('');
+        $this->expectException(LexerLengthException::class);
+        $lexer->readToken();
     }
 }

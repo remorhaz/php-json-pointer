@@ -3,29 +3,19 @@
 namespace Remorhaz\JSON\Pointer\Test\Locator\Reference;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Locator\DomainException as LocatorDomainException;
+use Remorhaz\JSON\Pointer\Locator\LogicException as LocatorLogicException;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class TypeTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
-     */
     public function testAccessingUninitializedTypeThrowsException()
     {
-        Reference::factory()->getType();
+        $factory = Reference::factory();
+        $this->expectException(LocatorLogicException::class);
+        $factory->getType();
     }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAccessingUninitializedTypeThrowsSplException()
-    {
-        Reference::factory()->getType();
-    }
-
 
     /**
      */
@@ -36,21 +26,10 @@ class TypeTest extends TestCase
         $this->assertEquals($type, $reference->getType(), "Got type differs from the one that was set");
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
-     */
     public function testSettingInvalidTypeThrowsException()
     {
-        Reference::factory()->setType(0xFF);
-    }
-
-
-    /**
-     * @expectedException \DomainException
-     */
-    public function testSettingInvalidTypeThrowsSplException()
-    {
-        Reference::factory()->setType(0xFF);
+        $factory = Reference::factory();
+        $this->expectException(LocatorDomainException::class);
+        $factory->setType(0xFF);
     }
 }

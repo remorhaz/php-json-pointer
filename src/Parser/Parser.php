@@ -2,11 +2,14 @@
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
+use Remorhaz\JSON\Data\Path\Path;
+use Remorhaz\JSON\Data\Path\PathInterface;
+use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Parser\Lexer\Lexer;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
-class Parser
+class Parser implements ParserInterface
 {
 
     /**
@@ -55,7 +58,7 @@ class Parser
     /**
      * Constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
     }
 
@@ -65,7 +68,7 @@ class Parser
      *
      * @return static
      */
-    public static function factory()
+    public static function factory(): self
     {
         return new static();
     }
@@ -77,7 +80,7 @@ class Parser
      * @param string $text
      * @return $this
      */
-    public function setText(string $text)
+    public function setText(string $text): ParserInterface
     {
         $this
             ->getLexer()
@@ -92,7 +95,7 @@ class Parser
      *
      * @return Locator
      */
-    public function getLocator(): Locator
+    public function getLocator(): LocatorInterface
     {
         if (null === $this->locator) {
             $this->buildLocator();
@@ -107,7 +110,7 @@ class Parser
      * @return $this
      * @throws DomainException
      */
-    protected function buildLocator()
+    protected function buildLocator(): self
     {
         $this
             ->resetLocatorBuffer()
@@ -193,7 +196,7 @@ class Parser
     }
 
 
-    protected function flushReferenceBuffer()
+    protected function flushReferenceBuffer(): self
     {
         $reference = $this
             ->getReferenceBuffer()
@@ -210,7 +213,7 @@ class Parser
     }
 
 
-    protected function setupReferenceType(Reference $reference)
+    protected function setupReferenceType(Reference $reference): self
     {
         $result = preg_match('#^(0|[1-9]\d*)$#u', $reference->getKey());
         PregHelper::assertMatchResult(
@@ -272,7 +275,7 @@ class Parser
     /**
      * @return $this
      */
-    protected function resetLocatorBuffer()
+    protected function resetLocatorBuffer(): self
     {
         $this->locatorBuffer = null;
         return $this;

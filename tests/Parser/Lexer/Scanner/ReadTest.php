@@ -3,14 +3,15 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\Scanner;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\Lexer\LengthException as LexerLengthException;
 use Remorhaz\JSON\Pointer\Parser\Lexer\Scanner;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 /**
+ * @covers \Remorhaz\JSON\Pointer\Parser\Lexer\Scanner
  */
 class ReadTest extends TestCase
 {
-
 
     /**
      * @param string $text
@@ -22,7 +23,6 @@ class ReadTest extends TestCase
         $scanner->readToken();
         $this->assertTrue($scanner->isEnd(), "No end of text after reading last token");
     }
-
 
     /**
      * @param string $text
@@ -38,7 +38,6 @@ class ReadTest extends TestCase
         $this->assertEquals($tokenText, $token->getText(), "Incorrect token text after reading");
     }
 
-
     public function providerSingleToken(): array
     {
         return [
@@ -50,7 +49,6 @@ class ReadTest extends TestCase
         ];
     }
 
-
     /**
      * @param string $text
      * @dataProvider providerMultipleTokens
@@ -61,7 +59,6 @@ class ReadTest extends TestCase
         $scanner->readToken();
         $this->assertFalse($scanner->isEnd(), "End of text after reading not last token");
     }
-
 
     /**
      * @param string $text
@@ -77,7 +74,6 @@ class ReadTest extends TestCase
         $this->assertEquals($tokenText, $token->getText(), "Incorrect token text after reading");
     }
 
-
     public function providerMultipleTokens(): array
     {
         return [
@@ -88,7 +84,6 @@ class ReadTest extends TestCase
             'startsFromUnescapedKanji' => ['日本語', '日', Token::TYPE_UNESCAPED],
         ];
     }
-
 
     /**
      * @param string $text
@@ -102,7 +97,6 @@ class ReadTest extends TestCase
         $this->assertTrue($token->isError(), "Token read from invalid text is not an error");
     }
 
-
     public function providerInvalidText(): array
     {
         return [
@@ -111,25 +105,11 @@ class ReadTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testReadingEmptyTextEndThrowsException()
     {
-        Scanner::factory()
-            ->setText('')
-            ->readToken();
-    }
-
-
-    /**
-     * @expectedException \LengthException
-     */
-    public function testReadingEmptyTextEndThrowsSplException()
-    {
-        Scanner::factory()
-            ->setText('')
-            ->readToken();
+        $scanner = Scanner::factory()
+            ->setText('');
+        $this->expectException(LexerLengthException::class);
+        $scanner->readToken();
     }
 }

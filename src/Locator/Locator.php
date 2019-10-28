@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSON\Pointer\Locator;
 
-class Locator
+class Locator implements LocatorInterface
 {
 
     /**
@@ -12,14 +12,12 @@ class Locator
      */
     private $referenceList = [];
 
-
     /**
      * Constructor.
      */
     protected function __construct()
     {
     }
-
 
     /**
      * Creates object instance.
@@ -31,7 +29,6 @@ class Locator
         return new static();
     }
 
-
     public function getText(): string
     {
         if (empty($this->referenceList)) {
@@ -41,20 +38,29 @@ class Locator
         foreach ($this->referenceList as $reference) {
             $text .= "/{$reference->getText()}";
         }
+
         return $text;
     }
-
 
     /**
      * Returns reference list.
      *
-     * @return Reference[]
+     * @return ReferenceInterface[]
      */
     public function getReferenceList(): array
     {
         return $this->referenceList;
     }
 
+    public function pointsNewElement(): bool
+    {
+        $isNewElement = false;
+        foreach ($this->referenceList as $reference) {
+            $isNewElement = $reference->getType() == $reference::TYPE_NEXT_INDEX;
+        }
+
+        return $isNewElement;
+    }
 
     /**
      * Adds reference to list.
@@ -68,9 +74,9 @@ class Locator
         $this->referenceList[$index] = $reference
             ->setLocator($this)
             ->setIndex($index);
+
         return $this;
     }
-
 
     /**
      * @param int $index
@@ -81,7 +87,6 @@ class Locator
         return isset($this->referenceList[$index]);
     }
 
-
     /**
      * @param int $index
      * @return Reference
@@ -91,6 +96,7 @@ class Locator
         if (!$this->hasReference($index)) {
             throw new OutOfBoundsException("Invalid reference index {$index}");
         }
+
         return $this->referenceList[$index];
     }
 }

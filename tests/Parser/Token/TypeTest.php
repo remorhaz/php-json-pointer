@@ -3,32 +3,20 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Token;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\DomainException as ParserDomainException;
+use Remorhaz\JSON\Pointer\Parser\LogicException;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class TypeTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testAccessingUninitializedTypeThrowsException()
     {
-        Token::factory()->getType();
+        $token = Token::factory();
+        $this->expectException(LogicException::class);
+        $token->getType();
     }
 
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAccessingUninitializedTypeThrowsSplException()
-    {
-        Token::factory()->getType();
-    }
-
-
-    /**
-     */
     public function testGotTypeSameAsSet()
     {
         $type = Token::TYPE_SLASH;
@@ -36,36 +24,19 @@ class TypeTest extends TestCase
         $this->assertEquals($type, $token->getType(), "Got type differs from the one that was set");
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testSettingInvalidTypeThrowsException()
     {
-        Token::factory()->setType(0xFF);
+        $token = Token::factory();
+        $this->expectException(ParserDomainException::class);
+        $token->setType(0xFF);
     }
 
-
-    /**
-     * @expectedException \DomainException
-     */
-    public function testSettingInvalidTypeThrowsSplException()
-    {
-        Token::factory()->setType(0xFF);
-    }
-
-
-    /**
-     */
     public function testIsErrorAfterSettingErrorType()
     {
         $token = Token::factory()->setType(Token::TYPE_ERROR_INVALID_ESCAPE);
         $this->assertTrue($token->isError(), "No error in token after setting error type");
     }
 
-
-    /**
-     */
     public function testNoErrorAfterSettingNonErrorType()
     {
         $token = Token::factory()->setType(Token::TYPE_SLASH);

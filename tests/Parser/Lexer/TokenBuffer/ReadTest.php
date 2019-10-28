@@ -3,21 +3,18 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Lexer\TokenBuffer;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\Lexer\LogicException;
 use Remorhaz\JSON\Pointer\Parser\Lexer\TokenBuffer;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class ReadTest extends TestCase
 {
 
-
-    /**
-     */
     public function testIsEndInitially()
     {
         $buffer = TokenBuffer::factory();
         $this->assertTrue($buffer->isEnd(), "No end condition after creation of buffer");
     }
-
 
     /**
      * @param int $tokenAmount
@@ -41,7 +38,6 @@ class ReadTest extends TestCase
         );
     }
 
-
     /**
      * @param int $tokenAmount
      * @dataProvider providerTokenAmount
@@ -59,7 +55,6 @@ class ReadTest extends TestCase
         $this->assertTrue($buffer->isEnd(), "No end condition after reading");
     }
 
-
     public function providerTokenAmount(): array
     {
         return [
@@ -68,21 +63,10 @@ class ReadTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Lexer\Exception
-     */
     public function testUninitializedReadingThrowsException()
     {
-        TokenBuffer::factory()->readToken();
-    }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testUninitializedReadingThrowsSplException()
-    {
-        TokenBuffer::factory()->readToken();
+        $buffer = TokenBuffer::factory();
+        $this->expectException(LogicException::class);
+        $buffer->readToken();
     }
 }

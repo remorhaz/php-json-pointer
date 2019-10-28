@@ -4,29 +4,20 @@ namespace Remorhaz\JSON\Pointer\Test;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\Reference;
+use Remorhaz\JSON\Pointer\Parser\Lexer\RuntimeException as LexerRuntimeException;
+use Remorhaz\JSON\Pointer\Parser\Lexer\SyntaxException as LexerSyntaxException;
 use Remorhaz\JSON\Pointer\Parser\Parser;
+use Remorhaz\JSON\Pointer\Parser\SyntaxException as ParserSyntaxException;
 
 class ParserTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testUninitializedLocatorAccessThrowsException()
     {
-        Parser::factory()->getLocator();
+        $parser = Parser::factory();
+        $this->expectException(LexerRuntimeException::class);
+        $parser->getLocator();
     }
-
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testUninitializedLocatorAccessThrowsSplException()
-    {
-        Parser::factory()->getLocator();
-    }
-
 
     /**
      * @param string $text
@@ -44,7 +35,6 @@ class ParserTest extends TestCase
             $this->assertEquals($expectedValue, $actualReference->getKey(), "Incorrect value in reference #{$index}");
         }
     }
-
 
     public function providerReferenceList(): array
     {
@@ -146,56 +136,46 @@ class ParserTest extends TestCase
         ];
     }
 
-
     /**
      * @param string $text
-     * @dataProvider providerSyntaxError
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
+     * @dataProvider providerLexerSyntaxError
      */
-    public function testSyntaxErrorThrowsException(string $text)
+    public function testLexerSyntaxErrorThrowsException(string $text)
     {
-        Parser::factory()
-            ->setText($text)
-            ->getLocator();
+        $parser = Parser::factory()
+            ->setText($text);
+        $this->expectException(LexerSyntaxException::class);
+        $this->expectExceptionMessageRegExp('/ at position #\d+/');
+        $parser->getLocator();
     }
 
-
-    /**
-     * @param string $text
-     * @dataProvider providerSyntaxError
-     * @expectedException \Remorhaz\JSON\Pointer\SyntaxException
-     * @expectedExceptionMessageRegExp / at position #\d+/
-     */
-    public function testSyntaxErrorThrowsSyntaxException(string $text)
-    {
-        Parser::factory()
-            ->setText($text)
-            ->getLocator();
-    }
-
-
-    /**
-     * @param string $text
-     * @dataProvider providerSyntaxError
-     * @expectedException \RuntimeException
-     */
-    public function testSyntaxErrorThrowsSplException(string $text)
-    {
-        Parser::factory()
-            ->setText($text)
-            ->getLocator();
-    }
-
-
-    public function providerSyntaxError(): array
+    public function providerLexerSyntaxError(): array
     {
         return [
-            'noStartingSlash' => ['abc'],
             'incompleteEscapeSequence' => ['/аб~в'],
             'invalidEscapeSequence' => ['/аб~2'],
         ];
     }
 
+    /**
+     * @param string $text
+     * @dataProvider providerParserSyntaxError
+     */
+    public function testParserSyntaxErrorThrowsException(string $text)
+    {
+        $parser = Parser::factory()
+            ->setText($text);
+        $this->expectException(ParserSyntaxException::class);
+        $this->expectExceptionMessageRegExp('/ at position #\d+/');
+        $parser->getLocator();
+    }
+
+    public function providerParserSyntaxError(): array
+    {
+        return [
+            'noStartingSlash' => ['abc'],
+        ];
+    }
 
     /**
      * @param string $text
@@ -212,7 +192,6 @@ class ParserTest extends TestCase
         $reference = $referenceList[0];
         $this->assertEquals($type, $reference->getType(), "Incorrect reference type detection");
     }
-
 
     public function providerReferenceTypeDetection(): array
     {

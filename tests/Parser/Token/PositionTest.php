@@ -3,29 +3,19 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Token;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\DomainException;
+use Remorhaz\JSON\Pointer\Parser\LogicException as ParserLogicException;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class PositionTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testAccessingUninitializedPositionThrowsException()
     {
-        Token::factory()->getPosition();
+        $token = Token::factory();
+        $this->expectException(ParserLogicException::class);
+        $token->getPosition();
     }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAccessingUninitializedPositionThrowsSplException()
-    {
-        Token::factory()->getPosition();
-    }
-
 
     /**
      * @param int $position
@@ -37,7 +27,6 @@ class PositionTest extends TestCase
         $this->assertEquals($position, $token->getPosition(), "Got position differs from the one that was set");
     }
 
-
     public function providerPosition(): array
     {
         return [
@@ -47,21 +36,10 @@ class PositionTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testSettingNegativePositionThrowsException()
     {
-        Token::factory()->setPosition(-1);
-    }
-
-
-    /**
-     * @expectedException \DomainException
-     */
-    public function testSettingNegativePositionThrowsSplException()
-    {
-        Token::factory()->setPosition(-1);
+        $token = Token::factory();
+        $this->expectException(DomainException::class);
+        $token->setPosition(-1);
     }
 }

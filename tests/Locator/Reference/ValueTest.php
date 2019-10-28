@@ -3,32 +3,19 @@
 namespace Remorhaz\JSON\Pointer\Test\Locator\Reference;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Locator\LogicException as LocatorLogicException;
 use Remorhaz\JSON\Pointer\Locator\Reference;
 
 class ValueTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Locator\Exception
-     */
     public function testAccessingUninitializedValueThrowsException()
     {
-        Reference::factory()->getKey();
+        $factory = Reference::factory();
+        $this->expectException(LocatorLogicException::class);
+        $factory->getKey();
     }
 
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAccessingUninitializedValueThrowsSplException()
-    {
-        Reference::factory()->getKey();
-    }
-
-
-    /**
-     */
     public function testGotValueSameAsSet()
     {
         $value = 'abc';

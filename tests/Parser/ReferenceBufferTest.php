@@ -3,12 +3,12 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\LogicException as ParserLogicException;
 use Remorhaz\JSON\Pointer\Parser\ReferenceBuffer;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class ReferenceBufferTest extends TestCase
 {
-
 
     /**
      * @param Token[] $tokenList
@@ -28,7 +28,6 @@ class ReferenceBufferTest extends TestCase
         $this->assertEquals($length, $reference->getLength(), "Incorrect reference length built from token list");
         $this->assertEquals($value, $reference->getKey(), "Incorrect reference value built from token list");
     }
-
 
     public function providerValidTokens(): array
     {
@@ -55,10 +54,6 @@ class ReferenceBufferTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testAddTokenAfterFlushWithoutResetThrowsException()
     {
         $token = Token::factory(Token::TYPE_UNESCAPED, "x", 1, "x");
@@ -66,26 +61,10 @@ class ReferenceBufferTest extends TestCase
             ->addToken($token)
             ->flush();
         $token = Token::factory(Token::TYPE_UNESCAPED, "y", 1, "y");
+        $this->expectException(ParserLogicException::class);
         $buffer->addToken($token);
     }
 
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAddTokenAfterFlushWithoutResetThrowsSplException()
-    {
-        $token = Token::factory(Token::TYPE_UNESCAPED, "x", 1, "x");
-        $buffer = ReferenceBuffer::factory()
-            ->addToken($token)
-            ->flush();
-        $token = Token::factory(Token::TYPE_UNESCAPED, "y", 1, "y");
-        $buffer->addToken($token);
-    }
-
-
-    /**
-     */
     public function testAddTokenAfterFlush()
     {
         $token = Token::factory(Token::TYPE_UNESCAPED, "x", 1, "x");
@@ -105,9 +84,6 @@ class ReferenceBufferTest extends TestCase
         );
     }
 
-
-    /**
-     */
     public function testFlushingUninitializedBufferProducesEmptyPropertyReference()
     {
         $reference = ReferenceBuffer::factory()
@@ -120,67 +96,27 @@ class ReferenceBufferTest extends TestCase
         );
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testDoubleFlushThrowsException()
     {
-        ReferenceBuffer::factory()
-            ->flush()
+        $buffer = ReferenceBuffer::factory()
             ->flush();
+        $this->expectException(ParserLogicException::class);
+        $buffer->flush();
     }
 
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testDoubleFlushThrowsSplException()
-    {
-        ReferenceBuffer::factory()
-            ->flush()
-            ->flush();
-    }
-
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testGetUninitializedReferenceThrowsException()
     {
-        ReferenceBuffer::factory()->getReference();
+        $buffer = ReferenceBuffer::factory();
+        $this->expectException(ParserLogicException::class);
+        $buffer->getReference();
     }
 
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testGetUninitializedReferenceThrowsSplException()
-    {
-        ReferenceBuffer::factory()->getReference();
-    }
-
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testGetReferenceAfterResetThrowsException()
     {
-        ReferenceBuffer::factory()
+        $buffer = ReferenceBuffer::factory()
             ->flush()
-            ->reset()
-            ->getReference();
-    }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testGetReferenceAfterResetThrowsSplException()
-    {
-        ReferenceBuffer::factory()
-            ->flush()
-            ->reset()
-            ->getReference();
+            ->reset();
+        $this->expectException(ParserLogicException::class);
+        $buffer->getReference();
     }
 }

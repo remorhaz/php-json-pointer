@@ -3,29 +3,19 @@
 namespace Remorhaz\JSON\Pointer\Test\Parser\Token;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Pointer\Parser\LengthException as ParserLengthException;
+use Remorhaz\JSON\Pointer\Parser\LogicException as ParserLogicException;
 use Remorhaz\JSON\Pointer\Parser\Token;
 
 class TextTest extends TestCase
 {
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testAccessingUninitializedTextThrowsException()
     {
-        Token::factory()->getText();
+        $token = Token::factory();
+        $this->expectException(ParserLogicException::class);
+        $token->getText();
     }
-
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testAccessingUninitializedTextThrowsSplException()
-    {
-        Token::factory()->getText();
-    }
-
 
     /**
      * @param string $text
@@ -36,7 +26,6 @@ class TextTest extends TestCase
         $token = Token::factory()->setText($text);
         $this->assertSame($text, $token->getText(), "Read text is not the same as set one");
     }
-
 
     public function providerText(): array
     {
@@ -51,30 +40,10 @@ class TextTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \Remorhaz\JSON\Pointer\Parser\Exception
-     */
     public function testSettingEmptyTextThrowsException()
     {
-        Token::factory()->setText('');
-    }
-
-
-    /**
-     * @expectedException \LengthException
-     */
-    public function testSettingEmptyTextThrowsSplException()
-    {
-        Token::factory()->setText('');
-    }
-
-
-    public function providerBrokenUnicodeText()
-    {
-        return [
-            'singleBrokenUnicode' => [substr('日', -1, 1)],
-            'containsBrokenUnicode' => ['аб' . substr('в', -1, 1) . 'г'],
-        ];
+        $token = Token::factory();
+        $this->expectException(ParserLengthException::class);
+        $token->setText('');
     }
 }
