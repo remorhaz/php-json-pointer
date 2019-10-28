@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Walker\MutationInterface;
 use Remorhaz\JSON\Data\Walker\ValueWalker;
-use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendPropertyMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteMutation;
@@ -134,10 +133,14 @@ final class Processor implements ProcessorInterface
             return new NonExistingResult($query->getSource());
         }
 
-        return $this->getMutationResult($query, $rootNode, $this->createMutation($queryResult, $value));
+        $mutation = $this->createAddMutation($queryResult, $value);
+
+        return isset($mutation)
+            ? $this->getMutationResult($query, $rootNode, $mutation)
+            : new NonExistingResult($query->getSource());
     }
 
-    private function createMutation(QueryResultInterface $queryResult, NodeValueInterface $value): MutationInterface
+    private function createAddMutation(QueryResultInterface $queryResult, NodeValueInterface $value): ?MutationInterface
     {
         $parent = $queryResult->getParent();
         if ($parent instanceof ObjectValueInterface) {
@@ -150,33 +153,35 @@ final class Processor implements ProcessorInterface
                 );
         }
         if ($parent instanceof ArrayValueInterface) {
-            return $queryResult->hasSelection()
-                ? new InsertElementMutation(
+            if ($queryResult->hasSelection()) {
+                return new InsertElementMutation(
                     $value,
                     $parent->getPath(),
                     (int) $queryResult->getLastReference(),
-                )
-                : new AppendElementMutation(
-                    $value,
-                    $parent->getPath(),
-                    $this->getAppendableElementIndex($queryResult->getLastReference()),
                 );
+            }
+
+            $reference = $queryResult->getLastReference();
+            switch ($reference->getType()) {
+                case $reference::TYPE_NEXT_INDEX:
+                    $elementIndex = null;
+                    break;
+
+                case $reference::TYPE_INDEX:
+                    $elementIndex = (int) $reference->getKey();
+                    break;
+
+                default:
+                    return null;
+            }
+
+            return new AppendElementMutation(
+                $value,
+                $parent->getPath(),
+                $elementIndex,
+            );
         }
 
-        throw new Exception\InvalidParent($parent);
-    }
-
-    private function getAppendableElementIndex(ReferenceInterface $reference): ?int
-    {
-        switch ($reference->getType()) {
-            case $reference::TYPE_NEXT_INDEX:
-                return null;
-
-            case $reference::TYPE_INDEX:
-                return (int) $reference->getKey();
-
-            default:
-                throw new Exception\InvalidLastReference($reference);
-        }
+        return null;
     }
 }
