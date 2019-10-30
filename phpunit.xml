@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit
-    bootstrap="vendor/autoload.php"
-    colors="true">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.3/phpunit.xsd"
+        forceCoversAnnotation="true"
+        defaultTestSuite="all"
+        colors="true">
     <testsuites>
-        <testsuite name="Full Test Suite">
+        <testsuite name="all">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist
-            addUncoveredFilesFromWhitelist="true"
-            processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/</directory>
             <directory suffix=".php">generated/</directory>
+            <exclude>
+                <file>generated/LookupTable.php</file>
+            </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
 </phpunit>
