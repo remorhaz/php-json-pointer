@@ -125,6 +125,6 @@ final class InsertElementMutation implements MutationInterface
         yield from $valueWalker->createEventIterator(
             (new EventDecoder)->exportExistingEvents(new ArrayIterator([$event])),
             $path,
-            );
+        );
     }
 }
