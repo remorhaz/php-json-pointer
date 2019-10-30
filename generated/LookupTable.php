@@ -23,22 +23,22 @@ return [
     ],
     SymbolType::NT_REFERENCE => [
         TokenType::UNESCAPED => 0,
-        TokenType::ONE => 0,
         TokenType::ZERO => 0,
+        TokenType::ONE => 0,
         TokenType::TILDE => 0,
         TokenType::SLASH => 1,
         TokenType::EOI => 1,
     ],
     SymbolType::NT_REFERENCE_PART => [
         TokenType::UNESCAPED => 0,
-        TokenType::ONE => 0,
         TokenType::ZERO => 0,
+        TokenType::ONE => 0,
         TokenType::TILDE => 1,
     ],
     SymbolType::NT_UNESCAPED => [
         TokenType::UNESCAPED => 0,
-        TokenType::ONE => 1,
-        TokenType::ZERO => 2,
+        TokenType::ZERO => 1,
+        TokenType::ONE => 2,
     ],
     SymbolType::NT_ESCAPED => [
         TokenType::TILDE => 0,

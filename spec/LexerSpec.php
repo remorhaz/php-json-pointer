@@ -30,4 +30,6 @@ $context->setNewToken(TokenType::ONE);
 /**
  * @lexToken /[^/~01]+/
  */
-$context->setNewToken(TokenType::UNESCAPED);
+$context
+    ->setNewToken(TokenType::UNESCAPED)
+    ->setTokenAttribute('text', $context->getSymbolString());

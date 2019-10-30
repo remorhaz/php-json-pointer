@@ -28,23 +28,20 @@ class LazyQueryTest extends TestCase
         $query = new LazyQuery('', $parser);
         $value = $this->createMock(NodeValueInterface::class);
         $parser
-            ->method('setText')
-            ->willReturnSelf();
-        $parser
             ->expects(self::once())
-            ->method('getLocator');
+            ->method('buildLocator');
         $query($value);
         $query($value);
     }
 
-    public function testInvoke_ConstructedWithSource_SetsParserTextToSameValue(): void
+    public function testInvoke_ConstructedWithSource_ParserSameSource(): void
     {
         $parser = $this->createMock(ParserInterface::class);
         $query = new LazyQuery('a', $parser);
         $value = $this->createMock(NodeValueInterface::class);
         $parser
             ->expects(self::once())
-            ->method('setText')
+            ->method('buildLocator')
             ->with('a');
         $query($value);
     }

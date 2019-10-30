@@ -18,6 +18,7 @@ return [
         SymbolType::T_ZERO => TokenType::ZERO,
         SymbolType::T_ONE => TokenType::ONE,
         SymbolType::T_UNESCAPED => TokenType::UNESCAPED,
+        SymbolType::T_EOI => TokenType::EOI,
     ],
 
     GrammarLoader::PRODUCTION_MAP_KEY => [
@@ -41,8 +42,8 @@ return [
         ],
         SymbolType::NT_UNESCAPED => [
             0 => [SymbolType::T_UNESCAPED],
-            1 => [SymbolType::T_ONE],
-            2 => [SymbolType::T_ZERO],
+            1 => [SymbolType::T_ZERO],
+            2 => [SymbolType::T_ONE],
         ],
         SymbolType::NT_ESCAPED => [
             0 => [SymbolType::T_TILDE, SymbolType::NT_ESCAPED_SYMBOL],

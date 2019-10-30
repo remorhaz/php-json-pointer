@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Query;
 
-use Remorhaz\JSON\Pointer\Parser\Parser;
 use Remorhaz\JSON\Pointer\Parser\ParserInterface;
+use Remorhaz\JSON\Pointer\Parser\Parser;
 
 final class QueryFactory implements QueryFactoryInterface
 {
@@ -13,7 +13,7 @@ final class QueryFactory implements QueryFactoryInterface
 
     public static function create(): QueryFactoryInterface
     {
-        return new self(new Parser);
+        return new self(Parser::create());
     }
 
     public function __construct(ParserInterface $parser)

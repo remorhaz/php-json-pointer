@@ -42,12 +42,12 @@ final class LazyQuery implements QueryInterface
 
     private function loadQuery(): QueryInterface
     {
-        $locator = $this
-            ->parser
-            ->setText($this->source)
-            ->getLocator();
-
-        return new Query($this->source, $locator);
+        return new Query(
+            $this->source,
+            $this
+                ->parser
+                ->buildLocator($this->source),
+        );
     }
 
     public function getCapabilities(): QueryCapabilitiesInterface

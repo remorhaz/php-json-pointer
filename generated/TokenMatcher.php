@@ -65,7 +65,9 @@ class TokenMatcher extends TokenMatcherTemplate
             goto state7;
         }
         finish6:
-        $context->setNewToken(TokenType::UNESCAPED);
+        $context
+            ->setNewToken(TokenType::UNESCAPED)
+            ->setTokenAttribute('text', $context->getSymbolString());
         return true;
 
         state7:
@@ -78,7 +80,9 @@ class TokenMatcher extends TokenMatcherTemplate
             goto state7;
         }
         finish7:
-        $context->setNewToken(TokenType::UNESCAPED);
+        $context
+            ->setNewToken(TokenType::UNESCAPED)
+            ->setTokenAttribute('text', $context->getSymbolString());
         return true;
 
         error:
