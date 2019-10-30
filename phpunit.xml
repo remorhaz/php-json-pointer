@@ -12,6 +12,7 @@
             addUncoveredFilesFromWhitelist="true"
             processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/</directory>
+            <directory suffix=".php">generated/</directory>
         </whitelist>
     </filter>
     <logging>
