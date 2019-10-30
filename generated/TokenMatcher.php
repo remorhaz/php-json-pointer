@@ -4,7 +4,7 @@
  *
  * Auto-generated file, please don't edit manually.
  * Run following command to update this file:
- *     vendor/bin/phing json-path-matcher
+ *     vendor/bin/phing json-pointer-matcher
  *
  * Phing version: 2.16.1
  */

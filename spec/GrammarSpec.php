@@ -22,7 +22,10 @@ return [
 
     GrammarLoader::PRODUCTION_MAP_KEY => [
         SymbolType::NT_ROOT => [
-            0 => [SymbolType::NT_REFERENCE_LIST, SymbolType::T_EOI],
+            0 => [SymbolType::NT_POINTER, SymbolType::T_EOI],
+        ],
+        SymbolType::NT_POINTER => [
+            0 => [SymbolType::NT_REFERENCE_LIST],
         ],
         SymbolType::NT_REFERENCE_LIST => [
             0 => [SymbolType::T_SLASH, SymbolType::NT_REFERENCE, SymbolType::NT_REFERENCE_LIST],

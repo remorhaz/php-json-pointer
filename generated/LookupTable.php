@@ -4,7 +4,7 @@
  *
  * Auto-generated file, please don't edit manually.
  * Run following command to update this file:
- *     vendor/bin/phing json-path-lookup
+ *     vendor/bin/phing json-pointer-lookup
  *
  * Phing version: 2.16.1
  */
@@ -13,8 +13,13 @@ use Remorhaz\JSON\Pointer\Parser\SymbolType;
 use Remorhaz\JSON\Pointer\Parser\TokenType;
 
 return [
+    SymbolType::NT_POINTER => [
+        TokenType::SLASH => 0,
+        TokenType::EOI => 0,
+    ],
     SymbolType::NT_REFERENCE_LIST => [
         TokenType::SLASH => 0,
+        TokenType::EOI => 1,
     ],
     SymbolType::NT_REFERENCE => [
         TokenType::UNESCAPED => 0,
@@ -22,6 +27,7 @@ return [
         TokenType::ZERO => 0,
         TokenType::TILDE => 0,
         TokenType::SLASH => 1,
+        TokenType::EOI => 1,
     ],
     SymbolType::NT_REFERENCE_PART => [
         TokenType::UNESCAPED => 0,

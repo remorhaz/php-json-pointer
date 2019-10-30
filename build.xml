@@ -8,8 +8,8 @@
 
     <target name="token-matchers"
             description="Generate token matchers"
-            depends="json-path-matcher" />
-    <target name="json-path-matcher">
+            depends="json-pointer-matcher" />
+    <target name="json-pointer-matcher">
         <build-lexer
                 sourceFile="${application.startdir}/spec/LexerSpec.php"
                 destFile="${application.startdir}/generated/TokenMatcher.php"
@@ -18,8 +18,8 @@
 
     <target name="lookup-tables"
             description="Generate LL(1) parser lookup tables"
-            depends="json-path-lookup" />
-    <target name="json-path-lookup">
+            depends="json-pointer-lookup" />
+    <target name="json-pointer-lookup">
         <build-lookup
                 description="JSON Pointer parser LL(1) lookup table."
                 symbolClassName="Remorhaz\JSON\Pointer\Parser\SymbolType"
