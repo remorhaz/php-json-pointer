@@ -52,23 +52,6 @@ class Reference implements ReferenceInterface
     private $locator;
 
     /**
-     * Constructor.
-     */
-    protected function __construct()
-    {
-    }
-
-    /**
-     * Creates object instance.
-     *
-     * @return static
-     */
-    public static function factory()
-    {
-        return new static();
-    }
-
-    /**
      * Returns reference type.
      *
      * @return int

@@ -13,4 +13,8 @@ final class TokenType
     public const UNESCAPED = 0x05;
 
     public const EOI = 0xFF;
+
+    private function __construct()
+    {
+    }
 }

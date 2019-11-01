@@ -31,7 +31,7 @@ final class Parser implements ParserInterface
      */
     public function buildLocator(string $pointer): LocatorInterface
     {
-        $locator = Locator::factory();
+        $locator = new Locator;
         $this
             ->ll1ParserFactory
             ->createParser($pointer, $locator)

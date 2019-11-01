@@ -12,23 +12,6 @@ class Locator implements LocatorInterface
      */
     private $referenceList = [];
 
-    /**
-     * Constructor.
-     */
-    protected function __construct()
-    {
-    }
-
-    /**
-     * Creates object instance.
-     *
-     * @return static
-     */
-    public static function factory()
-    {
-        return new static();
-    }
-
     public function getText(): string
     {
         if (empty($this->referenceList)) {

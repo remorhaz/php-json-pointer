@@ -32,7 +32,7 @@ final class Ll1ParserFactory implements Ll1ParserFactoryInterface
             );
             $parser->loadLookupTable(__DIR__ . '/../../generated/LookupTable.php');
         } catch (Throwable $e) {
-            throw new Exception\ParserCreationFailedException($e);
+            throw new Exception\LL1ParserNotCreatedException($e);
         }
 
         return $parser;

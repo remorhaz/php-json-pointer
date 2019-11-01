@@ -20,7 +20,7 @@ final class LocatorBuilder implements LocatorBuilderInterface
 
     public function addReference(string $text): void
     {
-        $reference = Reference::factory()
+        $reference = (new Reference)
             ->setKey($text)
             ->setText($text);
 

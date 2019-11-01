@@ -23,4 +23,8 @@ final class SymbolType
     public const NT_ESCAPED_SYMBOL = 0x86;
 
     public const T_EOI = 0xFF;
+
+    private function __construct()
+    {
+    }
 }

@@ -9,9 +9,6 @@ use Remorhaz\JSON\Pointer\Processor\Exception\QueryNotSelectableException;
 use Remorhaz\JSON\Pointer\Processor\Processor;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Processor\Processor
- */
 class ProcessorSelectTest extends TestCase
 {
 

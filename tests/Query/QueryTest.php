@@ -28,10 +28,10 @@ class QueryTest extends TestCase
 
     public function testInvoke_ValidPointerDataExists_ReturnsMatchingValue(): void
     {
-        $reference = Reference::factory()
+        $reference = (new Reference)
             ->setType(Reference::TYPE_PROPERTY)
             ->setKey('a');
-        $locator = Locator::factory()->addReference($reference);
+        $locator = (new Locator)->addReference($reference);
         $query = new Query('', $locator);
         $nodeValue = NodeValueFactory::create()->createValue('{"a":"b"}');
         $resultNode = $query($nodeValue)->getSelection();
