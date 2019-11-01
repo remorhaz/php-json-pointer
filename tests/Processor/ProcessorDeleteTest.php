@@ -4,7 +4,6 @@ namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
-use Remorhaz\JSON\Pointer\Processor\Exception\QueryNotSelectableException;
 use Remorhaz\JSON\Pointer\Processor\Processor;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
@@ -87,27 +86,6 @@ class ProcessorDeleteTest extends TestCase
             'LocatorPointsToWholeDocument' => ['', '{"a":"b"}'],
             'NonExistingElement' => ['/0/2', '[[1,[2,[3]]]]'],
             'LocatorContainsScalar' => ['/a/b', '{"a":"b"}'],
-        ];
-    }
-
-    /**
-     * @param string $text
-     * @param string $data
-     * @dataProvider providerPointsNewElement
-     */
-    public function testRemove_PointsToNewElement_ThrowsException(string $text, string $data)
-    {
-        $query = QueryFactory::create()->createQuery($text);
-        $document = NodeValueFactory::create()->createValue($data);
-        $processor = Processor::create();
-
-        $this->expectException(QueryNotSelectableException::class);
-        $processor->delete($query, $document);
-    }
-
-    public function providerPointsNewElement(): array
-    {
-        return [
             'LocatorContainsNewIndex' => ['/0/1/-', '[[1,[2,[3]]]]'],
         ];
     }

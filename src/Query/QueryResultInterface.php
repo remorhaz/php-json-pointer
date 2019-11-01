@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Query;
 
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
-use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
+use Remorhaz\JSON\Pointer\Locator\ReferenceRefInterface;
 
 interface QueryResultInterface
 {
+
+    public function getSource(): string;
 
     public function getSelection(): NodeValueInterface;
 
@@ -17,7 +19,7 @@ interface QueryResultInterface
 
     public function hasParent(): bool;
 
-    public function getLastReference(): ReferenceInterface;
+    public function getLastReference(): ReferenceRefInterface;
 
     public function hasLastReference(): bool;
 }

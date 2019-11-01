@@ -11,6 +11,4 @@ interface QueryInterface
     public function __invoke(NodeValueInterface $rootNode): QueryResultInterface;
 
     public function getSource(): string;
-
-    public function getCapabilities(): QueryCapabilitiesInterface;
 }

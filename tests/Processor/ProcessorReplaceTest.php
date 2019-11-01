@@ -4,7 +4,6 @@ namespace Remorhaz\JSON\Pointer\Test\Processor;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
-use Remorhaz\JSON\Pointer\Processor\Exception\QueryNotSelectableException;
 use Remorhaz\JSON\Pointer\Processor\Processor;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
@@ -73,30 +72,6 @@ class ProcessorReplaceTest extends TestCase
             'PropertyNotExists' => ['{"a":"b"}', '/c', '"d"'],
             'ScalarSelection' => ['"a"', '/a', '"b"'],
             'propertyReference' => ['[1]', "/a", '2'],
-        ];
-    }
-
-    /**
-     * @param string $data
-     * @param string $text
-     * @param string $value
-     * @dataProvider providerInvalidElementIndex
-     */
-    public function testReplace_InvalidElementIndex_ExceptionThrown(string $data, string $text, string $value)
-    {
-        $query = QueryFactory::create()->createQuery($text);
-        $nodeValueFactory = NodeValueFactory::create();
-        $document = $nodeValueFactory->createValue($data);
-        $replacement = $nodeValueFactory->createValue($value);
-        $processor = Processor::create();
-
-        $this->expectException(QueryNotSelectableException::class);
-        $processor->replace($query, $document, $replacement);
-    }
-
-    public function providerInvalidElementIndex(): array
-    {
-        return [
             'newIndexReference' => ['[1]', "/-", '2'],
         ];
     }

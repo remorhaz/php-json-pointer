@@ -13,6 +13,9 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Walker\MutationInterface;
 use Remorhaz\JSON\Data\Walker\ValueWalker;
+use Remorhaz\JSON\Pointer\Locator\IndexReferenceInterface;
+use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
+use Remorhaz\JSON\Pointer\Locator\ReferenceRefInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendPropertyMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteMutation;
@@ -61,28 +64,16 @@ final class Processor implements ProcessorInterface
 
     public function select(QueryInterface $query, NodeValueInterface $rootNode): ResultInterface
     {
-        $queryResult = $this->getSelectableQuery($query)($rootNode);
+        $queryResult = $query($rootNode);
 
         return $queryResult->hasSelection()
             ? new ExistingResult($this->encoder, $this->decoder, $queryResult->getSelection())
             : new NonExistingResult($query->getSource());
     }
 
-    private function getSelectableQuery(QueryInterface $query): QueryInterface
-    {
-        $pointsNewElement = $query
-            ->getCapabilities()
-            ->pointsNewElement();
-        if ($pointsNewElement) {
-            throw new Exception\QueryNotSelectableException($query);
-        }
-
-        return $query;
-    }
-
     public function delete(QueryInterface $query, NodeValueInterface $rootNode): ResultInterface
     {
-        $queryResult = $this->getSelectableQuery($query)($rootNode);
+        $queryResult = $query($rootNode);
 
         if (!$queryResult->hasSelection()) {
             return new NonExistingResult($query->getSource());
@@ -114,7 +105,7 @@ final class Processor implements ProcessorInterface
         NodeValueInterface $rootNode,
         NodeValueInterface $value
     ): ResultInterface {
-        $queryResult = $this->getSelectableQuery($query)($rootNode);
+        $queryResult = $query($rootNode);
         if (!$queryResult->hasSelection()) {
             return new NonExistingResult($query->getSource());
         }
@@ -129,10 +120,6 @@ final class Processor implements ProcessorInterface
     public function add(QueryInterface $query, NodeValueInterface $rootNode, NodeValueInterface $value): ResultInterface
     {
         $queryResult = $query($rootNode);
-        if (!$queryResult->hasParent() || !$queryResult->hasLastReference()) {
-            return new NonExistingResult($query->getSource());
-        }
-
         $mutation = $this->createAddMutation($queryResult, $value);
 
         return isset($mutation)
@@ -142,46 +129,53 @@ final class Processor implements ProcessorInterface
 
     private function createAddMutation(QueryResultInterface $queryResult, NodeValueInterface $value): ?MutationInterface
     {
+        if (!$queryResult->hasParent() || !$queryResult->hasLastReference()) {
+            return null;
+        }
         $parent = $queryResult->getParent();
+        $reference = $queryResult->getLastReference();
         if ($parent instanceof ObjectValueInterface) {
             return $queryResult->hasSelection()
                 ? new ReplaceMutation($value, $queryResult->getSelection()->getPath())
-                : new AppendPropertyMutation(
-                    $value,
-                    $parent->getPath(),
-                    (string) $queryResult->getLastReference()->getKey(),
-                );
+                : new AppendPropertyMutation($value, $parent->getPath(), $reference->getPropertyName());
         }
         if ($parent instanceof ArrayValueInterface) {
-            if ($queryResult->hasSelection()) {
-                return new InsertElementMutation(
-                    $value,
-                    $parent->getPath(),
-                    (int) $queryResult->getLastReference(),
-                );
-            }
-
-            $reference = $queryResult->getLastReference();
-            switch ($reference->getType()) {
-                case $reference::TYPE_NEXT_INDEX:
-                    $elementIndex = null;
-                    break;
-
-                case $reference::TYPE_INDEX:
-                    $elementIndex = (int) $reference->getKey();
-                    break;
-
-                default:
-                    return null;
-            }
-
-            return new AppendElementMutation(
-                $value,
-                $parent->getPath(),
-                $elementIndex,
-            );
+            return $queryResult->hasSelection()
+                ? $this->createInsertElementMutation($reference, $parent, $value)
+                : $this->createAppendElementMutation($reference, $parent, $value);
         }
 
         return null;
+    }
+
+    private function createInsertElementMutation(
+        ReferenceRefInterface $reference,
+        NodeValueInterface $parent,
+        NodeValueInterface $value
+    ): ?MutationInterface {
+        return $reference instanceof IndexReferenceInterface
+            ? new InsertElementMutation($value, $parent->getPath(), $reference->getElementIndex())
+            : null;
+    }
+
+    private function createAppendElementMutation(
+        ReferenceRefInterface $reference,
+        NodeValueInterface $parent,
+        NodeValueInterface $value
+    ): ?MutationInterface {
+        switch (true) {
+            case $reference instanceof NextIndexReferenceInterface:
+                $elementIndex = null;
+                break;
+
+            case $reference instanceof IndexReferenceInterface:
+                $elementIndex = $reference->getElementIndex();
+                break;
+
+            default:
+                return null;
+        }
+
+        return new AppendElementMutation($value, $parent->getPath(), $elementIndex);
     }
 }

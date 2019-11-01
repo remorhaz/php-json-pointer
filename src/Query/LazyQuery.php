@@ -49,11 +49,4 @@ final class LazyQuery implements QueryInterface
                 ->buildLocator($this->source),
         );
     }
-
-    public function getCapabilities(): QueryCapabilitiesInterface
-    {
-        return $this
-            ->getLoadedQuery()
-            ->getCapabilities();
-    }
 }

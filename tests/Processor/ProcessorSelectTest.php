@@ -5,7 +5,6 @@ namespace Remorhaz\JSON\Pointer\Test\Pointer;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
-use Remorhaz\JSON\Pointer\Processor\Exception\QueryNotSelectableException;
 use Remorhaz\JSON\Pointer\Processor\Processor;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
@@ -73,27 +72,6 @@ class ProcessorSelectTest extends TestCase
             'nestedScalarKey' => ['/a/b', '{"a":1}'],
             'nonExistingRootNonNumericIndex' => ['/a', '[1]'],
             'nonExistingNestedNonNumericIndex' => ['/0/a', '[[1],2]'],
-        ];
-    }
-
-    /**
-     * @param string $text
-     * @param mixed $data
-     * @dataProvider providerPointsNewElement
-     */
-    public function testPointsNewElement_ResultNotExists(string $text, $data)
-    {
-        $query = QueryFactory::create()->createQuery($text);
-        $document = NodeValueFactory::create()->createValue($data);
-        $processor = Processor::create();
-
-        $this->expectException(QueryNotSelectableException::class);
-        $processor->select($query, $document);
-    }
-
-    public function providerPointsNewElement(): array
-    {
-        return [
             'rootNextIndex' => ['/-', '[1,2]'],
             'nestedNextIndex' => ['/a/-', '{"a":[1,2]}'],
         ];

@@ -3,44 +3,42 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
-use Remorhaz\JSON\Pointer\Locator\Locator;
-use Remorhaz\JSON\Pointer\Locator\Reference;
-use function intval;
-use function preg_match;
+use Remorhaz\JSON\Pointer\Locator\LocatorRef;
+use Remorhaz\JSON\Pointer\Locator\LocatorRefInterface;
+use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 
 final class LocatorBuilder implements LocatorBuilderInterface
 {
 
     private $locator;
 
-    public function __construct(Locator $locator)
+    private $referenceFactory;
+
+    private $references = [];
+
+    public function __construct(ReferenceFactoryInterface $referenceFactory)
     {
-        $this->locator = $locator;
+        $this->referenceFactory = $referenceFactory;
     }
 
     public function addReference(string $text): void
     {
-        $reference = (new Reference)
-            ->setKey($text)
-            ->setText($text);
-
-        $isIndex = 1 === preg_match('/^(?:0|[1-9][0-9]*)$/', $text);
-        switch (true) {
-            case $isIndex:
-                $reference
-                    ->setType(Reference::TYPE_INDEX)
-                    ->setIndex(intval($text));
-                break;
-
-            case '-' === $text:
-                $reference->setType(Reference::TYPE_NEXT_INDEX);
-                break;
-
-            default:
-                $reference->setType(Reference::TYPE_PROPERTY);
+        if (isset($this->locator)) {
+            throw new Exception\LocatorAlreadyBuiltException;
         }
-        $this
-            ->locator
-            ->addReference($reference);
+
+        $reference = $this
+            ->referenceFactory
+            ->createReference($text);
+        $this->references[] = $reference;
+    }
+
+    public function getLocator(): LocatorRefInterface
+    {
+        if (!isset($this->locator)) {
+            $this->locator = new LocatorRef(...$this->references);
+        }
+
+        return $this->locator;
     }
 }

@@ -7,7 +7,9 @@ use Remorhaz\JSON\Data\Value\ArrayValueInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
-use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
+use Remorhaz\JSON\Pointer\Locator\IndexReferenceInterface;
+use Remorhaz\JSON\Pointer\Locator\LocatorRefInterface;
+use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
 
 final class Query implements QueryInterface
 {
@@ -16,13 +18,10 @@ final class Query implements QueryInterface
 
     private $locator;
 
-    private $capabilities;
-
-    public function __construct(string $source, LocatorInterface $locator)
+    public function __construct(string $source, LocatorRefInterface $locator)
     {
         $this->source = $source;
         $this->locator = $locator;
-        $this->capabilities = new QueryCapabilities($locator->pointsNewElement());
     }
 
     public function __invoke(NodeValueInterface $rootNode): QueryResultInterface
@@ -30,26 +29,27 @@ final class Query implements QueryInterface
         $node = $rootNode;
         $parentNode = null;
         $lastReference = null;
-        foreach ($this->locator->getReferenceList() as $reference) {
-            if ($reference->isLast()) {
-                $lastReference = $reference;
+        foreach ($this->locator->references() as $listedReference) {
+            if ($listedReference->isLast()) {
+                $lastReference = $listedReference->getReference();
             }
             if ($node instanceof ScalarValueInterface) {
-                return new QueryResult;
+                return new QueryResult($this->source);
             }
 
             if ($node instanceof ArrayValueInterface) {
-                switch ($reference->getType()) {
-                    case $reference::TYPE_INDEX:
-                        $key = (int) $reference->getKey();
+                $reference = $listedReference->getReference();
+                switch (true) {
+                    case $reference instanceof IndexReferenceInterface:
+                        $key = $reference->getElementIndex();
                         break;
 
-                    case $reference::TYPE_NEXT_INDEX:
+                    case $reference instanceof NextIndexReferenceInterface:
                         $key = null;
                         break;
 
                     default:
-                        return new QueryResult;
+                        return new QueryResult($this->source);
                 }
                 $lastIndex = null;
                 foreach ($node->createChildIterator() as $index => $element) {
@@ -62,27 +62,19 @@ final class Query implements QueryInterface
                 }
 
                 if (isset($key) && $key != $lastIndex + 1) {
-                    return new QueryResult;
+                    return new QueryResult($this->source);
                 }
 
                 return new QueryResult(
+                    $this->source,
                     null,
-                    $reference->isLast() ? $node : null,
+                    $listedReference->isLast() ? $node : null,
                     $lastReference,
                 );
             }
 
             if ($node instanceof ObjectValueInterface) {
-                switch ($reference->getType()) {
-                    case $reference::TYPE_NEXT_INDEX:
-                    case $reference::TYPE_INDEX:
-                    case $reference::TYPE_PROPERTY:
-                        $key = (string) $reference->getKey();
-                        break;
-
-                    default:
-                        return new QueryResult;
-                }
+                $key = $listedReference->getReference()->getPropertyName();
                 foreach ($node->createChildIterator() as $name => $property) {
                     if ($name == $key) {
                         $parentNode = $node;
@@ -92,25 +84,19 @@ final class Query implements QueryInterface
                 }
 
                 return new QueryResult(
+                    $this->source,
                     null,
-                    $reference->isLast() ? $node : null,
+                    $listedReference->isLast() ? $node : null,
                     $lastReference,
                 );
             }
-
-            throw new Exception\UnexpectedNodeValueException($node);
         }
 
-        return new QueryResult($node, $parentNode, $lastReference);
+        return new QueryResult($this->source, $node, $parentNode, $lastReference);
     }
 
     public function getSource(): string
     {
         return $this->source;
-    }
-
-    public function getCapabilities(): QueryCapabilitiesInterface
-    {
-        return $this->capabilities;
     }
 }

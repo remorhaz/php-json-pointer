@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
-use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\TokenMatcher;
 use Remorhaz\UniLex\Exception as UnilexException;
 use Remorhaz\UniLex\Grammar\ContextFree\GrammarInterface;
@@ -21,10 +20,10 @@ final class Ll1ParserFactory implements Ll1ParserFactoryInterface
 
     private $grammar;
 
-    public function createParser(string $source, Locator $locator): Ll1Parser
+    public function createParser(string $source, LocatorBuilderInterface $locatorBuilder): Ll1Parser
     {
         try {
-            $scheme = new TranslationScheme(new LocatorBuilder($locator));
+            $scheme = new TranslationScheme($locatorBuilder);
             $parser = new Ll1Parser(
                 $this->getGrammar(),
                 $this->createSourceReader($source),
