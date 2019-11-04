@@ -6,5 +6,5 @@ namespace Remorhaz\JSON\Pointer\Locator;
 interface ReferenceFactoryInterface
 {
 
-    public function createReference(string $text): ReferenceRefInterface;
+    public function createReference(string $text): ReferenceInterface;
 }

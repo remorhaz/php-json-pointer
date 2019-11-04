@@ -8,7 +8,7 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 use Remorhaz\JSON\Pointer\Locator\IndexReferenceInterface;
-use Remorhaz\JSON\Pointer\Locator\LocatorRefInterface;
+use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
 
 final class Query implements QueryInterface
@@ -18,7 +18,7 @@ final class Query implements QueryInterface
 
     private $locator;
 
-    public function __construct(string $source, LocatorRefInterface $locator)
+    public function __construct(string $source, LocatorInterface $locator)
     {
         $this->source = $source;
         $this->locator = $locator;

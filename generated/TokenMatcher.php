@@ -31,22 +31,30 @@ class TokenMatcher extends TokenMatcherTemplate
         $char = $context->getBuffer()->getSymbol();
         if (0x2F == $char) {
             $context->getBuffer()->nextSymbol();
-            $context->setNewToken(TokenType::SLASH);
+            $context
+                ->setNewToken(TokenType::SLASH)
+                ->setTokenAttribute('text', '/');
             return true;
         }
         if (0x7E == $char) {
             $context->getBuffer()->nextSymbol();
-            $context->setNewToken(TokenType::TILDE);
+            $context
+                ->setNewToken(TokenType::TILDE)
+                ->setTokenAttribute('text', '~');
             return true;
         }
         if (0x30 == $char) {
             $context->getBuffer()->nextSymbol();
-            $context->setNewToken(TokenType::ZERO);
+            $context
+                ->setNewToken(TokenType::ZERO)
+                ->setTokenAttribute('text', '0');
             return true;
         }
         if (0x31 == $char) {
             $context->getBuffer()->nextSymbol();
-            $context->setNewToken(TokenType::ONE);
+            $context
+                ->setNewToken(TokenType::ONE)
+                ->setTokenAttribute('text', '1');
             return true;
         }
         if (0x00 <= $char && $char <= 0x2E || 0x32 <= $char && $char <= 0x7D || 0x7F <= $char && $char <= 0x10FFFF) {

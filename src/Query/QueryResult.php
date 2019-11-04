@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Query;
 
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
-use Remorhaz\JSON\Pointer\Locator\ReferenceRefInterface;
+use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 
 final class QueryResult implements QueryResultInterface
 {
@@ -21,7 +21,7 @@ final class QueryResult implements QueryResultInterface
         string $source,
         ?NodeValueInterface $selection = null,
         ?NodeValueInterface $parent = null,
-        ReferenceRefInterface $lastReference = null
+        ?ReferenceInterface $lastReference = null
     ) {
         $this->source = $source;
         $this->selection = $selection;
@@ -62,7 +62,7 @@ final class QueryResult implements QueryResultInterface
         return isset($this->parent);
     }
 
-    public function getLastReference(): ReferenceRefInterface
+    public function getLastReference(): ReferenceInterface
     {
         if (isset($this->lastReference)) {
             return $this->lastReference;

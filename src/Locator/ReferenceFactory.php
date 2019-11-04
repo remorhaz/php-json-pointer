@@ -9,7 +9,7 @@ use function preg_match;
 final class ReferenceFactory implements ReferenceFactoryInterface
 {
 
-    public function createReference(string $text): ReferenceRefInterface
+    public function createReference(string $text): ReferenceInterface
     {
         if ('-' == $text) {
             return new NextIndexReference;

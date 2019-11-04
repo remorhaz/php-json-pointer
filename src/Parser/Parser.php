@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
-use Remorhaz\JSON\Pointer\Locator\LocatorRefInterface;
+use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
 use Remorhaz\UniLex\Exception as UniLexException;
 
@@ -26,10 +26,10 @@ final class Parser implements ParserInterface
 
     /**
      * @param string $pointer
-     * @return LocatorRefInterface
+     * @return LocatorInterface
      * @throws UniLexException
      */
-    public function buildLocator(string $pointer): LocatorRefInterface
+    public function buildLocator(string $pointer): LocatorInterface
     {
         $locatorBuilder = new LocatorBuilder(new ReferenceFactory);
         $this

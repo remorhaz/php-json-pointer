@@ -5,12 +5,12 @@ namespace Remorhaz\JSON\Pointer\Locator;
 
 use function count;
 
-final class LocatorRef implements LocatorRefInterface
+final class Locator implements LocatorInterface
 {
 
     private $listedReferences;
 
-    public function __construct(ReferenceRefInterface ...$references)
+    public function __construct(ReferenceInterface ...$references)
     {
         $listSize = count($references);
         $this->listedReferences = [];

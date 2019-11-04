@@ -15,7 +15,7 @@ use Remorhaz\JSON\Data\Walker\MutationInterface;
 use Remorhaz\JSON\Data\Walker\ValueWalker;
 use Remorhaz\JSON\Pointer\Locator\IndexReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
-use Remorhaz\JSON\Pointer\Locator\ReferenceRefInterface;
+use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendPropertyMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteMutation;
@@ -148,7 +148,7 @@ final class Processor implements ProcessorInterface
     }
 
     private function createInsertElementMutation(
-        ReferenceRefInterface $reference,
+        ReferenceInterface $reference,
         NodeValueInterface $parent,
         NodeValueInterface $value
     ): ?MutationInterface {
@@ -158,7 +158,7 @@ final class Processor implements ProcessorInterface
     }
 
     private function createAppendElementMutation(
-        ReferenceRefInterface $reference,
+        ReferenceInterface $reference,
         NodeValueInterface $parent,
         NodeValueInterface $value
     ): ?MutationInterface {

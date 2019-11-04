@@ -10,13 +10,13 @@ final class ListedReference implements ListedReferenceInterface
 
     private $isLast;
 
-    public function __construct(ReferenceRefInterface $reference, bool $isLast)
+    public function __construct(ReferenceInterface $reference, bool $isLast)
     {
         $this->reference = $reference;
         $this->isLast = $isLast;
     }
 
-    public function getReference(): ReferenceRefInterface
+    public function getReference(): ReferenceInterface
     {
         return $this->reference;
     }

@@ -24,6 +24,10 @@ final class TranslationScheme implements TranslationSchemeInterface
         $t = $token->getShortcut();
         switch ($symbol->getSymbolId()) {
             case SymbolType::T_UNESCAPED:
+            case SymbolType::T_SLASH:
+            case SymbolType::T_TILDE:
+            case SymbolType::T_ZERO:
+            case SymbolType::T_ONE:
                 $s['s.text'] = $t['text'];
                 break;
         }
@@ -37,6 +41,8 @@ final class TranslationScheme implements TranslationSchemeInterface
         switch ($hash) {
             case SymbolType::NT_REFERENCE . '.0':
                 // [ 0:NT_REFERENCE_PART, 1:NT_REFERENCE ]
+            case SymbolType::NT_ESCAPED . '.0':
+                // [ 0:T_TILDE, 1:NT_ESCAPED_SYMBOL ]
                 $header['s.text'] = $symbols[1]['s.text'];
                 break;
 
@@ -49,27 +55,13 @@ final class TranslationScheme implements TranslationSchemeInterface
                 // [ 0:NT_UNESCAPED ]
             case SymbolType::NT_REFERENCE_PART . '.1':
                 // [ 0:NT_ESCAPED ]
-                $header['s.text'] = $symbols[0]['s.text'];
-                break;
-
             case SymbolType::NT_UNESCAPED . '.0':
                 // [ 0:T_UNESCAPED ]
-                $header['s.text'] = $symbols[0]['s.text'];
-                break;
-
             case SymbolType::NT_UNESCAPED . '.1':
                 // [ 0:T_ZERO ]
-                $header['s.text'] = '0';
-                break;
-
             case SymbolType::NT_UNESCAPED . '.2':
                 // [ 0:T_ONE ]
-                $header['s.text'] = '1';
-                break;
-
-            case SymbolType::NT_ESCAPED . '.0':
-                // [ 0:T_TILDE, 1:NT_ESCAPED_SYMBOL ]
-                $header['s.text'] = $symbols[1]['s.text'];
+                $header['s.text'] = $symbols[0]['s.text'];
                 break;
 
             case SymbolType::NT_ESCAPED_SYMBOL . '.0':

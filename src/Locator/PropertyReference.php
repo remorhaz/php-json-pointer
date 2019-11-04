@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Locator;
 
-final class PropertyReference implements ReferenceRefInterface
+final class PropertyReference implements ReferenceInterface
 {
 
     private $propertyName;

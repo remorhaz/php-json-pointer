@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
-use Remorhaz\JSON\Pointer\Locator\LocatorRef;
-use Remorhaz\JSON\Pointer\Locator\LocatorRefInterface;
+use Remorhaz\JSON\Pointer\Locator\Locator;
+use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 
 final class LocatorBuilder implements LocatorBuilderInterface
@@ -33,10 +33,10 @@ final class LocatorBuilder implements LocatorBuilderInterface
         $this->references[] = $reference;
     }
 
-    public function getLocator(): LocatorRefInterface
+    public function getLocator(): LocatorInterface
     {
         if (!isset($this->locator)) {
-            $this->locator = new LocatorRef(...$this->references);
+            $this->locator = new Locator(...$this->references);
         }
 
         return $this->locator;
