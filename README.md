@@ -54,7 +54,6 @@ $queryFactory = QueryFactory::create();
 // Creating query that selects 'a' property from document:
 $query = $queryFactory->createQuery('/a');
 ```
-_Selectable_ query is a query that doesn't contain `-` reference.
 
 ## Processing query
 You should use an instance of _query processor_ to execute queries on given JSON documents:
@@ -66,7 +65,7 @@ $processor = Processor::create();
 ```
 
 ### Selecting part of a JSON document
-You can get part of a JSON document using _selectable_ query and `::select()` method.
+To get part of a JSON document use `::select()` method.
 
 ```php
 <?php
@@ -92,15 +91,11 @@ $query2 = $queryFactory->createQuery('/c');
 $result2 = $processor->select($query2, $document);
 var_dump($result2->exists()); // boolean: false
 var_dump($result2->decode()); // throws an exception
-
-// Attempting to use non-selectable query
-$query3 = $queryFactory->createQuery('/-');
-$result3 = $processor->select($query3, $document); // throws an exception
 ``` 
 Note that you can either encode result of a selection to JSON string or decode them to raw PHP data. Before accessing a result of `::select()` you can check it's existence with `::exists()` method to avoid exception.
 
 ### Deleting part of a JSON document
-You can delete part of a JSON document using _selectable_ query and `::delete()` method.
+To delete part of a JSON document use `::delete()` method.
 ```php
 <?php
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
@@ -124,15 +119,11 @@ $query2 = $queryFactory->createQuery('/e');
 $result2 = $processor->delete($query2, $document);
 var_dump($result2->exists()); // boolean: false
 var_dump($result2->encode()); // throws an exception
-
-// Attempting to use non-selectable query
-$query3 = $queryFactory->createQuery('/-');
-$result3 = $processor->delete($query3, $document); // throws an exception
 ```
 Note that `::delete()` function returns non-existing result if query points to non-existing value.
 
 ### Replacing part of a JSON document
-You can replace part of a JSON document using _selectable_ query and `::replace()` method.
+To replace part of a JSON document use `::replace()` method.
 ```php
 <?php
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
@@ -157,14 +148,10 @@ $query2 = $queryFactory->createQuery('/f');
 $result2 = $processor->replace($query2, $document, $replacement);
 var_dump($result2->exists()); // boolean: false
 var_dump($result2->encode()); // throws an exception
-
-// Attempting to use non-selectable query
-$query3 = $queryFactory->createQuery('/-');
-$result3 = $processor->replace($query3, $document, $replacement); // throws an exception
 ```
 
 ### Adding part of a JSON document
-You can add part of a JSON document using _any_ query and `::add()` method.
+To add part of a JSON document use `::add()` method.
 ```php
 <?php
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;

@@ -119,8 +119,7 @@ final class Processor implements ProcessorInterface
 
     public function add(QueryInterface $query, NodeValueInterface $rootNode, NodeValueInterface $value): ResultInterface
     {
-        $queryResult = $query($rootNode);
-        $mutation = $this->createAddMutation($queryResult, $value);
+        $mutation = $this->createAddMutation($query($rootNode), $value);
 
         return isset($mutation)
             ? $this->getMutationResult($query, $rootNode, $mutation)

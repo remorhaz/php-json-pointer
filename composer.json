@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": "^7.3",
-    "remorhaz/php-json-data": "dev-master",
+    "remorhaz/php-json-data": "^0.5.1",
     "remorhaz/php-unilex": "^0.0.14",
     "phing/phing": "^2.16"
   },
