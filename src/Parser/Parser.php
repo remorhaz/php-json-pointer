@@ -5,6 +5,7 @@ namespace Remorhaz\JSON\Pointer\Parser;
 
 use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
+use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 use Remorhaz\UniLex\Exception as UniLexException;
 
 final class Parser implements ParserInterface
@@ -12,16 +13,22 @@ final class Parser implements ParserInterface
 
     private $ll1ParserFactory;
 
+    private $referenceFactory;
+
     public static function create(): ParserInterface
     {
-        $ll1ParserFactory = new Ll1ParserFactory;
-
-        return new self($ll1ParserFactory);
+        return new self(
+            new Ll1ParserFactory,
+            new ReferenceFactory
+        );
     }
 
-    public function __construct(Ll1ParserFactoryInterface $ll1ParserFactory)
-    {
+    public function __construct(
+        Ll1ParserFactoryInterface $ll1ParserFactory,
+        ReferenceFactoryInterface $referenceFactory
+    ) {
         $this->ll1ParserFactory = $ll1ParserFactory;
+        $this->referenceFactory = $referenceFactory;
     }
 
     /**
@@ -31,7 +38,7 @@ final class Parser implements ParserInterface
      */
     public function buildLocator(string $pointer): LocatorInterface
     {
-        $locatorBuilder = new LocatorBuilder(new ReferenceFactory);
+        $locatorBuilder = new LocatorBuilder($this->referenceFactory);
         $this
             ->ll1ParserFactory
             ->createParser($pointer, $locatorBuilder)
