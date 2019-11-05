@@ -75,15 +75,13 @@ final class Processor implements ProcessorInterface
     {
         $queryResult = $query($rootNode);
 
-        if (!$queryResult->hasSelection()) {
-            return new NonExistingResult($query->getSource());
-        }
-
-        return $this->getMutationResult(
-            $query,
-            $rootNode,
-            new DeleteMutation($queryResult->getSelection()->getPath())
-        );
+        return $queryResult->hasSelection()
+            ? $this->getMutationResult(
+                $query,
+                $rootNode,
+                new DeleteMutation($queryResult->getSelection()->getPath())
+            )
+            : new NonExistingResult($query->getSource());
     }
 
     private function getMutationResult(
@@ -106,15 +104,14 @@ final class Processor implements ProcessorInterface
         NodeValueInterface $value
     ): ResultInterface {
         $queryResult = $query($rootNode);
-        if (!$queryResult->hasSelection()) {
-            return new NonExistingResult($query->getSource());
-        }
 
-        return $this->getMutationResult(
-            $query,
-            $rootNode,
-            new ReplaceMutation($value, $queryResult->getSelection()->getPath())
-        );
+        return $queryResult->hasSelection()
+            ? $this->getMutationResult(
+                $query,
+                $rootNode,
+                new ReplaceMutation($value, $queryResult->getSelection()->getPath())
+            )
+            : new NonExistingResult($query->getSource());
     }
 
     public function add(QueryInterface $query, NodeValueInterface $rootNode, NodeValueInterface $value): ResultInterface

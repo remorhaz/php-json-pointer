@@ -8,6 +8,9 @@ use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
 use Remorhaz\JSON\Pointer\Processor\Processor;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
+/**
+ * @coversNothing
+ */
 class ProcessorSelectTest extends TestCase
 {
 
