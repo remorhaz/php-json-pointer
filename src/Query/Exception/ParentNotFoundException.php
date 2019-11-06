@@ -16,4 +16,9 @@ final class ParentNotFoundException extends LogicException implements ExceptionI
         $this->source = $source;
         parent::__construct("Query '{$this->source}' selected no parent node", 0, $previous);
     }
+
+    public function getSource(): string
+    {
+        return $this->source;
+    }
 }

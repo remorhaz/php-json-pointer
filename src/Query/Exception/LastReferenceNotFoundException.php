@@ -16,4 +16,9 @@ final class LastReferenceNotFoundException extends LogicException implements Exc
         $this->source = $source;
         parent::__construct("Query '{$this->source}' selected no last reference", 0, $previous);
     }
+
+    public function getSource(): string
+    {
+        return $this->source;
+    }
 }
