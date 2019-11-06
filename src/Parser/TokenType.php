@@ -14,6 +14,9 @@ final class TokenType
 
     public const EOI = 0xFF;
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }

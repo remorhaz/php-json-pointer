@@ -24,6 +24,9 @@ final class SymbolType
 
     public const T_EOI = 0xFF;
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }
