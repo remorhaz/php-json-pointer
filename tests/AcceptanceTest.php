@@ -108,6 +108,11 @@ class AcceptanceTest extends TestCase
         return [
             'Add element to empty array' => ['[]', '/0', '1', '[1]'],
             'Add property to empty object' => ['{}', '/a', '"b"', '{"a":"b"}'],
+            'Replace root array with object' => ['[1]', '', '{"a":"b"}', '{"a":"b"}'],
+            'Replace root scalar' => ['1', '', '"a"', '"a"'],
+            'Insert array element' => ['[1,2]', '/1', '3', '[1,3,2]'],
+            'Append array element by index' => ['[1,2]', '/2', '3', '[1,2,3]'],
+            'Auto-append array element' => ['[1,2]', '/-', '3', '[1,2,3]'],
         ];
     }
 }

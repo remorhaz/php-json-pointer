@@ -139,7 +139,12 @@ final class Processor implements ProcessorInterface
 
     private function createAddMutation(QueryResultInterface $queryResult, NodeValueInterface $value): ?MutationInterface
     {
-        if (!$queryResult->hasParent() || !$queryResult->hasLastReference()) {
+        if (!$queryResult->hasParent()) {
+            return $queryResult->hasSelection()
+                ? new ReplaceMutation($value, $queryResult->getSelection()->getPath())
+                : null;
+        }
+        if (!$queryResult->hasLastReference()) {
             return null;
         }
         $parent = $queryResult->getParent();
