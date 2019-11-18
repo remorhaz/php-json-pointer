@@ -84,4 +84,30 @@ class AcceptanceTest extends TestCase
             'Nested inner element' => ['[1,[2,3,4],5]', '/1/1', '[1,[2,4],5]'],
         ];
     }
+
+    /**
+     * @param string $document
+     * @param string $pointer
+     * @param string $value
+     * @param string $expectedValue
+     * @dataProvider providerAdd
+     */
+    public function testAdd(string $document, string $pointer, string $value, string $expectedValue): void
+    {
+        $rootNode = NodeValueFactory::create()->createValue($document);
+        $valueNode = NodeValueFactory::create()->createValue($value);
+        $query = QueryFactory::create()->createQuery($pointer);
+        $selection = Processor::create()
+            ->add($query, $rootNode, $valueNode)
+            ->encode();
+        self::assertSame($expectedValue, $selection);
+    }
+
+    public function providerAdd(): array
+    {
+        return [
+            'Add element to empty array' => ['[]', '/0', '1', '[1]'],
+            'Add property to empty object' => ['{}', '/a', '"b"', '{"a":"b"}'],
+        ];
+    }
 }

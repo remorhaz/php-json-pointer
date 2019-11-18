@@ -61,7 +61,7 @@ final class Query implements QueryInterface
                     }
                 }
 
-                if (isset($key) && $key != $lastIndex + 1) {
+                if (isset($key, $lastIndex) && $key != $lastIndex + 1) {
                     return new QueryResult($this->source);
                 }
 
