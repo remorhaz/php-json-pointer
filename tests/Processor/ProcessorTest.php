@@ -16,7 +16,8 @@ use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendPropertyMutation;
-use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteMutation;
+use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteElementMutation;
+use Remorhaz\JSON\Pointer\Processor\Mutator\DeletePropertyMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\InsertElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\MutatorInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\ReplaceMutation;
@@ -170,15 +171,16 @@ class ProcessorTest extends TestCase
         $processor->delete($query, $rootNode);
     }
 
-    public function testDelete_QueryResultHasNoSelection_ResultNotExists(): void
+    public function testDelete_QueryResultHasNoSelectionButHasParent_ResultNotExists(): void
     {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
-        $queryResult
-            ->method('hasSelection')
-            ->willReturn(false);
+        $queryResult = new QueryResult(
+            '',
+            null,
+            $this->createMock(NodeValueInterface::class)
+        );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
@@ -190,7 +192,7 @@ class ProcessorTest extends TestCase
         self::assertFalse($result->exists());
     }
 
-    public function testDelete_QueryResultHasSelectionButMutatorReturnsNull_ResultNotExists(): void
+    public function testDelete_QueryResultHasSelectionButNoParent_ResultNotExists(): void
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
@@ -200,10 +202,69 @@ class ProcessorTest extends TestCase
         );
         $query = $this->createMock(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
-        $queryResult
-            ->method('hasSelection')
-            ->willReturn(true);
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class)
+        );
+        $query
+            ->method('__invoke')
+            ->willReturn($queryResult);
+
+        $result = $processor->delete(
+            $query,
+            $this->createMock(NodeValueInterface::class)
+        );
+        self::assertFalse($result->exists());
+    }
+
+    public function testDelete_ParentIsNotStruct_ResultNotExists(): void
+    {
+        $mutator = $this->createMock(MutatorInterface::class);
+        $processor = new Processor(
+            $this->createMock(ValueEncoderInterface::class),
+            $this->createMock(ValueDecoderInterface::class),
+            $mutator,
+        );
+        $query = $this->createMock(QueryInterface::class);
+
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            $this->createMock(NodeValueInterface::class)
+        );
+        $query
+            ->method('__invoke')
+            ->willReturn($queryResult);
+
+        $mutator
+            ->method('mutate')
+            ->willReturn($this->createMock(NodeValueInterface::class));
+        $result = $processor->delete(
+            $query,
+            $this->createMock(NodeValueInterface::class)
+        );
+        self::assertFalse($result->exists());
+    }
+
+    public function testDelete_MutatorReturnsNull_ResultNotExists(): void
+    {
+        $mutator = $this->createMock(MutatorInterface::class);
+        $processor = new Processor(
+            $this->createMock(ValueEncoderInterface::class),
+            $this->createMock(ValueDecoderInterface::class),
+            $mutator,
+        );
+        $query = $this->createMock(QueryInterface::class);
+
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            new NodeArrayValue(
+                [],
+                $this->createMock(PathInterface::class),
+                $this->createMock(NodeValueFactoryInterface::class)
+            )
+        );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
@@ -218,7 +279,7 @@ class ProcessorTest extends TestCase
         self::assertFalse($result->exists());
     }
 
-    public function testDelete_MutatorReturnsValue_ResultExists(): void
+    public function testDelete_NonStructParent_ResultNotExists(): void
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
@@ -228,10 +289,76 @@ class ProcessorTest extends TestCase
         );
         $query = $this->createMock(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
-        $queryResult
-            ->method('hasSelection')
-            ->willReturn(true);
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            $this->createMock(NodeValueInterface::class)
+        );
+        $query
+            ->method('__invoke')
+            ->willReturn($queryResult);
+
+        $mutator
+            ->method('mutate')
+            ->willReturn($this->createMock(NodeValueInterface::class));
+        $result = $processor->delete(
+            $query,
+            $this->createMock(NodeValueInterface::class)
+        );
+        self::assertFalse($result->exists());
+    }
+
+    public function testDelete_ParentIsArray_ResultExists(): void
+    {
+        $mutator = $this->createMock(MutatorInterface::class);
+        $processor = new Processor(
+            $this->createMock(ValueEncoderInterface::class),
+            $this->createMock(ValueDecoderInterface::class),
+            $mutator,
+        );
+        $query = $this->createMock(QueryInterface::class);
+
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            new NodeArrayValue(
+                [],
+                $this->createMock(PathInterface::class),
+                $this->createMock(NodeValueFactoryInterface::class)
+            )
+        );
+        $query
+            ->method('__invoke')
+            ->willReturn($queryResult);
+        $mutator
+            ->method('mutate')
+            ->willReturn($this->createMock(NodeValueInterface::class));
+        $result = $processor->delete(
+            $query,
+            $this->createMock(NodeValueInterface::class)
+        );
+        self::assertTrue($result->exists());
+    }
+
+    public function testDelete_ParentIsObject_ResultExists(): void
+    {
+        $mutator = $this->createMock(MutatorInterface::class);
+        $processor = new Processor(
+            $this->createMock(ValueEncoderInterface::class),
+            $this->createMock(ValueDecoderInterface::class),
+            $mutator,
+        );
+        $query = $this->createMock(QueryInterface::class);
+
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            new NodeObjectValue(
+                (object) [],
+                $this->createMock(PathInterface::class),
+                $this->createMock(NodeValueFactoryInterface::class)
+            )
+        );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
@@ -246,7 +373,7 @@ class ProcessorTest extends TestCase
         self::assertTrue($result->exists());
     }
 
-    public function testDelete_QueryResultHasSelection_DeleteMutationPassedToMutator(): void
+    public function testDelete_ParentIsArray_DeleteElementMutationPassedToMutator(): void
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
@@ -256,10 +383,15 @@ class ProcessorTest extends TestCase
         );
         $query = $this->createMock(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
-        $queryResult
-            ->method('hasSelection')
-            ->willReturn(true);
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            new NodeArrayValue(
+                [],
+                $this->createMock(PathInterface::class),
+                $this->createMock(NodeValueFactoryInterface::class)
+            )
+        );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
@@ -270,7 +402,41 @@ class ProcessorTest extends TestCase
             ->method('mutate')
             ->with(
                 self::identicalTo($rootNode),
-                self::isInstanceOf(DeleteMutation::class)
+                self::isInstanceOf(DeleteElementMutation::class)
+            );
+        $processor->delete($query, $rootNode);
+    }
+
+    public function testDelete_ParentIsObject_DeletePropertyMutationPassedToMutator(): void
+    {
+        $mutator = $this->createMock(MutatorInterface::class);
+        $processor = new Processor(
+            $this->createMock(ValueEncoderInterface::class),
+            $this->createMock(ValueDecoderInterface::class),
+            $mutator,
+        );
+        $query = $this->createMock(QueryInterface::class);
+
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            new NodeObjectValue(
+                (object) [],
+                $this->createMock(PathInterface::class),
+                $this->createMock(NodeValueFactoryInterface::class)
+            )
+        );
+        $query
+            ->method('__invoke')
+            ->willReturn($queryResult);
+
+        $rootNode = $this->createMock(NodeValueInterface::class);
+        $mutator
+            ->expects(self::once())
+            ->method('mutate')
+            ->with(
+                self::identicalTo($rootNode),
+                self::isInstanceOf(DeletePropertyMutation::class)
             );
         $processor->delete($query, $rootNode);
     }
@@ -286,10 +452,15 @@ class ProcessorTest extends TestCase
         );
         $query = $this->createMock(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
-        $queryResult
-            ->method('hasSelection')
-            ->willReturn(true);
+        $queryResult = new QueryResult(
+            '',
+            $this->createMock(NodeValueInterface::class),
+            new NodeArrayValue(
+                [],
+                $this->createMock(PathInterface::class),
+                $this->createMock(NodeValueFactoryInterface::class)
+            )
+        );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);

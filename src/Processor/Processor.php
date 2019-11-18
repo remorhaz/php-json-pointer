@@ -18,7 +18,8 @@ use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\AppendPropertyMutation;
-use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteMutation;
+use Remorhaz\JSON\Pointer\Processor\Mutator\DeleteElementMutation;
+use Remorhaz\JSON\Pointer\Processor\Mutator\DeletePropertyMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\InsertElementMutation;
 use Remorhaz\JSON\Pointer\Processor\Mutator\Mutator;
 use Remorhaz\JSON\Pointer\Processor\Mutator\MutatorInterface;
@@ -73,15 +74,28 @@ final class Processor implements ProcessorInterface
 
     public function delete(QueryInterface $query, NodeValueInterface $rootNode): ResultInterface
     {
-        $queryResult = $query($rootNode);
+        $mutation = $this->createDeleteMutation($query($rootNode));
 
-        return $queryResult->hasSelection()
-            ? $this->getMutationResult(
-                $query,
-                $rootNode,
-                new DeleteMutation($queryResult->getSelection()->getPath())
-            )
+        return isset($mutation)
+            ? $this->getMutationResult($query, $rootNode, $mutation)
             : new NonExistingResult($query->getSource());
+    }
+
+    private function createDeleteMutation(QueryResultInterface $queryResult): ?MutationInterface
+    {
+        if (!$queryResult->hasSelection() || !$queryResult->hasParent()) {
+            return null;
+        }
+        $selection = $queryResult->getSelection();
+        $parent = $queryResult->getParent();
+        if ($parent instanceof ArrayValueInterface) {
+            return new DeleteElementMutation($parent->getPath(), $selection->getPath());
+        }
+        if ($parent instanceof ObjectValueInterface) {
+            return new DeletePropertyMutation($selection->getPath());
+        }
+
+        return null;
     }
 
     private function getMutationResult(

@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- All query exceptions have `getSource()` method now. 
+- All query exceptions have `getSource()` method now.
+- Issue #2: delete mutation breaks array indexes. 
 
 ## [0.6.0] - 2019-11-05
 ### Added

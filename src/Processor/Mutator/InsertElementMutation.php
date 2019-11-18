@@ -28,11 +28,14 @@ final class InsertElementMutation implements MutationInterface
 
     private $elementCounter = 0;
 
+    private $eventDecoder;
+
     public function __construct(NodeValueInterface $value, PathInterface $path, int $elementIndex)
     {
         $this->value = $value;
         $this->path = $path;
         $this->elementIndex = $elementIndex;
+        $this->eventDecoder = new EventDecoder;
     }
 
     public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator
@@ -85,10 +88,10 @@ final class InsertElementMutation implements MutationInterface
         }
 
         if ($event->getIndex() == $this->elementIndex) {
-            $propertyPath = $this->path->copyWithElement($this->elementIndex);
-            yield new BeforeElementEvent($this->elementIndex, $propertyPath);
-            yield from $valueWalker->createEventIterator($this->value, $propertyPath);
-            yield new AfterElementEvent($this->elementIndex, $propertyPath);
+            $elementPath = $this->path->copyWithElement($this->elementIndex);
+            yield new BeforeElementEvent($this->elementIndex, $elementPath);
+            yield from $valueWalker->createEventIterator($this->value, $elementPath);
+            yield new AfterElementEvent($this->elementIndex, $elementPath);
         }
         $shiftedIndex = $event->getIndex() + 1;
         $path = $event
@@ -123,7 +126,9 @@ final class InsertElementMutation implements MutationInterface
             ->copyWithElement($this->elementCounter + 1);
 
         yield from $valueWalker->createEventIterator(
-            (new EventDecoder)->exportExistingEvents(new ArrayIterator([$event])),
+            $this
+                ->eventDecoder
+                ->exportExistingEvents(new ArrayIterator([$event])),
             $path,
         );
     }

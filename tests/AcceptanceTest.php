@@ -52,4 +52,36 @@ class AcceptanceTest extends TestCase
             [$document, "/m~0n", '8'],
         ];
     }
+
+    /**
+     * @param string $document
+     * @param string $pointer
+     * @param string $expectedValue
+     * @dataProvider providerDelete
+     */
+    public function testDelete(string $document, string $pointer, string $expectedValue): void
+    {
+        $rootNode = NodeValueFactory::create()->createValue($document);
+        $query = QueryFactory::create()->createQuery($pointer);
+        $selection = Processor::create()
+            ->delete($query, $rootNode)
+            ->encode();
+        self::assertSame($expectedValue, $selection);
+    }
+
+    public function providerDelete(): array
+    {
+        return [
+            'First property' => ['{"a":"b","c":"d"}', '/a', '{"c":"d"}'],
+            'Last property' => ['{"a":"b","c":"d"}', '/c', '{"a":"b"}'],
+            'Nested inner property' => [
+                '{"a":{"b":"c","d":"e","f":"g"},"h":"i"}',
+                '/a/d',
+                '{"a":{"b":"c","f":"g"},"h":"i"}',
+            ],
+            'First element' => ['[1,2]', '/0', '[2]'],
+            'Last element' => ['[1,2]', '/1', '[1]'],
+            'Nested inner element' => ['[1,[2,3,4],5]', '/1/1', '[1,[2,4],5]'],
+        ];
+    }
 }
