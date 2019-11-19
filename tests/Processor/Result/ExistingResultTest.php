@@ -53,7 +53,6 @@ class ExistingResultTest extends TestCase
         );
 
         $encoder
-            ->expects(self::once())
             ->method('exportValue')
             ->willReturn('a');
         self::assertSame('a', $result->encode());
@@ -87,9 +86,19 @@ class ExistingResultTest extends TestCase
         );
 
         $decoder
-            ->expects(self::once())
             ->method('exportValue')
             ->willReturn('a');
         self::assertSame('a', $result->decode());
+    }
+
+    public function testGet_ConstructedWithValue_ReturnsSameInstance(): void
+    {
+        $value = $this->createMock(NodeValueInterface::class);
+        $result = new ExistingResult(
+            $this->createMock(ValueEncoderInterface::class),
+            $this->createMock(ValueDecoderInterface::class),
+            $value
+        );
+        self::assertSame($value, $result->get());
     }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Processor\Result;
 
+use Remorhaz\JSON\Data\Value\NodeValueInterface;
+
 final class NonExistingResult implements ResultInterface
 {
 
@@ -24,6 +26,11 @@ final class NonExistingResult implements ResultInterface
     }
 
     public function decode()
+    {
+        throw new Exception\ResultNotFoundException($this->source);
+    }
+
+    public function get(): NodeValueInterface
     {
         throw new Exception\ResultNotFoundException($this->source);
     }

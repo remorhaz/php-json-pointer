@@ -44,4 +44,9 @@ final class ExistingResult implements ResultInterface
             ->decoder
             ->exportValue($this->nodeValue);
     }
+
+    public function get(): NodeValueInterface
+    {
+        return $this->nodeValue;
+    }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Processor\Result;
 
+use Remorhaz\JSON\Data\Value\NodeValueInterface;
+
 interface ResultInterface
 {
 
@@ -11,4 +13,6 @@ interface ResultInterface
     public function encode(): string;
 
     public function decode();
+
+    public function get(): NodeValueInterface;
 }

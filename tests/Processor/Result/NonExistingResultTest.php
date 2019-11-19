@@ -27,11 +27,19 @@ class NonExistingResultTest extends TestCase
         $result->encode();
     }
 
-    public function testDencode_ConstructedWithSource_ThrowsMatchingException(): void
+    public function testDecode_ConstructedWithSource_ThrowsMatchingException(): void
     {
         $result = new NonExistingResult('a');
         $this->expectException(ResultNotFoundException::class);
         $this->expectExceptionMessage('\'a\'');
         $result->decode();
+    }
+
+    public function testGet_ConstructedWithSource_ThrowsMatchingException(): void
+    {
+        $result = new NonExistingResult('a');
+        $this->expectException(ResultNotFoundException::class);
+        $this->expectExceptionMessage('\'a\'');
+        $result->get();
     }
 }
