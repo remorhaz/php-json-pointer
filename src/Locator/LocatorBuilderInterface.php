@@ -9,4 +9,6 @@ interface LocatorBuilderInterface
     public function addReference(string $text): void;
 
     public function getLocator(): LocatorInterface;
+
+    public function export(): string;
 }

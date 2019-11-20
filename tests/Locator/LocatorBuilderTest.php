@@ -5,6 +5,7 @@ namespace Remorhaz\JSON\Pointer\Test\Locator;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ListedReferenceInterface;
+use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException;
@@ -44,6 +45,14 @@ class LocatorBuilderTest extends TestCase
         $builder->addReference('a');
     }
 
+    public function testAddReference_ExportCalled_ThrowsException(): void
+    {
+        $builder = new LocatorBuilder($this->createMock(ReferenceFactoryInterface::class));
+        $builder->export();
+        $this->expectException(LocatorAlreadyBuiltException::class);
+        $builder->addReference('a');
+    }
+
     public function testAddReference_ConstructedWithReferenceFactory_PassesTextToSameInstance(): void
     {
         $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
@@ -79,5 +88,42 @@ class LocatorBuilderTest extends TestCase
             $listedReferences
         );
         self::assertSame([$firstReference, $secondReference], $actualValue);
+    }
+
+    public function testExport_NoReferencesAdded_ReturnsEmptyPointer(): void
+    {
+        $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
+        $builder = new LocatorBuilder($referenceFactory);
+        self::assertSame('', $builder->export());
+    }
+
+    /**
+     * @param string $text
+     * @param string $expectedValue
+     * @dataProvider providerExportSingleReference
+     */
+    public function testExport_SingleReferenceAdded_ReturnsMatchingPointer(string $text, string $expectedValue): void
+    {
+        $builder = new LocatorBuilder(new ReferenceFactory);
+        $builder->addReference($text);
+        self::assertSame($expectedValue, $builder->export());
+    }
+    public function providerExportSingleReference(): array
+    {
+        return [
+            'ASCII string' => ['a', '/a'],
+            'Tilde' => ['~', '/~0'],
+            'Slash' => ['/', '/~1'],
+            'Tilde after slash' => ['/~', '/~1~0'],
+            'Slash after tilde' => ['~/', '/~0~1'],
+        ];
+    }
+
+    public function testExport_TwoReferencesAdded_ReturnsMatchingPointer(): void
+    {
+        $builder = new LocatorBuilder(new ReferenceFactory);
+        $builder->addReference('a');
+        $builder->addReference('b');
+        self::assertSame('/a/b', $builder->export());
     }
 }
