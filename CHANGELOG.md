@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Issue #5: `ResultInterface::get()` method added.
+### Fixed
+- Issue #6: locator builder moved to correct namespace.
 
 ## [0.6.3] - 2019-11-18
 ### Fixed

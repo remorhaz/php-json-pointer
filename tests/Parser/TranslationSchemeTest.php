@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Test\Parser;
 
 use PHPUnit\Framework\TestCase;
-use Remorhaz\JSON\Pointer\Parser\LocatorBuilderInterface;
+use Remorhaz\JSON\Pointer\Locator\LocatorBuilderInterface;
 use Remorhaz\JSON\Pointer\Parser\TranslationScheme;
 use Remorhaz\JSON\Pointer\TokenMatcher;
 use Remorhaz\UniLex\Exception as UniLexException;

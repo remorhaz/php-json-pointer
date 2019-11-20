@@ -1,11 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Pointer\Parser;
-
-use Remorhaz\JSON\Pointer\Locator\Locator;
-use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
-use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
+namespace Remorhaz\JSON\Pointer\Locator;
 
 final class LocatorBuilder implements LocatorBuilderInterface
 {
@@ -15,6 +11,11 @@ final class LocatorBuilder implements LocatorBuilderInterface
     private $referenceFactory;
 
     private $references = [];
+
+    public static function create(): LocatorBuilderInterface
+    {
+        return new self(new ReferenceFactory);
+    }
 
     public function __construct(ReferenceFactoryInterface $referenceFactory)
     {

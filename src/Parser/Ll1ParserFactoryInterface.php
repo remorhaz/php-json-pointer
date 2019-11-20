@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
+use Remorhaz\JSON\Pointer\Locator\LocatorBuilderInterface;
 use Remorhaz\UniLex\Parser\LL1\Parser as Ll1Parser;
 
 interface Ll1ParserFactoryInterface

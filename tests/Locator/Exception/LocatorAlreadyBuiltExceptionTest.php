@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Pointer\Test\Parser\Exception;
+namespace Remorhaz\JSON\Pointer\Test\Locator\Exception;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Remorhaz\JSON\Pointer\Parser\Exception\LocatorAlreadyBuiltException;
+use Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException;
 
 /**
- * @covers \Remorhaz\JSON\Pointer\Parser\Exception\LocatorAlreadyBuiltException
+ * @covers \Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException
  */
 class LocatorAlreadyBuiltExceptionTest extends TestCase
 {

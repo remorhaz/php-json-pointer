@@ -1,21 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Pointer\Test\Parser;
+namespace Remorhaz\JSON\Pointer\Test\Locator;
 
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ListedReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
-use Remorhaz\JSON\Pointer\Parser\Exception\LocatorAlreadyBuiltException;
-use Remorhaz\JSON\Pointer\Parser\LocatorBuilder;
+use Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException;
+use Remorhaz\JSON\Pointer\Locator\LocatorBuilder;
 use function array_map;
 
 /**
- * @covers \Remorhaz\JSON\Pointer\Parser\LocatorBuilder
+ * @covers \Remorhaz\JSON\Pointer\Locator\LocatorBuilder
  */
 class LocatorBuilderTest extends TestCase
 {
+
+    public function testCreate_Always_ReturnsLocatorBuilderInstance(): void
+    {
+        self::assertInstanceOf(LocatorBuilder::class, LocatorBuilder::create());
+    }
 
     public function testGetLocator_ReferencesNotAdded_ReturnsEmptyLocator(): void
     {

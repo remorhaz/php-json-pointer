@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
+use Remorhaz\JSON\Pointer\Locator\LocatorBuilder;
 use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;

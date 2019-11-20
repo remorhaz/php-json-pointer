@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
 
+use Remorhaz\JSON\Pointer\Locator\LocatorBuilderInterface;
 use Remorhaz\JSON\Pointer\TokenMatcher;
 use Remorhaz\UniLex\Exception as UnilexException;
 use Remorhaz\UniLex\Grammar\ContextFree\GrammarInterface;

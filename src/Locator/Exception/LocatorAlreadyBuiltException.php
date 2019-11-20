@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Pointer\Parser\Exception;
+namespace Remorhaz\JSON\Pointer\Locator\Exception;
 
 use LogicException;
 use Throwable;
