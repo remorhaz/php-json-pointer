@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Locator;
@@ -18,7 +19,7 @@ final class LocatorBuilder implements LocatorBuilderInterface
 
     public static function create(): LocatorBuilderInterface
     {
-        return new self(new ReferenceFactory);
+        return new self(new ReferenceFactory());
     }
 
     public function __construct(ReferenceFactoryInterface $referenceFactory)
@@ -29,7 +30,7 @@ final class LocatorBuilder implements LocatorBuilderInterface
     public function addReference(string $text): void
     {
         if (isset($this->locator)) {
-            throw new Exception\LocatorAlreadyBuiltException;
+            throw new Exception\LocatorAlreadyBuiltException();
         }
 
         $reference = $this

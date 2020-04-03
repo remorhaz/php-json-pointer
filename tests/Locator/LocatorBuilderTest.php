@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
@@ -10,6 +11,7 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException;
 use Remorhaz\JSON\Pointer\Locator\LocatorBuilder;
+
 use function array_map;
 
 /**
@@ -104,7 +106,7 @@ class LocatorBuilderTest extends TestCase
      */
     public function testExport_SingleReferenceAdded_ReturnsMatchingPointer(string $text, string $expectedValue): void
     {
-        $builder = new LocatorBuilder(new ReferenceFactory);
+        $builder = new LocatorBuilder(new ReferenceFactory());
         $builder->addReference($text);
         self::assertSame($expectedValue, $builder->export());
     }
@@ -121,7 +123,7 @@ class LocatorBuilderTest extends TestCase
 
     public function testExport_TwoReferencesAdded_ReturnsMatchingPointer(): void
     {
-        $builder = new LocatorBuilder(new ReferenceFactory);
+        $builder = new LocatorBuilder(new ReferenceFactory());
         $builder->addReference('a');
         $builder->addReference('b');
         self::assertSame('/a/b', $builder->export());

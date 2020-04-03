@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Query\Exception;
@@ -39,7 +40,7 @@ class LastReferenceNotFoundExceptionTest extends TestCase
 
     public function testGetPrevious_ConstructedWithPrevious_ReturnsSameInstance(): void
     {
-        $previous = new Exception;
+        $previous = new Exception();
         $exception = new LastReferenceNotFoundException('a', $previous);
         self::assertSame($previous, $exception->getPrevious());
     }

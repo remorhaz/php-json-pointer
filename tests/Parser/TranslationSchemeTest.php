@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Parser;
@@ -16,6 +17,7 @@ use Remorhaz\UniLex\Parser\LL1\Parser as Ll1Parser;
 use Remorhaz\UniLex\Parser\LL1\TranslationSchemeApplier;
 use Remorhaz\UniLex\Parser\LL1\UnexpectedTokenException;
 use Remorhaz\UniLex\Unicode\CharBufferFactory;
+
 use function count;
 
 /**
@@ -54,7 +56,7 @@ class TranslationSchemeTest extends TestCase
         $grammar = GrammarLoader::loadFile(__DIR__ . '/../../spec/GrammarSpec.php');
         $reader = new TokenReader(
             CharBufferFactory::createFromString($source),
-            new TokenMatcher,
+            new TokenMatcher(),
             new TokenFactory($grammar)
         );
         $parser = new Ll1Parser(

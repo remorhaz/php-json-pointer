@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Parser;
@@ -68,7 +69,7 @@ class ParserTest extends TestCase
     public function testBuildLocator_ConstructedWithReferenceFactory_UsesSameInstance(): void
     {
         $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
-        $parser = new Parser(new Ll1ParserFactory, $referenceFactory);
+        $parser = new Parser(new Ll1ParserFactory(), $referenceFactory);
         $referenceFactory
             ->expects(self::exactly(2))
             ->method('createReference')
@@ -85,7 +86,7 @@ class ParserTest extends TestCase
     public function testBuildLocator_ReferenceFactoryReturnsValue_ResultHasSameValue(): void
     {
         $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
-        $parser = new Parser(new Ll1ParserFactory, $referenceFactory);
+        $parser = new Parser(new Ll1ParserFactory(), $referenceFactory);
         $reference = $this->createMock(ReferenceInterface::class);
         $referenceFactory
             ->method('createReference')

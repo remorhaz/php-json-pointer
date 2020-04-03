@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Processor\Mutator;
@@ -35,7 +36,7 @@ final class InsertElementMutation implements MutationInterface
         $this->value = $value;
         $this->path = $path;
         $this->elementIndex = $elementIndex;
-        $this->eventDecoder = new EventDecoder;
+        $this->eventDecoder = new EventDecoder();
     }
 
     public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator

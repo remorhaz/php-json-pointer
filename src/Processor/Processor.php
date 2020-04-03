@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Processor;
@@ -41,7 +42,7 @@ final class Processor implements ProcessorInterface
 
     public static function create(): ProcessorInterface
     {
-        $decoder = new ValueDecoder;
+        $decoder = new ValueDecoder();
 
         return new self(
             new ValueEncoder($decoder),

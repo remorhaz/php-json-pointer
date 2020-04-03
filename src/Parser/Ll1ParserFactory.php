@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
@@ -60,7 +61,7 @@ final class Ll1ParserFactory implements Ll1ParserFactoryInterface
     {
         return new TokenReader(
             CharBufferFactory::createFromString($source),
-            new TokenMatcher,
+            new TokenMatcher(),
             new TokenFactory($this->getGrammar())
         );
     }

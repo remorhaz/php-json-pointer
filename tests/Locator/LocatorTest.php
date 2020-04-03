@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
@@ -7,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ListedReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
+
 use function array_fill;
 use function array_map;
 
@@ -18,7 +20,7 @@ class LocatorTest extends TestCase
 
     public function testReferences_ConstructedWithoutReferences_ReturnsEmptyList(): void
     {
-        $locator = new Locator;
+        $locator = new Locator();
         self::assertSame([], $locator->references());
     }
 

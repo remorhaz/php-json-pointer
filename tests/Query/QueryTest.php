@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Query;
@@ -35,7 +36,7 @@ class QueryTest extends TestCase
         $nodeValue = NodeValueFactory::create()->createValue('{"a":"b"}');
         $resultNode = $query($nodeValue)->getSelection();
 
-        $exporter = new ValueEncoder(new ValueDecoder);
+        $exporter = new ValueEncoder(new ValueDecoder());
         self::assertSame('"b"', $exporter->exportValue($resultNode));
     }
 }

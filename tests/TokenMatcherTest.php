@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test;
@@ -22,7 +23,7 @@ class TokenMatcherTest extends TestCase
      */
     public function testMatch_InvalidDataInBuffer_ReturnsFalse(array $data): void
     {
-        $matcher = new TokenMatcher;
+        $matcher = new TokenMatcher();
         $actualValue = $matcher->match(
             new CharBuffer(...$data),
             $this->createMock(TokenFactoryInterface::class)
@@ -46,7 +47,7 @@ class TokenMatcherTest extends TestCase
     public function testMatch_ValidDataInBuffer_ReturnsMatchingTokens(string $data, int $token): void
     {
         $tokenFactory = $this->createMock(TokenFactoryInterface::class);
-        $matcher = new TokenMatcher;
+        $matcher = new TokenMatcher();
 
         $tokenFactory
             ->expects(self::once())

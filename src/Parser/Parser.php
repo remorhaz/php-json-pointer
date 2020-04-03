@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Parser;
@@ -19,8 +20,8 @@ final class Parser implements ParserInterface
     public static function create(): ParserInterface
     {
         return new self(
-            new Ll1ParserFactory,
-            new ReferenceFactory
+            new Ll1ParserFactory(),
+            new ReferenceFactory()
         );
     }
 

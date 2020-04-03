@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Processor\Result\Exception;
@@ -39,7 +40,7 @@ class ResultNotFoundExceptionTest extends TestCase
 
     public function testGetPrevious_GivenPrevious_ReturnsSameInstance(): void
     {
-        $previous = new Exception;
+        $previous = new Exception();
         $exception = new ResultNotFoundException('a', $previous);
         self::assertSame($previous, $exception->getPrevious());
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Locator;
@@ -12,7 +13,7 @@ final class ReferenceFactory implements ReferenceFactoryInterface
     public function createReference(string $text): ReferenceInterface
     {
         if ('-' == $text) {
-            return new NextIndexReference;
+            return new NextIndexReference();
         }
 
         $isIndex = 1 === preg_match('/^(?:0|[1-9][0-9]*)$/', $text);

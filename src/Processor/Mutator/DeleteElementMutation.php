@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Processor\Mutator;
@@ -32,7 +33,7 @@ final class DeleteElementMutation implements MutationInterface
     {
         $this->arrayPath = $arrayPath;
         $this->elementPath = $elementPath;
-        $this->eventDecoder = new EventDecoder;
+        $this->eventDecoder = new EventDecoder();
     }
 
     public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator

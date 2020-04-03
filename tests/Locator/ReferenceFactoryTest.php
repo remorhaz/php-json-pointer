@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
@@ -10,6 +11,7 @@ use Remorhaz\JSON\Pointer\Locator\NextIndexReference;
 use Remorhaz\JSON\Pointer\Locator\PropertyReference;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
+
 use function get_class;
 
 /**
@@ -25,7 +27,7 @@ class ReferenceFactoryTest extends TestCase
      */
     public function testCreateReference_GivenText_ReturnsMatchingReference(string $text, array $expectedValue): void
     {
-        $factory = new ReferenceFactory;
+        $factory = new ReferenceFactory();
         $reference = $factory->createReference($text);
         self::assertSame($expectedValue, $this->exportReference($reference));
     }
