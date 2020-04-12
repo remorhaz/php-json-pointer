@@ -19,7 +19,7 @@
   "require": {
     "php": "^7.3",
     "remorhaz/php-json-data": "^0.5.2",
-    "remorhaz/php-unilex": "^0.2"
+    "remorhaz/php-unilex": "^0.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.1",
