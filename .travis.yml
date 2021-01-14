@@ -1,11 +1,15 @@
 language: php
 
-matrix:
+env:
+  global:
+    - XDEBUG=YES
+    - XDEBUG_MODE=coverage
+
+jobs:
   include:
     - php: '7.3'
-      env: XDEBUG=YES
     - php: '7.4'
-      env: XDEBUG=YES
+    - php: '8.0'
 
 install:
   - mkdir -p ./build/logs
