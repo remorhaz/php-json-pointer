@@ -20,8 +20,8 @@ use function get_class;
 class ReferenceFactoryTest extends TestCase
 {
     /**
-     * @param string $text
-     * @param array  $expectedValue
+     * @param string                                                            $text
+     * @param array{class:class-string, propertyName:string, elementIndex?:int} $expectedValue
      * @dataProvider providerCreateReference
      */
     public function testCreateReference_GivenText_ReturnsMatchingReference(string $text, array $expectedValue): void
@@ -31,7 +31,10 @@ class ReferenceFactoryTest extends TestCase
         self::assertSame($expectedValue, $this->exportReference($reference));
     }
 
-    public function providerCreateReference(): array
+    /**
+     * @return iterable<string, array{class-string, array{class:string, propertyName:string, elementIndex?:int}}>
+     */
+    public static function providerCreateReference(): iterable
     {
         return [
             'Single hyphen' => [
@@ -96,10 +99,14 @@ class ReferenceFactoryTest extends TestCase
         ];
     }
 
+    /**
+     * @param ReferenceInterface $reference
+     * @return array{class:class-string, propertyName:string, elementIndex?:int}
+     */
     private function exportReference(ReferenceInterface $reference): array
     {
         $data = [
-            'class' => get_class($reference),
+            'class' => $reference::class,
             'propertyName' => $reference->getPropertyName(),
         ];
 

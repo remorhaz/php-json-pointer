@@ -19,16 +19,16 @@ use Throwable;
 
 final class Ll1ParserFactory implements Ll1ParserFactoryInterface
 {
-    private $grammar;
+    private ?GrammarInterface $grammar = null;
 
-    public function createParser(string $source, LocatorBuilderInterface $locatorBuilder): Ll1Parser
+    public function createParser(string $pointer, LocatorBuilderInterface $locatorBuilder): Ll1Parser
     {
         try {
             $scheme = new TranslationScheme($locatorBuilder);
             $parser = new Ll1Parser(
                 $this->getGrammar(),
-                $this->createSourceReader($source),
-                new TranslationSchemeApplier($scheme)
+                $this->createSourceReader($pointer),
+                new TranslationSchemeApplier($scheme),
             );
             $parser->loadLookupTable(__DIR__ . '/../../generated/LookupTable.php');
         } catch (Throwable $e) {
@@ -39,21 +39,14 @@ final class Ll1ParserFactory implements Ll1ParserFactoryInterface
     }
 
     /**
-     * @return GrammarInterface
      * @throws UnilexException
      */
     private function getGrammar(): GrammarInterface
     {
-        if (!isset($this->grammar)) {
-            $this->grammar = GrammarLoader::loadFile(__DIR__ . '/../../spec/GrammarSpec.php');
-        }
-
-        return $this->grammar;
+        return $this->grammar ??= GrammarLoader::loadFile(__DIR__ . '/../../spec/GrammarSpec.php');
     }
 
     /**
-     * @param string $source
-     * @return TokenReaderInterface
      * @throws UnilexException
      */
     private function createSourceReader(string $source): TokenReaderInterface
@@ -61,7 +54,7 @@ final class Ll1ParserFactory implements Ll1ParserFactoryInterface
         return new TokenReader(
             CharBufferFactory::createFromString($source),
             new TokenMatcher(),
-            new TokenFactory($this->getGrammar())
+            new TokenFactory($this->getGrammar()),
         );
     }
 }

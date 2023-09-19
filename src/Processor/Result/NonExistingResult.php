@@ -8,11 +8,9 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 final class NonExistingResult implements ResultInterface
 {
-    private $source;
-
-    public function __construct(string $source)
-    {
-        $this->source = $source;
+    public function __construct(
+        private string $source,
+    ) {
     }
 
     public function exists(): bool
@@ -25,7 +23,7 @@ final class NonExistingResult implements ResultInterface
         throw new Exception\ResultNotFoundException($this->source);
     }
 
-    public function decode()
+    public function decode(): mixed
     {
         throw new Exception\ResultNotFoundException($this->source);
     }

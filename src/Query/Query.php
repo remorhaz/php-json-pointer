@@ -14,14 +14,10 @@ use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
 
 final class Query implements QueryInterface
 {
-    private $source;
-
-    private $locator;
-
-    public function __construct(string $source, LocatorInterface $locator)
-    {
-        $this->source = $source;
-        $this->locator = $locator;
+    public function __construct(
+        private string $source,
+        private LocatorInterface $locator,
+    ) {
     }
 
     public function __invoke(NodeValueInterface $rootNode): QueryResultInterface

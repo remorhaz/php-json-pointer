@@ -12,29 +12,21 @@ use Remorhaz\UniLex\Exception as UniLexException;
 
 final class Parser implements ParserInterface
 {
-    private $ll1ParserFactory;
-
-    private $referenceFactory;
-
     public static function create(): ParserInterface
     {
         return new self(
             new Ll1ParserFactory(),
-            new ReferenceFactory()
+            new ReferenceFactory(),
         );
     }
 
     public function __construct(
-        Ll1ParserFactoryInterface $ll1ParserFactory,
-        ReferenceFactoryInterface $referenceFactory
+        private Ll1ParserFactoryInterface $ll1ParserFactory,
+        private ReferenceFactoryInterface $referenceFactory,
     ) {
-        $this->ll1ParserFactory = $ll1ParserFactory;
-        $this->referenceFactory = $referenceFactory;
     }
 
     /**
-     * @param string $pointer
-     * @return LocatorInterface
      * @throws UniLexException
      */
     public function buildLocator(string $pointer): LocatorInterface

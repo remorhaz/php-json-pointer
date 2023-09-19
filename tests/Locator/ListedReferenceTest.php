@@ -21,8 +21,6 @@ class ListedReferenceTest extends TestCase
     }
 
     /**
-     * @param bool $isValue
-     * @param bool $expectedValue
      * @dataProvider providerIsLast
      */
     public function testIsLast_ConstructedWithValue_ReturnsSameValue(bool $isValue, bool $expectedValue): void
@@ -34,7 +32,10 @@ class ListedReferenceTest extends TestCase
         self::assertSame($expectedValue, $listedReference->isLast());
     }
 
-    public function providerIsLast(): array
+    /**
+     * @return iterable<string, array{bool, bool}>
+     */
+    public static function providerIsLast(): iterable
     {
         return [
             'TRUE' => [true, true],

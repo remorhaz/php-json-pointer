@@ -9,11 +9,10 @@ use Throwable;
 
 final class ParentNotFoundException extends LogicException implements ExceptionInterface
 {
-    private $source;
-
-    public function __construct(string $source, Throwable $previous = null)
-    {
-        $this->source = $source;
+    public function __construct(
+        private string $source,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct("Query '{$this->source}' selected no parent node", 0, $previous);
     }
 

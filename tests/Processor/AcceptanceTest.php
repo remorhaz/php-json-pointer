@@ -13,12 +13,9 @@ use Remorhaz\JSON\Pointer\Query\QueryFactory;
 class AcceptanceTest extends TestCase
 {
     /**
-     * @param string $text
-     * @param mixed  $data
-     * @param mixed  $result
      * @dataProvider providerSelectExistingData
      */
-    public function testSelect_ExistingData_SelectsMatchingResult(string $text, $data, $result)
+    public function testSelect_ExistingData_SelectsMatchingResult(string $text, string $data, string $result)
     {
         $query = QueryFactory::create()->createQuery($text);
         $document = NodeValueFactory::create()->createValue($data);
@@ -29,7 +26,10 @@ class AcceptanceTest extends TestCase
         $this->assertSame($result, $readData);
     }
 
-    public function providerSelectExistingData(): array
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function providerSelectExistingData(): iterable
     {
         return [
             'rootProperty' => ['/a', '{"a":1,"b":2}', '1'],
@@ -45,11 +45,9 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $text
-     * @param mixed  $data
      * @dataProvider providerSelectNonExistingData
      */
-    public function testSelect_NonExistingData_ResultNotExists(string $text, $data)
+    public function testSelect_NonExistingData_ResultNotExists(string $text, string $data)
     {
         $query = QueryFactory::create()->createQuery($text);
         $document = NodeValueFactory::create()->createValue($data);
@@ -60,7 +58,10 @@ class AcceptanceTest extends TestCase
         self::assertFalse($actualValue);
     }
 
-    public function providerSelectNonExistingData(): array
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providerSelectNonExistingData(): iterable
     {
         return [
             'nonExistingRootProperty' => ['/a', '{"b":1}'],
@@ -79,10 +80,6 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $data
-     * @param string $query
-     * @param string $value
-     * @param string $expectedData
      * @dataProvider providerAddableQuery
      */
     public function testAdd_AddableQuery_DataAdded(string $data, string $query, string $value, string $expectedData)
@@ -98,7 +95,10 @@ class AcceptanceTest extends TestCase
         $this->assertEquals($expectedData, $actualData);
     }
 
-    public function providerAddableQuery(): array
+    /**
+     * @return iterable<string, array{string, string, string, string}>
+     */
+    public static function providerAddableQuery(): iterable
     {
         return [
             'Property exists' => ['{"a":"b"}', '/a', '"c"', '{"a":"c"}'],
@@ -111,9 +111,6 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $data
-     * @param string $text
-     * @param string $value
      * @dataProvider providerAddNonExistingSelection
      */
     public function testAdd_NonAddableQuery_ResultNotExists(string $data, string $text, string $value)
@@ -127,7 +124,10 @@ class AcceptanceTest extends TestCase
         self::assertFalse($result->exists());
     }
 
-    public function providerAddNonExistingSelection(): array
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function providerAddNonExistingSelection(): iterable
     {
         return [
             'Not next element not exists' => ['[1,2]', "/3", '4'],
@@ -140,9 +140,6 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $text
-     * @param        $data
-     * @param        $expectedData
      * @dataProvider providerRemoveExistingData
      */
     public function testRemove_ExistingData_Removed(string $text, string $data, string $expectedData)
@@ -157,10 +154,10 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return iterable<string, array{string, string, string}>
      * @todo Shorten dataset list.
      */
-    public function providerRemoveExistingData(): array
+    public static function providerRemoveExistingData(): iterable
     {
         return [
             'rootProperty' => [
@@ -194,8 +191,6 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $text
-     * @param string $data
      * @dataProvider providerRemoveNonExistingData
      */
     public function testRemove_NonExistingData_ResultNotExists(string $text, string $data)
@@ -209,7 +204,10 @@ class AcceptanceTest extends TestCase
         self::assertFalse($actualValue);
     }
 
-    public function providerRemoveNonExistingData(): array
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providerRemoveNonExistingData(): iterable
     {
         return [
             'LocatorPointsToWholeDocument' => ['', '{"a":"b"}'],
@@ -220,17 +218,13 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param mixed  $data
-     * @param string $text
-     * @param string $value
-     * @param string $expectedData
      * @dataProvider providerReplaceValueExists
      */
     public function testReplace_ValueExists_DataReplaced(
         string $data,
         string $text,
         string $value,
-        string $expectedData
+        string $expectedData,
     ) {
         $query = QueryFactory::create()->createQuery($text);
         $nodeValueFactory = NodeValueFactory::create();
@@ -243,7 +237,10 @@ class AcceptanceTest extends TestCase
         self::assertSame($expectedData, $actualData);
     }
 
-    public function providerReplaceValueExists(): array
+    /**
+     * @return iterable<string, array{string, string, string, string}>
+     */
+    public static function providerReplaceValueExists(): iterable
     {
         return [
             'element' => ['[1]', "/0", '2', '[2]'],
@@ -253,15 +250,12 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $data
-     * @param string $text
-     * @param string $value
      * @dataProvider providerReplaceValueNotExists
      */
     public function testReplace_ValueNotExists_ResultNotExists(
         string $data,
         string $text,
-        string $value
+        string $value,
     ) {
         $query = QueryFactory::create()->createQuery($text);
         $nodeValueFactory = NodeValueFactory::create();
@@ -274,7 +268,10 @@ class AcceptanceTest extends TestCase
         self::assertFalse($actualData);
     }
 
-    public function providerReplaceValueNotExists(): array
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function providerReplaceValueNotExists(): iterable
     {
         return [
             'ElementNotExists' => ['[1]', '/1', '2'],

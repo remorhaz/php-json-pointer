@@ -660,13 +660,11 @@ class ProcessorTest extends TestCase
     }
 
     /**
-     * @param bool $hasParent
-     * @param bool $hasLastReference
      * @dataProvider providerHasParentOrLastReference
      */
     public function testAdd_QueryResultHasNoParentOrLastReference_ResultNotExists(
         bool $hasParent,
-        bool $hasLastReference
+        bool $hasLastReference,
     ): void {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
@@ -690,7 +688,10 @@ class ProcessorTest extends TestCase
         self::assertFalse($result->exists());
     }
 
-    public function providerHasParentOrLastReference(): array
+    /**
+     * @return iterable<string, array{bool, bool}>
+     */
+    public static function providerHasParentOrLastReference(): iterable
     {
         return [
             'No parent nor last reference' => [false, false],
@@ -722,11 +723,11 @@ class ProcessorTest extends TestCase
     }
 
     /**
-     * @param string $lastReferenceClass
+     * @param class-string<ReferenceInterface> $lastReferenceClass
      * @dataProvider providerAddSelectableNonInsertable
      */
     public function testAdd_QueryResultHasArrayParentHasSelectionHasNotIndexLastReference_ResultNotExists(
-        string $lastReferenceClass
+        string $lastReferenceClass,
     ): void {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
@@ -734,7 +735,7 @@ class ProcessorTest extends TestCase
         $parent = new NodeArrayValue(
             [],
             $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            $this->createMock(NodeValueFactoryInterface::class),
         );
         /** @var ReferenceInterface $reference */
         $reference = $this->createMock($lastReferenceClass);
@@ -742,7 +743,7 @@ class ProcessorTest extends TestCase
             '',
             $this->createMock(NodeValueInterface::class),
             $parent,
-            $reference
+            $reference,
         );
         $query
             ->method('__invoke')
@@ -751,12 +752,15 @@ class ProcessorTest extends TestCase
         $result = $processor->add(
             $query,
             $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            $this->createMock(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
-    public function providerAddSelectableNonInsertable(): array
+    /**
+     * @return iterable<string, array{class-string<ReferenceInterface>}>
+     */
+    public static function providerAddSelectableNonInsertable(): iterable
     {
         return [
             'Next index' => [NextIndexReferenceInterface::class],
@@ -772,13 +776,13 @@ class ProcessorTest extends TestCase
         $parent = new NodeArrayValue(
             [],
             $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            $this->createMock(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
             null,
             $parent,
-            $this->createMock(ReferenceInterface::class)
+            $this->createMock(ReferenceInterface::class),
         );
         $query
             ->method('__invoke')
@@ -787,13 +791,13 @@ class ProcessorTest extends TestCase
         $result = $processor->add(
             $query,
             $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            $this->createMock(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     /**
-     * @param string $lastReferenceClass
+     * @param string<ReferenceInterface> $lastReferenceClass
      * @dataProvider providerArrayParentIndexProperty
      */
     public function testAdd_QueryResultHasArrayParentHasNoSelectionHasIndexProperty_ResultExists(
@@ -803,14 +807,14 @@ class ProcessorTest extends TestCase
         $processor = new Processor(
             $this->createMock(ValueEncoderInterface::class),
             $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            $mutator,
         );
         $query = $this->createMock(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
             $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            $this->createMock(NodeValueFactoryInterface::class),
         );
         /** @var ReferenceInterface $reference */
         $reference = $this->createMock($lastReferenceClass);
@@ -824,12 +828,15 @@ class ProcessorTest extends TestCase
         $result = $processor->add(
             $query,
             $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            $this->createMock(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
 
-    public function providerArrayParentIndexProperty(): array
+    /**
+     * @return iterable<string, array{class-string<ReferenceInterface>}>
+     */
+    public static function providerArrayParentIndexProperty(): iterable
     {
         return [
             'Next index' => [NextIndexReferenceInterface::class],

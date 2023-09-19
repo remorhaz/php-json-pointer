@@ -18,9 +18,6 @@ use Remorhaz\JSON\Pointer\Query\QueryFactory;
 class AcceptanceTest extends TestCase
 {
     /**
-     * @param string $document
-     * @param string $pointer
-     * @param string $expectedValue
      * @dataProvider providerSelect
      */
     public function testSelect(string $document, string $pointer, string $expectedValue): void
@@ -33,7 +30,10 @@ class AcceptanceTest extends TestCase
         self::assertSame($expectedValue, $selection);
     }
 
-    public function providerSelect(): array
+    /**
+     * @return iterable<int, array{string, string ,string}>
+     */
+    public static function providerSelect(): iterable
     {
         $document = '{"foo":["bar","baz"],"":0,"a/b":1,"c%d":2,"e^f":3,"g|h":4,"i\\\\j":5,"k\\"l":6," ":7,"m~n":8}';
 
@@ -54,9 +54,6 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $document
-     * @param string $pointer
-     * @param string $expectedValue
      * @dataProvider providerDelete
      */
     public function testDelete(string $document, string $pointer, string $expectedValue): void
@@ -69,7 +66,10 @@ class AcceptanceTest extends TestCase
         self::assertSame($expectedValue, $selection);
     }
 
-    public function providerDelete(): array
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function providerDelete(): iterable
     {
         return [
             'First property' => ['{"a":"b","c":"d"}', '/a', '{"c":"d"}'],
@@ -86,10 +86,6 @@ class AcceptanceTest extends TestCase
     }
 
     /**
-     * @param string $document
-     * @param string $pointer
-     * @param string $value
-     * @param string $expectedValue
      * @dataProvider providerAdd
      */
     public function testAdd(string $document, string $pointer, string $value, string $expectedValue): void
@@ -103,7 +99,10 @@ class AcceptanceTest extends TestCase
         self::assertSame($expectedValue, $selection);
     }
 
-    public function providerAdd(): array
+    /**
+     * @return iterable<string, array{string, string, string, string}>
+     */
+    public static function providerAdd(): iterable
     {
         return [
             'Add element to empty array' => ['[]', '/0', '1', '[1]'],

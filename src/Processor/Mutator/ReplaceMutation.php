@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Processor\Mutator;
 
-use Generator;
 use Iterator;
 use Remorhaz\JSON\Data\Event\AfterElementEventInterface;
 use Remorhaz\JSON\Data\Event\AfterPropertyEventInterface;
@@ -21,14 +20,10 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class ReplaceMutation implements MutationInterface
 {
-    private $newNode;
-
-    private $path;
-
-    public function __construct(NodeValueInterface $newNode, PathInterface $path)
-    {
-        $this->newNode = $newNode;
-        $this->path = $path;
+    public function __construct(
+        private NodeValueInterface $newNode,
+        private PathInterface $path,
+    ) {
     }
 
     public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator
@@ -40,7 +35,7 @@ final class ReplaceMutation implements MutationInterface
     {
     }
 
-    private function createEventGenerator(EventInterface $event, ValueWalkerInterface $valueWalker): Generator
+    private function createEventGenerator(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator
     {
         if ($this->path->equals($event->getPath())) {
             yield from $this->createReplaceEventGenerator($event, $valueWalker);
@@ -52,7 +47,7 @@ final class ReplaceMutation implements MutationInterface
         }
     }
 
-    private function createReplaceEventGenerator(EventInterface $event, ValueWalkerInterface $valueWalker): Generator
+    private function createReplaceEventGenerator(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator
     {
         switch (true) {
             case $event instanceof BeforeElementEventInterface:

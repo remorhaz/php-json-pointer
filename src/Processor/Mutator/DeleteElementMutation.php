@@ -18,20 +18,16 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class DeleteElementMutation implements MutationInterface
 {
-    private $arrayPath;
+    private ?int $elementIndex = null;
 
-    private $elementPath;
+    private ?int $elementCounter = null;
 
-    private $elementIndex;
+    private EventDecoder $eventDecoder;
 
-    private $elementCounter;
-
-    private $eventDecoder;
-
-    public function __construct(PathInterface $arrayPath, PathInterface $elementPath)
-    {
-        $this->arrayPath = $arrayPath;
-        $this->elementPath = $elementPath;
+    public function __construct(
+        private PathInterface $arrayPath,
+        private PathInterface $elementPath,
+    ) {
         $this->eventDecoder = new EventDecoder();
     }
 
@@ -101,11 +97,8 @@ final class DeleteElementMutation implements MutationInterface
     private function parentPathMatches(EventInterface $event): bool
     {
         $pathElements = $event->getPath()->getElements();
-        if (empty($pathElements)) {
-            return false;
-        }
 
-        return $event
+        return !empty($pathElements) && $event
             ->getPath()
             ->copyParent()
             ->equals($this->arrayPath);

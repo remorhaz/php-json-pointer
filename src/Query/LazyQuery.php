@@ -9,16 +9,12 @@ use Remorhaz\JSON\Pointer\Parser\ParserInterface;
 
 final class LazyQuery implements QueryInterface
 {
-    private $source;
+    private ?QueryInterface $loadedQuery = null;
 
-    private $parser;
-
-    private $loadedQuery;
-
-    public function __construct(string $source, ParserInterface $parser)
-    {
-        $this->source = $source;
-        $this->parser = $parser;
+    public function __construct(
+        private string $source,
+        private ?ParserInterface $parser,
+    ) {
     }
 
     public function __invoke(NodeValueInterface $rootNode): QueryResultInterface
@@ -33,11 +29,7 @@ final class LazyQuery implements QueryInterface
 
     private function getLoadedQuery(): QueryInterface
     {
-        if (!isset($this->loadedQuery)) {
-            $this->loadedQuery = $this->loadQuery();
-        }
-
-        return $this->loadedQuery;
+        return $this->loadedQuery ??= $this->loadQuery();
     }
 
     private function loadQuery(): QueryInterface

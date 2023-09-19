@@ -6,14 +6,10 @@ namespace Remorhaz\JSON\Pointer\Locator;
 
 final class ListedReference implements ListedReferenceInterface
 {
-    private $reference;
-
-    private $isLast;
-
-    public function __construct(ReferenceInterface $reference, bool $isLast)
-    {
-        $this->reference = $reference;
-        $this->isLast = $isLast;
+    public function __construct(
+        private ReferenceInterface $reference,
+        private bool $isLast,
+    ) {
     }
 
     public function getReference(): ReferenceInterface

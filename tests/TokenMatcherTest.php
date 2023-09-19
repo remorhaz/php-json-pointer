@@ -17,7 +17,7 @@ use Remorhaz\UniLex\Unicode\CharBufferFactory;
 class TokenMatcherTest extends TestCase
 {
     /**
-     * @param int[] $data
+     * @param list<int> $data
      * @dataProvider providerInvalidData
      */
     public function testMatch_InvalidDataInBuffer_ReturnsFalse(array $data): void
@@ -25,12 +25,15 @@ class TokenMatcherTest extends TestCase
         $matcher = new TokenMatcher();
         $actualValue = $matcher->match(
             new CharBuffer(...$data),
-            $this->createMock(TokenFactoryInterface::class)
+            $this->createMock(TokenFactoryInterface::class),
         );
         self::assertFalse($actualValue);
     }
 
-    public function providerInvalidData(): array
+    /**
+     * @return iterable<string, array{list<int>}>
+     */
+    public static function providerInvalidData(): iterable
     {
         return [
             'Empty buffer' => [[]],
@@ -39,8 +42,6 @@ class TokenMatcherTest extends TestCase
     }
 
     /**
-     * @param string $data
-     * @param int    $token
      * @dataProvider providerValidData
      */
     public function testMatch_ValidDataInBuffer_ReturnsMatchingTokens(string $data, int $token): void
@@ -58,7 +59,10 @@ class TokenMatcherTest extends TestCase
         );
     }
 
-    public function providerValidData(): array
+    /**
+     * @return iterable<string, array{string, int}>
+     */
+    public static function providerValidData(): iterable
     {
         return [
             'Single unescaped character' => ["\u{00}", TokenType::UNESCAPED],

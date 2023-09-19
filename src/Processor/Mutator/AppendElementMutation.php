@@ -16,19 +16,13 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class AppendElementMutation implements MutationInterface
 {
-    private $value;
+    private int $elementCounter = 0;
 
-    private $path;
-
-    private $elementIndex;
-
-    private $elementCounter = 0;
-
-    public function __construct(NodeValueInterface $value, PathInterface $path, ?int $elementIndex = null)
-    {
-        $this->value = $value;
-        $this->path = $path;
-        $this->elementIndex = $elementIndex;
+    public function __construct(
+        private NodeValueInterface $value,
+        private PathInterface $path,
+        private ?int $elementIndex = null,
+    ) {
     }
 
     public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator

@@ -37,13 +37,13 @@ class LocatorTest extends TestCase
     }
 
     /**
-     * @param int   $referenceCount
-     * @param array $expectedValue
+     * @param int        $referenceCount
+     * @param list<bool> $expectedValue
      * @dataProvider providerIsLast
      */
     public function testReferences_Constructed_ResultListsMatchingIsLastState(
         int $referenceCount,
-        array $expectedValue
+        array $expectedValue,
     ): void {
         $references = array_fill(
             0,
@@ -60,7 +60,10 @@ class LocatorTest extends TestCase
         self::assertSame($expectedValue, $isLastStates);
     }
 
-    public function providerIsLast(): array
+    /**
+     * @return iterable<string, array{int, list<bool>}>
+     */
+    public static function providerIsLast(): iterable
     {
         return [
             'No references' => [0, []],

@@ -9,24 +9,12 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 
 final class QueryResult implements QueryResultInterface
 {
-    private $source;
-
-    private $selection;
-
-    private $parent;
-
-    private $lastReference;
-
     public function __construct(
-        string $source,
-        ?NodeValueInterface $selection = null,
-        ?NodeValueInterface $parent = null,
-        ?ReferenceInterface $lastReference = null
+        private string $source,
+        private ?NodeValueInterface $selection = null,
+        private ?NodeValueInterface $parent = null,
+        private ?ReferenceInterface $lastReference = null,
     ) {
-        $this->source = $source;
-        $this->selection = $selection;
-        $this->parent = $parent;
-        $this->lastReference = $lastReference;
     }
 
     public function getSource(): string
@@ -36,11 +24,7 @@ final class QueryResult implements QueryResultInterface
 
     public function getSelection(): NodeValueInterface
     {
-        if (isset($this->selection)) {
-            return $this->selection;
-        }
-
-        throw new Exception\SelectionNotFoundException($this->source);
+        return $this->selection ?? throw new Exception\SelectionNotFoundException($this->source);
     }
 
     public function hasSelection(): bool
@@ -50,11 +34,7 @@ final class QueryResult implements QueryResultInterface
 
     public function getParent(): NodeValueInterface
     {
-        if (isset($this->parent)) {
-            return $this->parent;
-        }
-
-        throw new Exception\ParentNotFoundException($this->source);
+        return $this->parent ?? throw new Exception\ParentNotFoundException($this->source);
     }
 
     public function hasParent(): bool
@@ -64,11 +44,7 @@ final class QueryResult implements QueryResultInterface
 
     public function getLastReference(): ReferenceInterface
     {
-        if (isset($this->lastReference)) {
-            return $this->lastReference;
-        }
-
-        throw new Exception\LastReferenceNotFoundException($this->source);
+        return $this->lastReference ?? throw new Exception\LastReferenceNotFoundException($this->source);
     }
 
     public function hasLastReference(): bool

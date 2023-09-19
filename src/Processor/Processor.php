@@ -33,12 +33,6 @@ use Remorhaz\JSON\Pointer\Query\QueryResultInterface;
 
 final class Processor implements ProcessorInterface
 {
-    private $encoder;
-
-    private $decoder;
-
-    private $mutator;
-
     public static function create(): ProcessorInterface
     {
         $decoder = new ValueDecoder();
@@ -54,13 +48,10 @@ final class Processor implements ProcessorInterface
     }
 
     public function __construct(
-        ValueEncoderInterface $encoder,
-        ValueDecoderInterface $decoder,
-        MutatorInterface $mutator
+        private ValueEncoderInterface $encoder,
+        private ValueDecoderInterface $decoder,
+        private MutatorInterface $mutator,
     ) {
-        $this->encoder = $encoder;
-        $this->decoder = $decoder;
-        $this->mutator = $mutator;
     }
 
     public function select(QueryInterface $query, NodeValueInterface $rootNode): ResultInterface
@@ -101,7 +92,7 @@ final class Processor implements ProcessorInterface
     private function getMutationResult(
         QueryInterface $query,
         NodeValueInterface $rootNode,
-        MutationInterface $mutation
+        MutationInterface $mutation,
     ): ResultInterface {
         $mutatedValue = $this
             ->mutator
@@ -115,7 +106,7 @@ final class Processor implements ProcessorInterface
     public function replace(
         QueryInterface $query,
         NodeValueInterface $rootNode,
-        NodeValueInterface $value
+        NodeValueInterface $value,
     ): ResultInterface {
         $queryResult = $query($rootNode);
 
@@ -166,7 +157,7 @@ final class Processor implements ProcessorInterface
     private function createInsertElementMutation(
         ReferenceInterface $reference,
         NodeValueInterface $parent,
-        NodeValueInterface $value
+        NodeValueInterface $value,
     ): ?MutationInterface {
         return $reference instanceof IndexReferenceInterface
             ? new InsertElementMutation($value, $parent->getPath(), $reference->getElementIndex())
@@ -176,7 +167,7 @@ final class Processor implements ProcessorInterface
     private function createAppendElementMutation(
         ReferenceInterface $reference,
         NodeValueInterface $parent,
-        NodeValueInterface $value
+        NodeValueInterface $value,
     ): ?MutationInterface {
         switch (true) {
             case $reference instanceof NextIndexReferenceInterface:

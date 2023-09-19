@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Processor\Mutator;
 
 use ArrayIterator;
-use Generator;
 use Iterator;
 use Remorhaz\JSON\Data\Event\AfterElementEvent;
 use Remorhaz\JSON\Data\Event\AfterElementEventInterface;
@@ -20,21 +19,15 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class InsertElementMutation implements MutationInterface
 {
-    private $value;
+    private int $elementCounter = 0;
 
-    private $path;
+    private EventDecoder $eventDecoder;
 
-    private $elementIndex;
-
-    private $elementCounter = 0;
-
-    private $eventDecoder;
-
-    public function __construct(NodeValueInterface $value, PathInterface $path, int $elementIndex)
-    {
-        $this->value = $value;
-        $this->path = $path;
-        $this->elementIndex = $elementIndex;
+    public function __construct(
+        private NodeValueInterface $value,
+        private PathInterface $path,
+        private int $elementIndex,
+    ) {
         $this->eventDecoder = new EventDecoder();
     }
 
@@ -67,11 +60,7 @@ final class InsertElementMutation implements MutationInterface
     private function parentPathMatches(EventInterface $event): bool
     {
         $pathElements = $event->getPath()->getElements();
-        if (empty($pathElements)) {
-            return false;
-        }
-
-        return $event
+        return !empty($pathElements) && $event
             ->getPath()
             ->copyParent()
             ->equals($this->path);
@@ -79,8 +68,8 @@ final class InsertElementMutation implements MutationInterface
 
     private function processBeforeElementEvent(
         BeforeElementEventInterface $event,
-        ValueWalkerInterface $valueWalker
-    ): Generator {
+        ValueWalkerInterface $valueWalker,
+    ): Iterator {
         if ($event->getIndex() < $this->elementIndex) {
             yield $event;
 
@@ -101,7 +90,7 @@ final class InsertElementMutation implements MutationInterface
         yield new BeforeElementEvent($shiftedIndex, $path);
     }
 
-    private function processAfterElementEvent(AfterElementEventInterface $event): Generator
+    private function processAfterElementEvent(AfterElementEventInterface $event): Iterator
     {
         $this->elementCounter++;
         if ($event->getIndex() < $this->elementIndex) {
@@ -118,7 +107,7 @@ final class InsertElementMutation implements MutationInterface
         yield new AfterElementEvent($shiftedIndex, $path);
     }
 
-    private function processElementValue(EventInterface $event, ValueWalkerInterface $valueWalker): Generator
+    private function processElementValue(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator
     {
         $path = $event
             ->getPath()

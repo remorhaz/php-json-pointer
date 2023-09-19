@@ -17,12 +17,12 @@ interface ProcessorInterface
     public function replace(
         QueryInterface $query,
         NodeValueInterface $rootNode,
-        NodeValueInterface $value
+        NodeValueInterface $value,
     ): ResultInterface;
 
     public function add(
         QueryInterface $query,
         NodeValueInterface $rootNode,
-        NodeValueInterface $value
+        NodeValueInterface $value,
     ): ResultInterface;
 }

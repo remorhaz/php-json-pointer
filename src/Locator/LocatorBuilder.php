@@ -10,20 +10,21 @@ use function str_replace;
 
 final class LocatorBuilder implements LocatorBuilderInterface
 {
-    private $locator;
+    private ?LocatorInterface $locator = null;
 
-    private $referenceFactory;
-
-    private $references = [];
+    /**
+     * @var list<ReferenceInterface>
+     */
+    private array $references = [];
 
     public static function create(): LocatorBuilderInterface
     {
         return new self(new ReferenceFactory());
     }
 
-    public function __construct(ReferenceFactoryInterface $referenceFactory)
-    {
-        $this->referenceFactory = $referenceFactory;
+    public function __construct(
+        private ReferenceFactoryInterface $referenceFactory,
+    ) {
     }
 
     public function addReference(string $text): void
@@ -40,11 +41,7 @@ final class LocatorBuilder implements LocatorBuilderInterface
 
     public function getLocator(): LocatorInterface
     {
-        if (!isset($this->locator)) {
-            $this->locator = new Locator(...$this->references);
-        }
-
-        return $this->locator;
+        return $this->locator ??= new Locator(...$this->references);
     }
 
     public function export(): string
@@ -53,11 +50,9 @@ final class LocatorBuilder implements LocatorBuilderInterface
             ->getLocator()
             ->references();
 
-        if (empty($references)) {
-            return '';
-        }
-
-        return '/' . implode('/', array_map([$this, 'escapeReference'], $references));
+        return empty($references)
+            ? ''
+            : '/' . implode('/', array_map([$this, 'escapeReference'], $references));
     }
 
     private function escapeReference(ListedReferenceInterface $reference): string

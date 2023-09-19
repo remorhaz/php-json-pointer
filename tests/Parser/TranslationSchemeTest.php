@@ -26,8 +26,8 @@ use function count;
 class TranslationSchemeTest extends TestCase
 {
     /**
-     * @param string $source
-     * @param array  $expectedValues
+     * @param string             $source
+     * @param list<list<string>> $expectedValues
      * @throws UniLexException
      * @dataProvider providerValidBuffer
      */
@@ -45,9 +45,6 @@ class TranslationSchemeTest extends TestCase
     }
 
     /**
-     * @param TranslationSchemeInterface $scheme
-     * @param string                     $source
-     * @return Ll1Parser
      * @throws UniLexException
      */
     private function createParser(TranslationSchemeInterface $scheme, string $source): Ll1Parser
@@ -68,7 +65,10 @@ class TranslationSchemeTest extends TestCase
         return $parser;
     }
 
-    public function providerValidBuffer(): array
+    /**
+     * @return iterable<string, array{string, list<list<string>>}>
+     */
+    public static function providerValidBuffer(): iterable
     {
         return [
             'Empty string' => ['', []],
@@ -102,7 +102,10 @@ class TranslationSchemeTest extends TestCase
         $parser->run();
     }
 
-    public function providerInvalidBuffer(): array
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function providerInvalidBuffer(): iterable
     {
         return [
             'No slash at start' => ['a'],

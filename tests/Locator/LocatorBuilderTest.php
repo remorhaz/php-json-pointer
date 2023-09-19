@@ -99,8 +99,6 @@ class LocatorBuilderTest extends TestCase
     }
 
     /**
-     * @param string $text
-     * @param string $expectedValue
      * @dataProvider providerExportSingleReference
      */
     public function testExport_SingleReferenceAdded_ReturnsMatchingPointer(string $text, string $expectedValue): void
@@ -109,7 +107,11 @@ class LocatorBuilderTest extends TestCase
         $builder->addReference($text);
         self::assertSame($expectedValue, $builder->export());
     }
-    public function providerExportSingleReference(): array
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providerExportSingleReference(): iterable
     {
         return [
             'ASCII string' => ['a', '/a'],

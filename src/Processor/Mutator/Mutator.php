@@ -12,14 +12,10 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class Mutator implements MutatorInterface
 {
-    private $valueWalker;
-
-    private $eventDecoder;
-
-    public function __construct(ValueWalkerInterface $valueWalker, EventDecoderInterface $eventDecoder)
-    {
-        $this->valueWalker = $valueWalker;
-        $this->eventDecoder = $eventDecoder;
+    public function __construct(
+        private ValueWalkerInterface $valueWalker,
+        private EventDecoderInterface $eventDecoder,
+    ) {
     }
 
     public function mutate(NodeValueInterface $rootNode, MutationInterface $mutation): ?NodeValueInterface

@@ -7,7 +7,7 @@ namespace Remorhaz\JSON\Pointer\Locator;
 interface LocatorInterface
 {
     /**
-     * @return array|ListedReferenceInterface[]
+     * @return list<ListedReferenceInterface>
      */
     public function references(): array;
 }

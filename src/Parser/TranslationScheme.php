@@ -12,11 +12,9 @@ use Remorhaz\UniLex\Parser\Symbol;
 
 final class TranslationScheme implements TranslationSchemeInterface
 {
-    private $locatorBuilder;
-
-    public function __construct(LocatorBuilderInterface $locatorBuilder)
-    {
-        $this->locatorBuilder = $locatorBuilder;
+    public function __construct(
+        private LocatorBuilderInterface $locatorBuilder,
+    ) {
     }
 
     public function applyTokenActions(Symbol $symbol, Token $token): void
