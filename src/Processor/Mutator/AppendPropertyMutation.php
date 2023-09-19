@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Processor\Mutator;
 
 use Generator;
+use Iterator;
 use Remorhaz\JSON\Data\Event\AfterObjectEventInterface;
 use Remorhaz\JSON\Data\Event\AfterPropertyEvent;
 use Remorhaz\JSON\Data\Event\BeforePropertyEvent;
@@ -16,7 +17,6 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class AppendPropertyMutation implements MutationInterface
 {
-
     private $value;
 
     private $path;
@@ -30,7 +30,7 @@ final class AppendPropertyMutation implements MutationInterface
         $this->propertyName = $propertyName;
     }
 
-    public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker)
+    public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker): Iterator
     {
         return $this->createEventGenerator($event, $valueWalker);
     }

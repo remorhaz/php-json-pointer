@@ -12,7 +12,6 @@ use Remorhaz\JSON\Pointer\Locator\NextIndexReference;
  */
 class NextIndexReferenceTest extends TestCase
 {
-
     public function testGetPropertyName_Always_ReturnsHyphen(): void
     {
         $reference = new NextIndexReference();

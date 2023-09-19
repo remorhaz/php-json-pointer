@@ -12,7 +12,6 @@ use Remorhaz\JSON\Pointer\Locator\PropertyReference;
  */
 class PropertyReferenceTest extends TestCase
 {
-
     public function testGetPropertyName_ConstructedWithPropertyName_ReturnsSameValue(): void
     {
         $reference = new PropertyReference('a');

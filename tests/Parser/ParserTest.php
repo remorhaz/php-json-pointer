@@ -18,7 +18,6 @@ use Remorhaz\UniLex\Parser\LL1\Parser as LL1Parser;
  */
 class ParserTest extends TestCase
 {
-
     public function testCreate_Always_CreatesParserInstance(): void
     {
         self::assertInstanceOf(Parser::class, Parser::create());

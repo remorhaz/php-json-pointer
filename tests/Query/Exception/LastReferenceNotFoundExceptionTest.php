@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Query\Exception\LastReferenceNotFoundException;
  */
 class LastReferenceNotFoundExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new LastReferenceNotFoundException('a');

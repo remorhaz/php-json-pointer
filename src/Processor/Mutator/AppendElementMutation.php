@@ -16,7 +16,6 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class AppendElementMutation implements MutationInterface
 {
-
     private $value;
 
     private $path;

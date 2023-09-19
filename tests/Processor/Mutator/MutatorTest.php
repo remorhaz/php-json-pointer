@@ -18,7 +18,6 @@ use Remorhaz\JSON\Pointer\Processor\Mutator\Mutator;
  */
 class MutatorTest extends TestCase
 {
-
     public function testMutate_Constructed_DecoderExportsEventsFromWalker(): void
     {
         $valueWalker = $this->createMock(ValueWalkerInterface::class);

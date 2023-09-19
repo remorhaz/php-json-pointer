@@ -6,6 +6,5 @@ namespace Remorhaz\JSON\Pointer\Query;
 
 interface QueryFactoryInterface
 {
-
     public function createQuery(string $source): QueryInterface;
 }

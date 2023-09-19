@@ -18,7 +18,6 @@ use Remorhaz\JSON\Pointer\Query\Query;
  */
 class QueryTest extends TestCase
 {
-
     public function testGetSource_ConstructedWithSource_ReturnsSameValue(): void
     {
         $query = new Query(

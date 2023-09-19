@@ -15,7 +15,6 @@ use Remorhaz\JSON\Pointer\Processor\Result\ExistingResult;
  */
 class ExistingResultTest extends TestCase
 {
-
     public function testExists_Always_ReturnsTrue(): void
     {
         $result = new ExistingResult(

@@ -19,7 +19,6 @@ use function get_class;
  */
 class ReferenceFactoryTest extends TestCase
 {
-
     /**
      * @param string $text
      * @param array  $expectedValue

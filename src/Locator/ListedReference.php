@@ -6,7 +6,6 @@ namespace Remorhaz\JSON\Pointer\Locator;
 
 final class ListedReference implements ListedReferenceInterface
 {
-
     private $reference;
 
     private $isLast;

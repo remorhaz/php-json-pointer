@@ -32,7 +32,6 @@ use Remorhaz\JSON\Pointer\Query\QueryResultInterface;
  */
 class ProcessorTest extends TestCase
 {
-
     public function testCreate_Always_ReturnsProcessorInstance(): void
     {
         self::assertInstanceOf(Processor::class, Processor::create());

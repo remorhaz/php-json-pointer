@@ -9,7 +9,6 @@ use Throwable;
 
 final class ParentNotFoundException extends LogicException implements ExceptionInterface
 {
-
     private $source;
 
     public function __construct(string $source, Throwable $previous = null)

@@ -10,7 +10,6 @@ use function str_replace;
 
 final class LocatorBuilder implements LocatorBuilderInterface
 {
-
     private $locator;
 
     private $referenceFactory;

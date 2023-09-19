@@ -8,7 +8,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 interface ResultInterface
 {
-
     public function exists(): bool;
 
     public function encode(): string;

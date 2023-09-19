@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Query\Exception\ParentNotFoundException;
  */
 class ParentNotFoundExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new ParentNotFoundException('a');

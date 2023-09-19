@@ -17,7 +17,6 @@ use Remorhaz\JSON\Pointer\Query\QueryResult;
  */
 class QueryResultTest extends TestCase
 {
-
     public function testGetSource_ConstructedWithSource_ReturnsSameInstance(): void
     {
         $result = new QueryResult('a');

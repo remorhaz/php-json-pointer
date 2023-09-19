@@ -9,7 +9,6 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 
 final class QueryResult implements QueryResultInterface
 {
-
     private $source;
 
     private $selection;

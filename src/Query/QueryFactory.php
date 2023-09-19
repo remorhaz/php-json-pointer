@@ -9,7 +9,6 @@ use Remorhaz\JSON\Pointer\Parser\Parser;
 
 final class QueryFactory implements QueryFactoryInterface
 {
-
     private $parser;
 
     public static function create(): QueryFactoryInterface

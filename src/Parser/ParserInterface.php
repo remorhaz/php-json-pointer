@@ -8,6 +8,5 @@ use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 
 interface ParserInterface
 {
-
     public function buildLocator(string $pointer): LocatorInterface;
 }

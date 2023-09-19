@@ -25,7 +25,6 @@ use function count;
  */
 class TranslationSchemeTest extends TestCase
 {
-
     /**
      * @param string $source
      * @param array  $expectedValues

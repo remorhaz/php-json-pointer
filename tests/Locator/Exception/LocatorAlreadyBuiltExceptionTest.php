@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException;
  */
 class LocatorAlreadyBuiltExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new LocatorAlreadyBuiltException();

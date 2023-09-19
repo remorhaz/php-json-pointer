@@ -19,7 +19,6 @@ use function array_map;
  */
 class LocatorBuilderTest extends TestCase
 {
-
     public function testCreate_Always_ReturnsLocatorBuilderInstance(): void
     {
         self::assertInstanceOf(LocatorBuilder::class, LocatorBuilder::create());

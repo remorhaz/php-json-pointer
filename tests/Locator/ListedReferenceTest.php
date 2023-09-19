@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
  */
 class ListedReferenceTest extends TestCase
 {
-
     public function testGetReference_ConstructedWithReference_ReturnsSameInstance(): void
     {
         $reference = $this->createMock(ReferenceInterface::class);

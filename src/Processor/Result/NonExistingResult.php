@@ -8,7 +8,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 final class NonExistingResult implements ResultInterface
 {
-
     private $source;
 
     public function __construct(string $source)

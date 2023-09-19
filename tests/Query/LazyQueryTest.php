@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Parser\ParserInterface;
  */
 class LazyQueryTest extends TestCase
 {
-
     public function testGetSource_ConstructedWithSource_ReturnsSameValue(): void
     {
         $query = new LazyQuery(

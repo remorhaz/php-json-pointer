@@ -6,6 +6,5 @@ namespace Remorhaz\JSON\Pointer\Locator;
 
 interface IndexReferenceInterface extends ReferenceInterface
 {
-
     public function getElementIndex(): int;
 }

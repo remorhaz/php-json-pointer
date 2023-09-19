@@ -19,7 +19,6 @@ use Throwable;
 
 final class Ll1ParserFactory implements Ll1ParserFactoryInterface
 {
-
     private $grammar;
 
     public function createParser(string $source, LocatorBuilderInterface $locatorBuilder): Ll1Parser

@@ -18,7 +18,6 @@ use Remorhaz\UniLex\Lexer\TokenMatcherTemplate;
 
 class TokenMatcher extends TokenMatcherTemplate
 {
-
     public function match(CharBufferInterface $buffer, TokenFactoryInterface $tokenFactory): bool
     {
         $context = $this->createContext($buffer, $tokenFactory);

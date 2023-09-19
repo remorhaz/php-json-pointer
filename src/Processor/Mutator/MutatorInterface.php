@@ -9,6 +9,5 @@ use Remorhaz\JSON\Data\Walker\MutationInterface;
 
 interface MutatorInterface
 {
-
     public function mutate(NodeValueInterface $rootNode, MutationInterface $mutation): ?NodeValueInterface;
 }

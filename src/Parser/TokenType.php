@@ -6,7 +6,6 @@ namespace Remorhaz\JSON\Pointer\Parser;
 
 final class TokenType
 {
-
     public const SLASH = 0x01;
     public const TILDE = 0x02;
     public const ZERO = 0x03;

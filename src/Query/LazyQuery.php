@@ -9,7 +9,6 @@ use Remorhaz\JSON\Pointer\Parser\ParserInterface;
 
 final class LazyQuery implements QueryInterface
 {
-
     private $source;
 
     private $parser;

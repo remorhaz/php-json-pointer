@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Query\Exception\SelectionNotFoundException;
  */
 class SelectionNotFoundExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new SelectionNotFoundException('a');

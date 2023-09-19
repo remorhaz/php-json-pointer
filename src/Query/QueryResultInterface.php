@@ -9,7 +9,6 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 
 interface QueryResultInterface
 {
-
     public function getSource(): string;
 
     public function getSelection(): NodeValueInterface;

@@ -6,6 +6,5 @@ namespace Remorhaz\JSON\Pointer\Locator;
 
 interface ReferenceInterface
 {
-
     public function getPropertyName(): string;
 }

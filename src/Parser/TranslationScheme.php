@@ -12,7 +12,6 @@ use Remorhaz\UniLex\Parser\Symbol;
 
 final class TranslationScheme implements TranslationSchemeInterface
 {
-
     private $locatorBuilder;
 
     public function __construct(LocatorBuilderInterface $locatorBuilder)

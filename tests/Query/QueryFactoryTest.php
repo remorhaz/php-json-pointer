@@ -16,7 +16,6 @@ use Remorhaz\JSON\Pointer\Query\QueryFactory;
  */
 class QueryFactoryTest extends TestCase
 {
-
     public function testCreate_Always_ReturnsQueryFactoryInstance(): void
     {
         self::assertInstanceOf(QueryFactory::class, QueryFactory::create());

@@ -16,7 +16,6 @@ use Remorhaz\UniLex\Unicode\CharBufferFactory;
  */
 class TokenMatcherTest extends TestCase
 {
-
     /**
      * @param int[] $data
      * @dataProvider providerInvalidData

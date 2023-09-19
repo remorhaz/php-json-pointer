@@ -12,7 +12,6 @@ use Remorhaz\UniLex\Exception as UniLexException;
 
 final class Parser implements ParserInterface
 {
-
     private $ll1ParserFactory;
 
     private $referenceFactory;

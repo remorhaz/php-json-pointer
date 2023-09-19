@@ -6,7 +6,6 @@ namespace Remorhaz\JSON\Pointer\Parser;
 
 final class SymbolType
 {
-
     public const NT_ROOT = 0x00;
 
     public const T_SLASH = 0x01;

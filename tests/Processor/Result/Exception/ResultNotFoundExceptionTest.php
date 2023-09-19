@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Processor\Result\Exception\ResultNotFoundException;
  */
 class ResultNotFoundExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new ResultNotFoundException('a');

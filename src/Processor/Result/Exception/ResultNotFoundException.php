@@ -9,7 +9,6 @@ use Throwable;
 
 final class ResultNotFoundException extends LogicException implements ExceptionInterface
 {
-
     private $source;
 
     public function __construct(string $source, Throwable $previous = null)

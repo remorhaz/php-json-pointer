@@ -18,7 +18,6 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class DeleteElementMutation implements MutationInterface
 {
-
     private $arrayPath;
 
     private $elementPath;

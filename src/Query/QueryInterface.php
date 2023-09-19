@@ -8,7 +8,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 interface QueryInterface
 {
-
     public function __invoke(NodeValueInterface $rootNode): QueryResultInterface;
 
     public function getSource(): string;

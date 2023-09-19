@@ -10,7 +10,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 final class ExistingResult implements ResultInterface
 {
-
     private $encoder;
 
     private $decoder;

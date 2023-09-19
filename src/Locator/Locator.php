@@ -8,7 +8,6 @@ use function count;
 
 final class Locator implements LocatorInterface
 {
-
     private $listedReferences;
 
     public function __construct(ReferenceInterface ...$references)

@@ -17,7 +17,6 @@ use function array_map;
  */
 class LocatorTest extends TestCase
 {
-
     public function testReferences_ConstructedWithoutReferences_ReturnsEmptyList(): void
     {
         $locator = new Locator();

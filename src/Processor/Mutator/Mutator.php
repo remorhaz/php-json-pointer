@@ -12,7 +12,6 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 
 final class Mutator implements MutatorInterface
 {
-
     private $valueWalker;
 
     private $eventDecoder;

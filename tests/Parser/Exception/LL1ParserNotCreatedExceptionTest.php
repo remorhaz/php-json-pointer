@@ -13,7 +13,6 @@ use Remorhaz\JSON\Pointer\Parser\Exception\LL1ParserNotCreatedException;
  */
 class LL1ParserNotCreatedExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new LL1ParserNotCreatedException();

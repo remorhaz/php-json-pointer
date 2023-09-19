@@ -12,7 +12,6 @@ use Remorhaz\JSON\Pointer\Locator\IndexReference;
  */
 class IndexReferenceTest extends TestCase
 {
-
     public function testGetElementIndex_ConstructedWithElementIndex_ReturnsSameValue(): void
     {
         $reference = new IndexReference(1);

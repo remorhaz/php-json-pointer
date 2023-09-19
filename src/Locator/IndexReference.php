@@ -6,7 +6,6 @@ namespace Remorhaz\JSON\Pointer\Locator;
 
 final class IndexReference implements IndexReferenceInterface
 {
-
     private $elementIndex;
 
     public function __construct(int $elementIndex)

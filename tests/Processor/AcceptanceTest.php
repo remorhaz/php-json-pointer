@@ -12,7 +12,6 @@ use Remorhaz\JSON\Pointer\Query\QueryFactory;
  */
 class AcceptanceTest extends TestCase
 {
-
     /**
      * @param string $text
      * @param mixed  $data

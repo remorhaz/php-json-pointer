@@ -33,7 +33,6 @@ use Remorhaz\JSON\Pointer\Query\QueryResultInterface;
 
 final class Processor implements ProcessorInterface
 {
-
     private $encoder;
 
     private $decoder;
