@@ -1,7 +1,7 @@
 # PHP JSON Pointer
 
 [![Latest Stable Version](https://poser.pugx.org/remorhaz/php-json-pointer/v/stable)](https://packagist.org/packages/remorhaz/php-json-pointer)
-[![Build Status](https://travis-ci.org/remorhaz/php-json-pointer.svg?branch=master)](https://travis-ci.org/remorhaz/php-json-pointer)
+[![Build](https://github.com/remorhaz/php-json-pointer/actions/workflows/build.yml/badge.svg)](https://github.com/remorhaz/php-json-pointer/actions/workflows/build.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remorhaz/php-json-pointer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remorhaz/php-json-pointer/?branch=master)
 [![codecov](https://codecov.io/gh/remorhaz/php-json-pointer/branch/master/graph/badge.svg)](https://codecov.io/gh/remorhaz/php-json-pointer)
 [![Infection MSI](https://badge.stryker-mutator.io/github.com/remorhaz/php-json-pointer/master)](https://infection.github.io)
@@ -11,7 +11,7 @@
 This library implements [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers.
 
 ## Requirements
-* PHP 7.3+
+* PHP 8
 
 ## Features
 * Selecting part of a JSON document.

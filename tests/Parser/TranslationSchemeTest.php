@@ -26,8 +26,8 @@ use function count;
 class TranslationSchemeTest extends TestCase
 {
     /**
-     * @param string             $source
-     * @param list<list<string>> $expectedValues
+     * @param string       $source
+     * @param list<string> $expectedValues
      * @throws UniLexException
      * @dataProvider providerValidBuffer
      */
@@ -37,11 +37,20 @@ class TranslationSchemeTest extends TestCase
         $scheme = new TranslationScheme($locatorBuilder);
         $parser = $this->createParser($scheme, $source);
 
+        $textBuffer = [];
         $locatorBuilder
-            ->expects(self::exactly(count($expectedValues)))
             ->method('addReference')
-            ->withConsecutive(...$expectedValues);
+            ->with(
+                self::callback(
+                    function (string $text) use (&$textBuffer): bool {
+                        $textBuffer[] = $text;
+
+                        return true;
+                    },
+                ),
+            );
         $parser->run();
+        self::assertSame($expectedValues, $textBuffer);
     }
 
     /**
@@ -66,25 +75,25 @@ class TranslationSchemeTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{string, list<list<string>>}>
+     * @return iterable<string, array{string, list<string>}>
      */
     public static function providerValidBuffer(): iterable
     {
         return [
             'Empty string' => ['', []],
-            'Empty property' => ['/', [['']]],
-            'Single alpha property' => ['/a', [['a']]],
-            'Single numeric property' => ['/1', [['1']]],
-            'Single non-ASCII property' => ['/б', [['б']]],
-            'Property sequence' => ['/a/1', [['a'], ['1']]],
-            'Escaped property sequence' => ['/~0/~1', [['~'], ['/']]],
-            'Escaped tilde in a word' => ['/a~0b', [['a~b']]],
-            'Escaped tilde in a word before zero' => ['/a~00', [['a~0']]],
-            'Escaped tilde in a word before one' => ['/a~01', [['a~1']]],
-            'Escaped slash in a word' => ['/a~1b', [['a/b']]],
-            'Escaped slash in a word before zero' => ['/a~10', [['a/0']]],
-            'Escaped tilde then escaped slash' => ['/~0~1', [['~/']]],
-            'Escaped slash then escaped tilde' => ['/~1~0', [['/~']]],
+            'Empty property' => ['/', ['']],
+            'Single alpha property' => ['/a', ['a']],
+            'Single numeric property' => ['/1', ['1']],
+            'Single non-ASCII property' => ['/б', ['б']],
+            'Property sequence' => ['/a/1', ['a', '1']],
+            'Escaped property sequence' => ['/~0/~1', ['~', '/']],
+            'Escaped tilde in a word' => ['/a~0b', ['a~b']],
+            'Escaped tilde in a word before zero' => ['/a~00', ['a~0']],
+            'Escaped tilde in a word before one' => ['/a~01', ['a~1']],
+            'Escaped slash in a word' => ['/a~1b', ['a/b']],
+            'Escaped slash in a word before zero' => ['/a~10', ['a/0']],
+            'Escaped tilde then escaped slash' => ['/~0~1', ['~/']],
+            'Escaped slash then escaped tilde' => ['/~1~0', ['/~']],
         ];
     }
 

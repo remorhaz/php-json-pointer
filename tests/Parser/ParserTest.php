@@ -69,14 +69,20 @@ class ParserTest extends TestCase
     {
         $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
         $parser = new Parser(new Ll1ParserFactory(), $referenceFactory);
+        $textBuffer = [];
         $referenceFactory
-            ->expects(self::exactly(2))
             ->method('createReference')
-            ->withConsecutive(
-                ['a'],
-                ['1']
+            ->with(
+                self::callback(
+                    function (string $text) use (&$textBuffer): bool {
+                        $textBuffer[] = $text;
+
+                        return true;
+                    },
+                ),
             );
         $parser->buildLocator('/a/1');
+        self::assertSame(['a', '1'], $textBuffer);
     }
 
     /**
