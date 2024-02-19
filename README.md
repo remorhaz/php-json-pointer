@@ -11,7 +11,7 @@
 This library implements [RFC6901](https://tools.ietf.org/html/rfc6901)-compliant JSON pointers.
 
 ## Requirements
-* PHP 8
+* PHP 8.1
 
 ## Features
 * Selecting part of a JSON document.
