@@ -5,24 +5,17 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Test\Locator\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Locator\Exception\LocatorAlreadyBuiltException
- */
+#[CoversClass(LocatorAlreadyBuiltException::class)]
 class LocatorAlreadyBuiltExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new LocatorAlreadyBuiltException();
         self::assertSame('Locator is already built', $exception->getMessage());
-    }
-
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new LocatorAlreadyBuiltException();
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void

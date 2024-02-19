@@ -10,10 +10,10 @@ use Throwable;
 final class ParentNotFoundException extends LogicException implements ExceptionInterface
 {
     public function __construct(
-        private string $source,
+        private readonly string $source,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Query '{$this->source}' selected no parent node", 0, $previous);
+        parent::__construct("Query '$this->source' selected no parent node", previous: $previous);
     }
 
     public function getSource(): string

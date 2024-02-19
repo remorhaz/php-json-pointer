@@ -10,10 +10,10 @@ use Throwable;
 final class LastReferenceNotFoundException extends LogicException implements ExceptionInterface
 {
     public function __construct(
-        private string $source,
+        private readonly string $source,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Query '$this->source' selected no last reference", 0, $previous);
+        parent::__construct("Query '$this->source' selected no last reference", previous: $previous);
     }
 
     public function getSource(): string

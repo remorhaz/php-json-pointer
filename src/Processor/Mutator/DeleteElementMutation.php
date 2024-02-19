@@ -25,8 +25,8 @@ final class DeleteElementMutation implements MutationInterface
     private EventDecoder $eventDecoder;
 
     public function __construct(
-        private PathInterface $arrayPath,
-        private PathInterface $elementPath,
+        private readonly PathInterface $arrayPath,
+        private readonly PathInterface $elementPath,
     ) {
         $this->eventDecoder = new EventDecoder();
     }
@@ -85,8 +85,6 @@ final class DeleteElementMutation implements MutationInterface
                         ->copyWithElement($this->elementCounter)
                 );
         }
-
-        return;
     }
 
     public function reset(): void

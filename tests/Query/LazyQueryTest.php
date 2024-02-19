@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Query;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Pointer\Parser\ParserInterface;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Query\LazyQuery
- */
+#[CoversClass(LazyQuery::class)]
 class LazyQueryTest extends TestCase
 {
     public function testGetSource_ConstructedWithSource_ReturnsSameValue(): void
     {
         $query = new LazyQuery(
             'a',
-            $this->createMock(ParserInterface::class),
+            self::createStub(ParserInterface::class),
         );
         self::assertSame('a', $query->getSource());
     }
@@ -26,7 +25,7 @@ class LazyQueryTest extends TestCase
     {
         $parser = $this->createMock(ParserInterface::class);
         $query = new LazyQuery('', $parser);
-        $value = $this->createMock(NodeValueInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $parser
             ->expects(self::once())
             ->method('buildLocator');
@@ -38,7 +37,7 @@ class LazyQueryTest extends TestCase
     {
         $parser = $this->createMock(ParserInterface::class);
         $query = new LazyQuery('a', $parser);
-        $value = $this->createMock(NodeValueInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $parser
             ->expects(self::once())
             ->method('buildLocator')

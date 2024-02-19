@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Query;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
@@ -12,12 +13,10 @@ use Remorhaz\JSON\Pointer\Query\Exception\ParentNotFoundException;
 use Remorhaz\JSON\Pointer\Query\Exception\SelectionNotFoundException;
 use Remorhaz\JSON\Pointer\Query\QueryResult;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Query\QueryResult
- */
+#[CoversClass(QueryResult::class)]
 class QueryResultTest extends TestCase
 {
-    public function testGetSource_ConstructedWithSource_ReturnsSameInstance(): void
+    public function testGetSource_ConstructedWithSource_ReturnsSameValue(): void
     {
         $result = new QueryResult('a');
         self::assertSame('a', $result->getSource());
@@ -33,7 +32,7 @@ class QueryResultTest extends TestCase
     {
         $result = new QueryResult(
             'a',
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->hasSelection());
     }
@@ -47,7 +46,7 @@ class QueryResultTest extends TestCase
 
     public function testGetSelection_ConstructedWithSelection_ReturnsSameInstance(): void
     {
-        $selection = $this->createMock(NodeValueInterface::class);
+        $selection = self::createStub(NodeValueInterface::class);
         $result = new QueryResult('a', $selection);
         self::assertSame($selection, $result->getSelection());
     }
@@ -60,7 +59,7 @@ class QueryResultTest extends TestCase
 
     public function testHasParent_ConstructedWithParent_ReturnsTrue(): void
     {
-        $parent = $this->createMock(NodeValueInterface::class);
+        $parent = self::createStub(NodeValueInterface::class);
         $result = new QueryResult('a', null, $parent);
         self::assertTrue($result->hasParent());
     }
@@ -74,7 +73,7 @@ class QueryResultTest extends TestCase
 
     public function testGetParent_ConstructedWithParent_ReturnsSameInstance(): void
     {
-        $parent = $this->createMock(NodeValueInterface::class);
+        $parent = self::createStub(NodeValueInterface::class);
         $result = new QueryResult('a', null, $parent);
         self::assertSame($parent, $result->getParent());
     }
@@ -87,7 +86,7 @@ class QueryResultTest extends TestCase
 
     public function testHasLastReference_ConstructedWithLastReference_ReturnsTrue(): void
     {
-        $reference = $this->createMock(ReferenceInterface::class);
+        $reference = self::createStub(ReferenceInterface::class);
         $result = new QueryResult('a', null, null, $reference);
         self::assertTrue($result->hasLastReference());
     }
@@ -101,7 +100,7 @@ class QueryResultTest extends TestCase
 
     public function testGetLastReference_ConstructedWithLastReference_ReturnsSameInstance(): void
     {
-        $reference = $this->createMock(ReferenceInterface::class);
+        $reference = self::createStub(ReferenceInterface::class);
         $result = new QueryResult('a', null, null, $reference);
         self::assertSame($reference, $result->getLastReference());
     }

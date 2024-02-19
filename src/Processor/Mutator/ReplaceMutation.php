@@ -21,8 +21,8 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 final class ReplaceMutation implements MutationInterface
 {
     public function __construct(
-        private NodeValueInterface $newNode,
-        private PathInterface $path,
+        private readonly NodeValueInterface $newNode,
+        private readonly PathInterface $path,
     ) {
     }
 

@@ -24,9 +24,9 @@ final class InsertElementMutation implements MutationInterface
     private EventDecoder $eventDecoder;
 
     public function __construct(
-        private NodeValueInterface $value,
-        private PathInterface $path,
-        private int $elementIndex,
+        private readonly NodeValueInterface $value,
+        private readonly PathInterface $path,
+        private readonly int $elementIndex,
     ) {
         $this->eventDecoder = new EventDecoder();
     }

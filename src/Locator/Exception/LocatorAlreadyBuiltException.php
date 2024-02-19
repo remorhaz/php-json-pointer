@@ -11,6 +11,6 @@ final class LocatorAlreadyBuiltException extends LogicException implements Excep
 {
     public function __construct(?Throwable $previous = null)
     {
-        parent::__construct("Locator is already built", 0, $previous);
+        parent::__construct("Locator is already built", previous: $previous);
     }
 }

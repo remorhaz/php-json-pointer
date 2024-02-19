@@ -13,7 +13,7 @@ use Remorhaz\UniLex\Parser\Symbol;
 final class TranslationScheme implements TranslationSchemeInterface
 {
     public function __construct(
-        private LocatorBuilderInterface $locatorBuilder,
+        private readonly LocatorBuilderInterface $locatorBuilder,
     ) {
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Query;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
@@ -11,9 +12,7 @@ use Remorhaz\JSON\Pointer\Parser\ParserInterface;
 use Remorhaz\JSON\Pointer\Query\LazyQuery;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Query\QueryFactory
- */
+#[CoversClass(QueryFactory::class)]
 class QueryFactoryTest extends TestCase
 {
     public function testCreate_Always_ReturnsQueryFactoryInstance(): void
@@ -32,7 +31,7 @@ class QueryFactoryTest extends TestCase
         $parser = $this->createMock(ParserInterface::class);
         $factory = new QueryFactory($parser);
         $query = $factory->createQuery('a');
-        $nodeValue = $this->createMock(NodeValueInterface::class);
+        $nodeValue = self::createStub(NodeValueInterface::class);
 
         $parser
             ->expects(self::once())
@@ -43,10 +42,10 @@ class QueryFactoryTest extends TestCase
 
     public function testCreateQuery_ConstructedWithParser_ResultUsesLocatorCreatedByParserOnExecution(): void
     {
-        $parser = $this->createMock(ParserInterface::class);
+        $parser = self::createStub(ParserInterface::class);
         $factory = new QueryFactory($parser);
         $query = $factory->createQuery('a');
-        $nodeValue = $this->createMock(NodeValueInterface::class);
+        $nodeValue = self::createStub(NodeValueInterface::class);
 
         $locator = $this->createMock(LocatorInterface::class);
         $parser

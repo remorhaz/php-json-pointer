@@ -19,9 +19,9 @@ final class AppendElementMutation implements MutationInterface
     private int $elementCounter = 0;
 
     public function __construct(
-        private NodeValueInterface $value,
-        private PathInterface $path,
-        private ?int $elementIndex = null,
+        private readonly NodeValueInterface $value,
+        private readonly PathInterface $path,
+        private readonly ?int $elementIndex = null,
     ) {
     }
 

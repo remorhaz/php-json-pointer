@@ -10,10 +10,10 @@ use Throwable;
 final class SelectionNotFoundException extends LogicException implements ExceptionInterface
 {
     public function __construct(
-        private string $source,
+        private readonly string $source,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Query '$this->source' produced no selection", 0, $previous);
+        parent::__construct("Query '$this->source' produced no selection", previous: $previous);
     }
 
     public function getSource(): string

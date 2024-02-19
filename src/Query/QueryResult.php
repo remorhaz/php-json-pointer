@@ -10,10 +10,10 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 final class QueryResult implements QueryResultInterface
 {
     public function __construct(
-        private string $source,
-        private ?NodeValueInterface $selection = null,
-        private ?NodeValueInterface $parent = null,
-        private ?ReferenceInterface $lastReference = null,
+        private readonly string $source,
+        private readonly ?NodeValueInterface $selection = null,
+        private readonly ?NodeValueInterface $parent = null,
+        private readonly ?ReferenceInterface $lastReference = null,
     ) {
     }
 

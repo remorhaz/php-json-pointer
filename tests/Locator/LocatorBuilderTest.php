@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ListedReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
@@ -14,9 +16,7 @@ use Remorhaz\JSON\Pointer\Locator\LocatorBuilder;
 
 use function array_map;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Locator\LocatorBuilder
- */
+#[CoversClass(LocatorBuilder::class)]
 class LocatorBuilderTest extends TestCase
 {
     public function testCreate_Always_ReturnsLocatorBuilderInstance(): void
@@ -26,21 +26,21 @@ class LocatorBuilderTest extends TestCase
 
     public function testGetLocator_ReferencesNotAdded_ReturnsEmptyLocator(): void
     {
-        $builder = new LocatorBuilder($this->createMock(ReferenceFactoryInterface::class));
+        $builder = new LocatorBuilder(self::createStub(ReferenceFactoryInterface::class));
         $locator = $builder->getLocator();
         self::assertCount(0, $locator->references());
     }
 
     public function testGetLocator_CalledTwice_ReturnsSameInstance(): void
     {
-        $builder = new LocatorBuilder($this->createMock(ReferenceFactoryInterface::class));
+        $builder = new LocatorBuilder(self::createStub(ReferenceFactoryInterface::class));
         $locator = $builder->getLocator();
         self::assertSame($locator, $builder->getLocator());
     }
 
     public function testAddReference_GetLocatorCalled_ThrowsException(): void
     {
-        $builder = new LocatorBuilder($this->createMock(ReferenceFactoryInterface::class));
+        $builder = new LocatorBuilder(self::createStub(ReferenceFactoryInterface::class));
         $builder->getLocator();
         $this->expectException(LocatorAlreadyBuiltException::class);
         $builder->addReference('a');
@@ -48,7 +48,7 @@ class LocatorBuilderTest extends TestCase
 
     public function testAddReference_ExportCalled_ThrowsException(): void
     {
-        $builder = new LocatorBuilder($this->createMock(ReferenceFactoryInterface::class));
+        $builder = new LocatorBuilder(self::createStub(ReferenceFactoryInterface::class));
         $builder->export();
         $this->expectException(LocatorAlreadyBuiltException::class);
         $builder->addReference('a');
@@ -68,11 +68,11 @@ class LocatorBuilderTest extends TestCase
 
     public function testAddReference_ConstructedWithReferenceFactory_ResultIsAddedToLocator(): void
     {
-        $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
+        $referenceFactory = self::createStub(ReferenceFactoryInterface::class);
         $builder = new LocatorBuilder($referenceFactory);
 
-        $firstReference = $this->createMock(ReferenceInterface::class);
-        $secondReference = $this->createMock(ReferenceInterface::class);
+        $firstReference = self::createStub(ReferenceInterface::class);
+        $secondReference = self::createStub(ReferenceInterface::class);
         $referenceFactory
             ->method('createReference')
             ->willReturnOnConsecutiveCalls($firstReference, $secondReference);
@@ -83,24 +83,20 @@ class LocatorBuilderTest extends TestCase
             ->getLocator()
             ->references();
         $actualValue = array_map(
-            function (ListedReferenceInterface $listedReference): ReferenceInterface {
-                return $listedReference->getReference();
-            },
-            $listedReferences
+            fn (ListedReferenceInterface $listedReference): ReferenceInterface => $listedReference->getReference(),
+            $listedReferences,
         );
         self::assertSame([$firstReference, $secondReference], $actualValue);
     }
 
     public function testExport_NoReferencesAdded_ReturnsEmptyPointer(): void
     {
-        $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
+        $referenceFactory = self::createStub(ReferenceFactoryInterface::class);
         $builder = new LocatorBuilder($referenceFactory);
         self::assertSame('', $builder->export());
     }
 
-    /**
-     * @dataProvider providerExportSingleReference
-     */
+    #[DataProvider('providerExportSingleReference')]
     public function testExport_SingleReferenceAdded_ReturnsMatchingPointer(string $text, string $expectedValue): void
     {
         $builder = new LocatorBuilder(new ReferenceFactory());

@@ -12,15 +12,23 @@ final class Locator implements LocatorInterface
     /**
      * @var list<ListedReferenceInterface>
      */
-    private array $listedReferences;
+    private readonly array $listedReferences;
 
     public function __construct(ReferenceInterface ...$references)
     {
+        $this->listedReferences = $this->buildListedReferences(...$references);
+    }
+
+
+    private function buildListedReferences(ReferenceInterface ...$references): array
+    {
         $listSize = count($references);
-        $this->listedReferences = [];
+        $listedReferences = [];
         foreach (array_values($references) as $index => $reference) {
-            $this->listedReferences[] = new ListedReference($reference, $index + 1 == $listSize);
+            $listedReferences[] = new ListedReference($reference, $index + 1 == $listSize);
         }
+
+        return $listedReferences;
     }
 
     /**

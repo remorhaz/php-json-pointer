@@ -21,8 +21,8 @@ final class Parser implements ParserInterface
     }
 
     public function __construct(
-        private Ll1ParserFactoryInterface $ll1ParserFactory,
-        private ReferenceFactoryInterface $referenceFactory,
+        private readonly Ll1ParserFactoryInterface $ll1ParserFactory,
+        private readonly ReferenceFactoryInterface $referenceFactory,
     ) {
     }
 

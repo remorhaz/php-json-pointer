@@ -48,9 +48,9 @@ final class Processor implements ProcessorInterface
     }
 
     public function __construct(
-        private ValueEncoderInterface $encoder,
-        private ValueDecoderInterface $decoder,
-        private MutatorInterface $mutator,
+        private readonly ValueEncoderInterface $encoder,
+        private readonly ValueDecoderInterface $decoder,
+        private readonly MutatorInterface $mutator,
     ) {
     }
 

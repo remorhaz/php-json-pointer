@@ -17,9 +17,9 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 final class AppendPropertyMutation implements MutationInterface
 {
     public function __construct(
-        private NodeValueInterface $value,
-        private PathInterface $path,
-        private string $propertyName,
+        private readonly NodeValueInterface $value,
+        private readonly PathInterface $path,
+        private readonly string $propertyName,
     ) {
     }
 

@@ -11,6 +11,6 @@ final class LL1ParserNotCreatedException extends LogicException implements Excep
 {
     public function __construct(?Throwable $previous = null)
     {
-        parent::__construct("Failed to create LL(1) parser", 0, $previous);
+        parent::__construct("Failed to create LL(1) parser", previous: $previous);
     }
 }

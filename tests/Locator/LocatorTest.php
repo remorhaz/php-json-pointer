@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ListedReferenceInterface;
 use Remorhaz\JSON\Pointer\Locator\Locator;
@@ -12,9 +14,7 @@ use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 use function array_fill;
 use function array_map;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Locator\Locator
- */
+#[CoversClass(Locator::class)]
 class LocatorTest extends TestCase
 {
     public function testReferences_ConstructedWithoutReferences_ReturnsEmptyList(): void
@@ -25,13 +25,11 @@ class LocatorTest extends TestCase
 
     public function testReferences_ConstructedWithSingleReference_ResultListsSameReferenceInstance(): void
     {
-        $reference = $this->createMock(ReferenceInterface::class);
+        $reference = self::createStub(ReferenceInterface::class);
         $locator = new Locator($reference);
         $references = array_map(
-            function (ListedReferenceInterface $listedReference): ReferenceInterface {
-                return $listedReference->getReference();
-            },
-            $locator->references()
+            fn (ListedReferenceInterface $listedReference): ReferenceInterface => $listedReference->getReference(),
+            $locator->references(),
         );
         self::assertSame([$reference], $references);
     }
@@ -39,8 +37,8 @@ class LocatorTest extends TestCase
     /**
      * @param int        $referenceCount
      * @param list<bool> $expectedValue
-     * @dataProvider providerIsLast
      */
+    #[DataProvider('providerIsLast')]
     public function testReferences_Constructed_ResultListsMatchingIsLastState(
         int $referenceCount,
         array $expectedValue,
@@ -48,14 +46,12 @@ class LocatorTest extends TestCase
         $references = array_fill(
             0,
             $referenceCount,
-            $this->createMock(ReferenceInterface::class)
+            self::createStub(ReferenceInterface::class),
         );
         $locator = new Locator(...$references);
         $isLastStates = array_map(
-            function (ListedReferenceInterface $listedReference): bool {
-                return $listedReference->isLast();
-            },
-            $locator->references()
+            fn (ListedReferenceInterface $listedReference): bool => $listedReference->isLast(),
+            $locator->references(),
         );
         self::assertSame($expectedValue, $isLastStates);
     }

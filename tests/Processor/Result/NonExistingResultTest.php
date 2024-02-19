@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Processor\Result;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Processor\Result\Exception\ResultNotFoundException;
 use Remorhaz\JSON\Pointer\Processor\Result\NonExistingResult;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Processor\Result\NonExistingResult
- */
+#[CoversClass(NonExistingResult::class)]
 class NonExistingResultTest extends TestCase
 {
     public function testExists_Always_ReturnsFalse(): void

@@ -10,10 +10,10 @@ use Throwable;
 final class ResultNotFoundException extends LogicException implements ExceptionInterface
 {
     public function __construct(
-        private string $source,
+        private readonly string $source,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Result not found for query '$this->source'", 0, $previous);
+        parent::__construct("Result not found for query '$this->source'", previous: $previous);
     }
 
     public function getSource(): string

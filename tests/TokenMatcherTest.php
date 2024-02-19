@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Parser\TokenType;
 use Remorhaz\JSON\Pointer\TokenMatcher;
@@ -11,21 +13,19 @@ use Remorhaz\UniLex\IO\CharBuffer;
 use Remorhaz\UniLex\Lexer\TokenFactoryInterface;
 use Remorhaz\UniLex\Unicode\CharBufferFactory;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\TokenMatcher
- */
+#[CoversClass(TokenMatcher::class)]
 class TokenMatcherTest extends TestCase
 {
     /**
      * @param list<int> $data
-     * @dataProvider providerInvalidData
      */
+    #[DataProvider('providerInvalidData')]
     public function testMatch_InvalidDataInBuffer_ReturnsFalse(array $data): void
     {
         $matcher = new TokenMatcher();
         $actualValue = $matcher->match(
             new CharBuffer(...$data),
-            $this->createMock(TokenFactoryInterface::class),
+            self::createStub(TokenFactoryInterface::class),
         );
         self::assertFalse($actualValue);
     }
@@ -41,9 +41,7 @@ class TokenMatcherTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerValidData
-     */
+    #[DataProvider('providerValidData')]
     public function testMatch_ValidDataInBuffer_ReturnsMatchingTokens(string $data, int $token): void
     {
         $tokenFactory = $this->createMock(TokenFactoryInterface::class);
@@ -55,7 +53,7 @@ class TokenMatcherTest extends TestCase
             ->with($token);
         $matcher->match(
             CharBufferFactory::createFromString($data),
-            $tokenFactory
+            $tokenFactory,
         );
     }
 

@@ -7,8 +7,8 @@ namespace Remorhaz\JSON\Pointer\Locator;
 final class ListedReference implements ListedReferenceInterface
 {
     public function __construct(
-        private ReferenceInterface $reference,
-        private bool $isLast,
+        private readonly ReferenceInterface $reference,
+        private readonly bool $isLast,
     ) {
     }
 

@@ -9,7 +9,7 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 final class NonExistingResult implements ResultInterface
 {
     public function __construct(
-        private string $source,
+        private readonly string $source,
     ) {
     }
 

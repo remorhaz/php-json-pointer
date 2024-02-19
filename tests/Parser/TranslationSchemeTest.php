@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Parser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\LocatorBuilderInterface;
 use Remorhaz\JSON\Pointer\Parser\TranslationScheme;
@@ -18,19 +20,15 @@ use Remorhaz\UniLex\Parser\LL1\TranslationSchemeApplier;
 use Remorhaz\UniLex\Parser\LL1\UnexpectedTokenException;
 use Remorhaz\UniLex\Unicode\CharBufferFactory;
 
-use function count;
-
-/**
- * @covers \Remorhaz\JSON\Pointer\Parser\TranslationScheme
- */
+#[CoversClass(TranslationScheme::class)]
 class TranslationSchemeTest extends TestCase
 {
     /**
      * @param string       $source
      * @param list<string> $expectedValues
      * @throws UniLexException
-     * @dataProvider providerValidBuffer
      */
+    #[DataProvider('providerValidBuffer')]
     public function testTranslation_ValidBuffer_BuildsMatchingLocator(string $source, array $expectedValues): void
     {
         $locatorBuilder = $this->createMock(LocatorBuilderInterface::class);
@@ -62,12 +60,12 @@ class TranslationSchemeTest extends TestCase
         $reader = new TokenReader(
             CharBufferFactory::createFromString($source),
             new TokenMatcher(),
-            new TokenFactory($grammar)
+            new TokenFactory($grammar),
         );
         $parser = new Ll1Parser(
             $grammar,
             $reader,
-            new TranslationSchemeApplier($scheme)
+            new TranslationSchemeApplier($scheme),
         );
         $parser->loadLookupTable(__DIR__ . '/../../generated/LookupTable.php');
 
@@ -100,11 +98,11 @@ class TranslationSchemeTest extends TestCase
     /**
      * @param string $source
      * @throws UniLexException
-     * @dataProvider providerInvalidBuffer
      */
+    #[DataProvider('providerInvalidBuffer')]
     public function testTranslation_InvalidBuffer_ThrowsException(string $source): void
     {
-        $locatorBuilder = $this->createMock(LocatorBuilderInterface::class);
+        $locatorBuilder = self::createStub(LocatorBuilderInterface::class);
         $scheme = new TranslationScheme($locatorBuilder);
         $parser = $this->createParser($scheme, $source);
         $this->expectException(UnexpectedTokenException::class);

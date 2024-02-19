@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Query;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Export\ValueDecoder;
 use Remorhaz\JSON\Data\Export\ValueEncoder;
@@ -13,16 +14,14 @@ use Remorhaz\JSON\Pointer\Locator\LocatorInterface;
 use Remorhaz\JSON\Pointer\Locator\PropertyReference;
 use Remorhaz\JSON\Pointer\Query\Query;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Query\Query
- */
+#[CoversClass(Query::class)]
 class QueryTest extends TestCase
 {
     public function testGetSource_ConstructedWithSource_ReturnsSameValue(): void
     {
         $query = new Query(
             'a',
-            $this->createMock(LocatorInterface::class),
+            self::createStub(LocatorInterface::class),
         );
         self::assertSame('a', $query->getSource());
     }

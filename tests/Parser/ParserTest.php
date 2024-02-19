@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Parser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactoryInterface;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
@@ -13,9 +14,7 @@ use Remorhaz\JSON\Pointer\Parser\Parser;
 use Remorhaz\UniLex\Exception as UniLexException;
 use Remorhaz\UniLex\Parser\LL1\Parser as LL1Parser;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Parser\Parser
- */
+#[CoversClass(Parser::class)]
 class ParserTest extends TestCase
 {
     public function testCreate_Always_CreatesParserInstance(): void
@@ -31,7 +30,7 @@ class ParserTest extends TestCase
         $ll1ParserFactory = $this->createMock(Ll1ParserFactoryInterface::class);
         $parser = new Parser(
             $ll1ParserFactory,
-            $this->createMock(ReferenceFactoryInterface::class)
+            self::createStub(ReferenceFactoryInterface::class),
         );
 
         $ll1ParserFactory
@@ -46,10 +45,10 @@ class ParserTest extends TestCase
      */
     public function testBuildLocator_ConstructedWithLL1ParserFactory_RunsCreatedParserInstance(): void
     {
-        $ll1ParserFactory = $this->createMock(Ll1ParserFactoryInterface::class);
+        $ll1ParserFactory = self::createStub(Ll1ParserFactoryInterface::class);
         $parser = new Parser(
             $ll1ParserFactory,
-            $this->createMock(ReferenceFactoryInterface::class)
+            self::createStub(ReferenceFactoryInterface::class),
         );
 
         $ll1Parser = $this->createMock(LL1Parser::class);
@@ -92,7 +91,7 @@ class ParserTest extends TestCase
     {
         $referenceFactory = $this->createMock(ReferenceFactoryInterface::class);
         $parser = new Parser(new Ll1ParserFactory(), $referenceFactory);
-        $reference = $this->createMock(ReferenceInterface::class);
+        $reference = self::createStub(ReferenceInterface::class);
         $referenceFactory
             ->method('createReference')
             ->willReturn($reference);

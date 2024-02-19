@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\IndexReference;
 use Remorhaz\JSON\Pointer\Locator\IndexReferenceInterface;
@@ -12,18 +14,14 @@ use Remorhaz\JSON\Pointer\Locator\PropertyReference;
 use Remorhaz\JSON\Pointer\Locator\ReferenceFactory;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 
-use function get_class;
-
-/**
- * @covers \Remorhaz\JSON\Pointer\Locator\ReferenceFactory
- */
+#[CoversClass(ReferenceFactory::class)]
 class ReferenceFactoryTest extends TestCase
 {
     /**
      * @param string                                                            $text
      * @param array{class:class-string, propertyName:string, elementIndex?:int} $expectedValue
-     * @dataProvider providerCreateReference
      */
+    #[DataProvider('providerCreateReference')]
     public function testCreateReference_GivenText_ReturnsMatchingReference(string $text, array $expectedValue): void
     {
         $factory = new ReferenceFactory();

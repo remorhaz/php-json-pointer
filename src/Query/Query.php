@@ -15,8 +15,8 @@ use Remorhaz\JSON\Pointer\Locator\NextIndexReferenceInterface;
 final class Query implements QueryInterface
 {
     public function __construct(
-        private string $source,
-        private LocatorInterface $locator,
+        private readonly string $source,
+        private readonly LocatorInterface $locator,
     ) {
     }
 

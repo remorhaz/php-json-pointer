@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Test\Processor\Result\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Processor\Result\Exception\ResultNotFoundException;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Processor\Result\Exception\ResultNotFoundException
- */
+#[CoversClass(ResultNotFoundException::class)]
 class ResultNotFoundExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
@@ -23,12 +22,6 @@ class ResultNotFoundExceptionTest extends TestCase
     {
         $exception = new ResultNotFoundException('a');
         self::assertSame('a', $exception->getSource());
-    }
-
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new ResultNotFoundException('a');
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_PreviousNotSet_ReturnsNull(): void

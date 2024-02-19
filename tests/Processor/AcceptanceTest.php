@@ -1,21 +1,19 @@
 <?php
 
-namespace Remorhaz\JSON\Pointer\Test\Pointer;
+namespace Remorhaz\JSON\Pointer\Test\Processor;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
 use Remorhaz\JSON\Pointer\Processor\Processor;
 use Remorhaz\JSON\Pointer\Query\QueryFactory;
 
-/**
- * @coversNothing
- */
+#[CoversNothing]
 class AcceptanceTest extends TestCase
 {
-    /**
-     * @dataProvider providerSelectExistingData
-     */
-    public function testSelect_ExistingData_SelectsMatchingResult(string $text, string $data, string $result)
+    #[DataProvider('providerSelectExistingData')]
+    public function testSelect_ExistingData_SelectsMatchingResult(string $text, string $data, string $result): void
     {
         $query = QueryFactory::create()->createQuery($text);
         $document = NodeValueFactory::create()->createValue($data);
@@ -44,10 +42,8 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerSelectNonExistingData
-     */
-    public function testSelect_NonExistingData_ResultNotExists(string $text, string $data)
+    #[DataProvider('providerSelectNonExistingData')]
+    public function testSelect_NonExistingData_ResultNotExists(string $text, string $data): void
     {
         $query = QueryFactory::create()->createQuery($text);
         $document = NodeValueFactory::create()->createValue($data);
@@ -79,11 +75,13 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerAddableQuery
-     */
-    public function testAdd_AddableQuery_DataAdded(string $data, string $query, string $value, string $expectedData)
-    {
+    #[DataProvider('providerAddableQuery')]
+    public function testAdd_AddableQuery_DataAdded(
+        string $data,
+        string $query,
+        string $value,
+        string $expectedData,
+    ): void {
         $query = QueryFactory::create()->createQuery($query);
         $nodeValueFactory = NodeValueFactory::create();
         $document = $nodeValueFactory->createValue($data);
@@ -110,10 +108,8 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerAddNonExistingSelection
-     */
-    public function testAdd_NonAddableQuery_ResultNotExists(string $data, string $text, string $value)
+    #[DataProvider('providerAddNonExistingSelection')]
+    public function testAdd_NonAddableQuery_ResultNotExists(string $data, string $text, string $value): void
     {
         $query = QueryFactory::create()->createQuery($text);
         $nodeValueFactory = NodeValueFactory::create();
@@ -139,10 +135,8 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerRemoveExistingData
-     */
-    public function testRemove_ExistingData_Removed(string $text, string $data, string $expectedData)
+    #[DataProvider('providerRemoveExistingData')]
+    public function testRemove_ExistingData_Removed(string $text, string $data, string $expectedData): void
     {
         $query = QueryFactory::create()->createQuery($text);
         $document = NodeValueFactory::create()->createValue($data);
@@ -190,10 +184,8 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerRemoveNonExistingData
-     */
-    public function testRemove_NonExistingData_ResultNotExists(string $text, string $data)
+    #[DataProvider('providerRemoveNonExistingData')]
+    public function testRemove_NonExistingData_ResultNotExists(string $text, string $data): void
     {
         $query = QueryFactory::create()->createQuery($text);
         $document = NodeValueFactory::create()->createValue($data);
@@ -217,15 +209,13 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerReplaceValueExists
-     */
+    #[DataProvider('providerReplaceValueExists')]
     public function testReplace_ValueExists_DataReplaced(
         string $data,
         string $text,
         string $value,
         string $expectedData,
-    ) {
+    ): void {
         $query = QueryFactory::create()->createQuery($text);
         $nodeValueFactory = NodeValueFactory::create();
         $document = $nodeValueFactory->createValue($data);
@@ -249,14 +239,12 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerReplaceValueNotExists
-     */
+    #[DataProvider('providerReplaceValueNotExists')]
     public function testReplace_ValueNotExists_ResultNotExists(
         string $data,
         string $text,
         string $value,
-    ) {
+    ): void {
         $query = QueryFactory::create()->createQuery($text);
         $nodeValueFactory = NodeValueFactory::create();
         $document = $nodeValueFactory->createValue($data);

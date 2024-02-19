@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Processor;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Export\ValueDecoderInterface;
 use Remorhaz\JSON\Data\Export\ValueEncoderInterface;
@@ -27,9 +29,7 @@ use Remorhaz\JSON\Pointer\Query\QueryInterface;
 use Remorhaz\JSON\Pointer\Query\QueryResult;
 use Remorhaz\JSON\Pointer\Query\QueryResultInterface;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Processor\Processor
- */
+#[CoversClass(Processor::class)]
 class ProcessorTest extends TestCase
 {
     public function testCreate_Always_ReturnsProcessorInstance(): void
@@ -41,7 +41,7 @@ class ProcessorTest extends TestCase
     {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
 
         $query
             ->expects(self::once())
@@ -53,9 +53,9 @@ class ProcessorTest extends TestCase
     public function testSelect_QueryResultHasNoSelection_ResultNotExists(): void
     {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(false);
@@ -65,7 +65,7 @@ class ProcessorTest extends TestCase
 
         $result = $processor->select(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
@@ -73,9 +73,9 @@ class ProcessorTest extends TestCase
     public function testSelect_QueryResultHasSelection_ResultExists(): void
     {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
@@ -85,7 +85,7 @@ class ProcessorTest extends TestCase
 
         $result = $processor->select(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -95,16 +95,16 @@ class ProcessorTest extends TestCase
         $encoder = $this->createMock(ValueEncoderInterface::class);
         $processor = new Processor(
             $encoder,
-            $this->createMock(ValueDecoderInterface::class),
-            $this->createMock(MutatorInterface::class)
+            self::createStub(ValueDecoderInterface::class),
+            self::createStub(MutatorInterface::class)
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
-        $selection = $this->createMock(NodeValueInterface::class);
+        $selection = self::createStub(NodeValueInterface::class);
         $queryResult
             ->method('getSelection')
             ->willReturn($selection);
@@ -114,7 +114,7 @@ class ProcessorTest extends TestCase
 
         $result = $processor->select(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
 
         $encoder
@@ -128,17 +128,17 @@ class ProcessorTest extends TestCase
     {
         $decoder = $this->createMock(ValueDecoderInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
             $decoder,
-            $this->createMock(MutatorInterface::class)
+            self::createStub(MutatorInterface::class),
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
-        $selection = $this->createMock(NodeValueInterface::class);
+        $selection = self::createStub(NodeValueInterface::class);
         $queryResult
             ->method('getSelection')
             ->willReturn($selection);
@@ -148,7 +148,7 @@ class ProcessorTest extends TestCase
 
         $result = $processor->select(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            $this->createMock(NodeValueInterface::class),
         );
 
         $decoder
@@ -162,7 +162,7 @@ class ProcessorTest extends TestCase
     {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
 
         $query
             ->expects(self::once())
@@ -174,12 +174,12 @@ class ProcessorTest extends TestCase
     public function testDelete_QueryResultHasNoSelectionButHasParent_ResultNotExists(): void
     {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
             null,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class)
         );
         $query
             ->method('__invoke')
@@ -187,24 +187,23 @@ class ProcessorTest extends TestCase
 
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class)
         );
         self::assertFalse($result->exists());
     }
 
     public function testDelete_QueryResultHasSelectionButNoParent_ResultNotExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator,
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            self::createStub(MutatorInterface::class),
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         $query
             ->method('__invoke')
@@ -212,25 +211,25 @@ class ProcessorTest extends TestCase
 
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     public function testDelete_ParentIsNotStruct_ResultNotExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         $query
             ->method('__invoke')
@@ -241,28 +240,28 @@ class ProcessorTest extends TestCase
             ->willReturn($this->createMock(NodeValueInterface::class));
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     public function testDelete_MutatorReturnsNull_ResultNotExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             new NodeArrayValue(
                 [],
-                $this->createMock(PathInterface::class),
-                $this->createMock(NodeValueFactoryInterface::class)
+                self::createStub(PathInterface::class),
+                self::createStub(NodeValueFactoryInterface::class),
             )
         );
         $query
@@ -274,25 +273,25 @@ class ProcessorTest extends TestCase
             ->willReturn(null);
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     public function testDelete_NonStructParent_ResultNotExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         $query
             ->method('__invoke')
@@ -300,31 +299,31 @@ class ProcessorTest extends TestCase
 
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     public function testDelete_ParentIsArray_ResultExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             new NodeArrayValue(
                 [],
-                $this->createMock(PathInterface::class),
-                $this->createMock(NodeValueFactoryInterface::class)
+                self::createStub(PathInterface::class),
+                self::createStub(NodeValueFactoryInterface::class),
             )
         );
         $query
@@ -332,31 +331,31 @@ class ProcessorTest extends TestCase
             ->willReturn($queryResult);
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
 
     public function testDelete_ParentIsObject_ResultExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             new NodeObjectValue(
                 (object) [],
-                $this->createMock(PathInterface::class),
-                $this->createMock(NodeValueFactoryInterface::class)
+                self::createStub(PathInterface::class),
+                self::createStub(NodeValueFactoryInterface::class),
             )
         );
         $query
@@ -365,10 +364,10 @@ class ProcessorTest extends TestCase
 
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -377,26 +376,26 @@ class ProcessorTest extends TestCase
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             new NodeArrayValue(
                 [],
-                $this->createMock(PathInterface::class),
-                $this->createMock(NodeValueFactoryInterface::class)
+                self::createStub(PathInterface::class),
+                self::createStub(NodeValueFactoryInterface::class),
             )
         );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
 
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
@@ -411,32 +410,32 @@ class ProcessorTest extends TestCase
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             new NodeObjectValue(
                 (object) [],
-                $this->createMock(PathInterface::class),
-                $this->createMock(NodeValueFactoryInterface::class)
+                self::createStub(PathInterface::class),
+                self::createStub(NodeValueFactoryInterface::class),
             )
         );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
 
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
             ->with(
                 self::identicalTo($rootNode),
-                self::isInstanceOf(DeletePropertyMutation::class)
+                self::isInstanceOf(DeletePropertyMutation::class),
             );
         $processor->delete($query, $rootNode);
     }
@@ -444,33 +443,33 @@ class ProcessorTest extends TestCase
     public function testDelete_MutatorReturnsValue_SameInstancePassedToEncoderOnEncode(): void
     {
         $encoder = $this->createMock(ValueEncoderInterface::class);
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
             $encoder,
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             new NodeArrayValue(
                 [],
-                $this->createMock(PathInterface::class),
-                $this->createMock(NodeValueFactoryInterface::class)
+                self::createStub(PathInterface::class),
+                self::createStub(NodeValueFactoryInterface::class),
             )
         );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
-        $mutatedNode = $this->createMock(NodeValueInterface::class);
+        $mutatedNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->method('mutate')
             ->willReturn($mutatedNode);
         $result = $processor->delete(
             $query,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
         $encoder
             ->expects(self::once())
@@ -483,7 +482,7 @@ class ProcessorTest extends TestCase
     {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
 
         $query
             ->expects(self::once())
@@ -492,16 +491,16 @@ class ProcessorTest extends TestCase
         $processor->replace(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
     public function testReplace_QueryResultHasNoSelection_ResultNotExists(): void
     {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(false);
@@ -511,23 +510,23 @@ class ProcessorTest extends TestCase
 
         $result = $processor->replace(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     public function testReplace_QueryResultHasSelectionButMutatorReturnsNull_ResultNotExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
@@ -540,23 +539,23 @@ class ProcessorTest extends TestCase
             ->willReturn(null);
         $result = $processor->replace(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     public function testReplace_MutatorReturnsValue_ResultExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
@@ -566,11 +565,11 @@ class ProcessorTest extends TestCase
 
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->replace(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -579,13 +578,13 @@ class ProcessorTest extends TestCase
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
@@ -593,47 +592,47 @@ class ProcessorTest extends TestCase
             ->method('__invoke')
             ->willReturn($queryResult);
 
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
             ->with(
                 self::identicalTo($rootNode),
-                self::isInstanceOf(ReplaceMutation::class)
+                self::isInstanceOf(ReplaceMutation::class),
             );
         $processor->replace(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
     public function testReplace_MutatorReturnsValue_SameInstancePassedToEncoderOnEncode(): void
     {
         $encoder = $this->createMock(ValueEncoderInterface::class);
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
             $encoder,
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasSelection')
             ->willReturn(true);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
-        $mutatedNode = $this->createMock(NodeValueInterface::class);
+        $mutatedNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->method('mutate')
             ->willReturn($mutatedNode);
         $result = $processor->replace(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         $encoder
             ->expects(self::once())
@@ -646,7 +645,7 @@ class ProcessorTest extends TestCase
     {
         $processor = Processor::create();
         $query = $this->createMock(QueryInterface::class);
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
 
         $query
             ->expects(self::once())
@@ -655,21 +654,19 @@ class ProcessorTest extends TestCase
         $processor->add(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
-    /**
-     * @dataProvider providerHasParentOrLastReference
-     */
+    #[DataProvider('providerHasParentOrLastReference')]
     public function testAdd_QueryResultHasNoParentOrLastReference_ResultNotExists(
         bool $hasParent,
         bool $hasLastReference,
     ): void {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
-        $queryResult = $this->createMock(QueryResultInterface::class);
+        $queryResult = self::createStub(QueryResultInterface::class);
         $queryResult
             ->method('hasParent')
             ->willReturn($hasParent);
@@ -682,8 +679,8 @@ class ProcessorTest extends TestCase
 
         $result = $processor->replace(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
@@ -703,12 +700,12 @@ class ProcessorTest extends TestCase
     public function testAdd_QueryResultHasNonStructParent_ResultNotExists(): void
     {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
         $queryResult = new QueryResult(
             '',
             null,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(ReferenceInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(ReferenceInterface::class),
         );
         $query
             ->method('__invoke')
@@ -716,32 +713,32 @@ class ProcessorTest extends TestCase
 
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     /**
      * @param class-string<ReferenceInterface> $lastReferenceClass
-     * @dataProvider providerAddSelectableNonInsertable
      */
+    #[DataProvider('providerAddSelectableNonInsertable')]
     public function testAdd_QueryResultHasArrayParentHasSelectionHasNotIndexLastReference_ResultNotExists(
         string $lastReferenceClass,
     ): void {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class),
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         /** @var ReferenceInterface $reference */
-        $reference = $this->createMock($lastReferenceClass);
+        $reference = self::createStub($lastReferenceClass);
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             $parent,
             $reference,
         );
@@ -751,8 +748,8 @@ class ProcessorTest extends TestCase
 
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
@@ -771,18 +768,18 @@ class ProcessorTest extends TestCase
     public function testAdd_QueryResultHasArrayParentHasNoSelectionHasPropertyLastReference_ResultNotExists(): void
     {
         $processor = Processor::create();
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class),
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
             null,
             $parent,
-            $this->createMock(ReferenceInterface::class),
+            self::createStub(ReferenceInterface::class),
         );
         $query
             ->method('__invoke')
@@ -790,45 +787,45 @@ class ProcessorTest extends TestCase
 
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertFalse($result->exists());
     }
 
     /**
      * @param string<ReferenceInterface> $lastReferenceClass
-     * @dataProvider providerArrayParentIndexProperty
      */
+    #[DataProvider('providerArrayParentIndexProperty')]
     public function testAdd_QueryResultHasArrayParentHasNoSelectionHasIndexProperty_ResultExists(
-        string $lastReferenceClass
+        string $lastReferenceClass,
     ): void {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class),
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         /** @var ReferenceInterface $reference */
-        $reference = $this->createMock($lastReferenceClass);
+        $reference = self::createStub($lastReferenceClass);
         $queryResult = new QueryResult('', null, $parent, $reference);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -846,31 +843,31 @@ class ProcessorTest extends TestCase
 
     /**
      * @param string $lastReferenceClass
-     * @dataProvider providerArrayParentIndexProperty
      */
+    #[DataProvider('providerArrayParentIndexProperty')]
     public function testAdd_QueryResultHasArrayParentHasNoSelectionHasIndexProperty_PassesAppendElementMutation(
-        string $lastReferenceClass
+        string $lastReferenceClass,
     ): void {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         /** @var ReferenceInterface $reference */
-        $reference = $this->createMock($lastReferenceClass);
+        $reference = self::createStub($lastReferenceClass);
         $queryResult = new QueryResult('', null, $parent, $reference);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
@@ -878,41 +875,41 @@ class ProcessorTest extends TestCase
         $processor->add(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
     public function testAdd_QueryResultHasArrayParentHasSelectionHasIndexProperty_ResultExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             $parent,
-            $this->createMock(IndexReferenceInterface::class)
+            self::createStub(IndexReferenceInterface::class),
         );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -921,27 +918,27 @@ class ProcessorTest extends TestCase
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
 
         $parent = new NodeArrayValue(
             [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             $parent,
-            $this->createMock(IndexReferenceInterface::class)
+            self::createStub(IndexReferenceInterface::class),
         );
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
@@ -949,7 +946,7 @@ class ProcessorTest extends TestCase
         $processor->add(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
@@ -957,28 +954,28 @@ class ProcessorTest extends TestCase
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
 
         $parent = new NodeObjectValue(
             (object) [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             $parent,
-            $this->createMock(ReferenceInterface::class)
+            self::createStub(ReferenceInterface::class),
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
 
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
@@ -986,42 +983,42 @@ class ProcessorTest extends TestCase
         $processor->add(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
     public function testAdd_QueryResultHasObjectParentHasSelection_ResultExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
 
         $parent = new NodeObjectValue(
             (object) [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
             $parent,
-            $this->createMock(ReferenceInterface::class)
+            self::createStub(ReferenceInterface::class),
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
 
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -1030,28 +1027,28 @@ class ProcessorTest extends TestCase
     {
         $mutator = $this->createMock(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
 
         $parent = new NodeObjectValue(
             (object) [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
             null,
             $parent,
-            $this->createMock(ReferenceInterface::class)
+            self::createStub(ReferenceInterface::class),
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
 
-        $rootNode = $this->createMock(NodeValueInterface::class);
+        $rootNode = self::createStub(NodeValueInterface::class);
         $mutator
             ->expects(self::once())
             ->method('mutate')
@@ -1059,42 +1056,42 @@ class ProcessorTest extends TestCase
         $processor->add(
             $query,
             $rootNode,
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
         );
     }
 
     public function testAdd_QueryResultHasObjectParentHasNoSelection_ResultExists(): void
     {
-        $mutator = $this->createMock(MutatorInterface::class);
+        $mutator = self::createStub(MutatorInterface::class);
         $processor = new Processor(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $mutator
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $mutator,
         );
 
         $parent = new NodeObjectValue(
             (object) [],
-            $this->createMock(PathInterface::class),
-            $this->createMock(NodeValueFactoryInterface::class)
+            self::createStub(PathInterface::class),
+            self::createStub(NodeValueFactoryInterface::class),
         );
         $queryResult = new QueryResult(
             '',
             null,
             $parent,
-            $this->createMock(ReferenceInterface::class)
+            self::createStub(ReferenceInterface::class),
         );
-        $query = $this->createMock(QueryInterface::class);
+        $query = self::createStub(QueryInterface::class);
         $query
             ->method('__invoke')
             ->willReturn($queryResult);
 
         $mutator
             ->method('mutate')
-            ->willReturn($this->createMock(NodeValueInterface::class));
+            ->willReturn(self::createStub(NodeValueInterface::class));
         $result = $processor->add(
             $query,
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(NodeValueInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }

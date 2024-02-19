@@ -7,7 +7,7 @@ namespace Remorhaz\JSON\Pointer\Locator;
 final class PropertyReference implements ReferenceInterface
 {
     public function __construct(
-        private string $propertyName,
+        private readonly string $propertyName,
     ) {
     }
 

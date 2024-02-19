@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Processor\Result;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Export\ValueDecoderInterface;
 use Remorhaz\JSON\Data\Export\ValueEncoderInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Pointer\Processor\Result\ExistingResult;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Processor\Result\ExistingResult
- */
+#[CoversClass(ExistingResult::class)]
 class ExistingResultTest extends TestCase
 {
     public function testExists_Always_ReturnsTrue(): void
     {
         $result = new ExistingResult(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $this->createMock(NodeValueInterface::class),
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            self::createStub(NodeValueInterface::class),
         );
         self::assertTrue($result->exists());
     }
@@ -28,10 +27,10 @@ class ExistingResultTest extends TestCase
     public function testEncode_ConstructedWithValue_PassesSameInstanceToEncoder(): void
     {
         $encoder = $this->createMock(ValueEncoderInterface::class);
-        $value = $this->createMock(NodeValueInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $result = new ExistingResult(
             $encoder,
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $value,
         );
 
@@ -44,11 +43,11 @@ class ExistingResultTest extends TestCase
 
     public function testEncode_EncoderExportsValue_ReturnsSameValue(): void
     {
-        $encoder = $this->createMock(ValueEncoderInterface::class);
-        $value = $this->createMock(NodeValueInterface::class);
+        $encoder = self::createStub(ValueEncoderInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $result = new ExistingResult(
             $encoder,
-            $this->createMock(ValueDecoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
             $value,
         );
 
@@ -61,9 +60,9 @@ class ExistingResultTest extends TestCase
     public function testDecode_ConstructedWithValue_PassesSameInstanceToDecoder(): void
     {
         $decoder = $this->createMock(ValueDecoderInterface::class);
-        $value = $this->createMock(NodeValueInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $result = new ExistingResult(
-            $this->createMock(ValueEncoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
             $decoder,
             $value,
         );
@@ -77,10 +76,10 @@ class ExistingResultTest extends TestCase
 
     public function testDecode_DecoderExportsValue_ReturnsSameValue(): void
     {
-        $decoder = $this->createMock(ValueDecoderInterface::class);
-        $value = $this->createMock(NodeValueInterface::class);
+        $decoder = self::createStub(ValueDecoderInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $result = new ExistingResult(
-            $this->createMock(ValueEncoderInterface::class),
+            self::createStub(ValueEncoderInterface::class),
             $decoder,
             $value,
         );
@@ -93,11 +92,11 @@ class ExistingResultTest extends TestCase
 
     public function testGet_ConstructedWithValue_ReturnsSameInstance(): void
     {
-        $value = $this->createMock(NodeValueInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $result = new ExistingResult(
-            $this->createMock(ValueEncoderInterface::class),
-            $this->createMock(ValueDecoderInterface::class),
-            $value
+            self::createStub(ValueEncoderInterface::class),
+            self::createStub(ValueDecoderInterface::class),
+            $value,
         );
         self::assertSame($value, $result->get());
     }

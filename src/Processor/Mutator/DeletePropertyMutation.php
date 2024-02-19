@@ -13,7 +13,7 @@ use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 final class DeletePropertyMutation implements MutationInterface
 {
     public function __construct(
-        private PathInterface $path,
+        private readonly PathInterface $path,
     ) {
     }
 

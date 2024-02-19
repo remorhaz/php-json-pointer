@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Pointer\Test\Processor\Mutator;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Export\EventDecoderInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
@@ -13,18 +14,16 @@ use Remorhaz\JSON\Data\Walker\MutationInterface;
 use Remorhaz\JSON\Data\Walker\ValueWalkerInterface;
 use Remorhaz\JSON\Pointer\Processor\Mutator\Mutator;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Processor\Mutator\Mutator
- */
+#[CoversClass(Mutator::class)]
 class MutatorTest extends TestCase
 {
     public function testMutate_Constructed_DecoderExportsEventsFromWalker(): void
     {
-        $valueWalker = $this->createMock(ValueWalkerInterface::class);
+        $valueWalker = self::createStub(ValueWalkerInterface::class);
         $eventDecoder = $this->createMock(EventDecoderInterface::class);
         $mutator = new Mutator($valueWalker, $eventDecoder);
 
-        $events = $this->createMock(Iterator::class);
+        $events = self::createStub(Iterator::class);
         $valueWalker
             ->method('createMutableEventIterator')
             ->willReturn($events);
@@ -33,44 +32,44 @@ class MutatorTest extends TestCase
             ->method('exportEvents')
             ->with($events);
         $mutator->mutate(
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(MutationInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(MutationInterface::class),
         );
     }
 
     public function testMutate_DecoderReturnsNull_ReturnsNull(): void
     {
-        $eventDecoder = $this->createMock(EventDecoderInterface::class);
+        $eventDecoder = self::createStub(EventDecoderInterface::class);
         $mutator = new Mutator(
-            $this->createMock(ValueWalkerInterface::class),
-            $eventDecoder
+            self::createStub(ValueWalkerInterface::class),
+            $eventDecoder,
         );
 
         $eventDecoder
             ->method('exportEvents')
             ->willReturn(null);
         $actualValue = $mutator->mutate(
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(MutationInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(MutationInterface::class),
         );
         self::assertNull($actualValue);
     }
 
     public function testMutate_DecoderReturnsValue_ReturnsSameInstance(): void
     {
-        $eventDecoder = $this->createMock(EventDecoderInterface::class);
+        $eventDecoder = self::createStub(EventDecoderInterface::class);
         $mutator = new Mutator(
-            $this->createMock(ValueWalkerInterface::class),
-            $eventDecoder
+            self::createStub(ValueWalkerInterface::class),
+            $eventDecoder,
         );
 
-        $value = $this->createMock(NodeValueInterface::class);
+        $value = self::createStub(NodeValueInterface::class);
         $eventDecoder
             ->method('exportEvents')
             ->willReturn($value);
         $actualValue = $mutator->mutate(
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(MutationInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(MutationInterface::class),
         );
         self::assertSame($value, $actualValue);
     }
@@ -80,10 +79,10 @@ class MutatorTest extends TestCase
         $valueWalker = $this->createMock(ValueWalkerInterface::class);
         $mutator = new Mutator(
             $valueWalker,
-            $this->createMock(EventDecoderInterface::class)
+            self::createStub(EventDecoderInterface::class),
         );
-        $rootValue = $this->createMock(NodeValueInterface::class);
-        $mutation = $this->createMock(MutationInterface::class);
+        $rootValue = self::createStub(NodeValueInterface::class);
+        $mutation = self::createStub(MutationInterface::class);
 
         $valueWalker
             ->expects(self::once())
@@ -91,7 +90,7 @@ class MutatorTest extends TestCase
             ->with(
                 self::identicalTo($rootValue),
                 self::anything(),
-                self::identicalTo($mutation)
+                self::identicalTo($mutation),
             );
         $mutator->mutate($rootValue, $mutation);
     }
@@ -101,7 +100,7 @@ class MutatorTest extends TestCase
         $valueWalker = $this->createMock(ValueWalkerInterface::class);
         $mutator = new Mutator(
             $valueWalker,
-            $this->createMock(EventDecoderInterface::class)
+            self::createStub(EventDecoderInterface::class),
         );
 
         $valueWalker
@@ -109,16 +108,12 @@ class MutatorTest extends TestCase
             ->method('createMutableEventIterator')
             ->with(
                 self::anything(),
-                self::callback(
-                    function (PathInterface $path): bool {
-                        return empty($path->getElements());
-                    }
-                ),
-                self::anything()
+                self::callback(fn (PathInterface $path): bool => empty($path->getElements())),
+                self::anything(),
             );
         $mutator->mutate(
-            $this->createMock(NodeValueInterface::class),
-            $this->createMock(MutationInterface::class)
+            self::createStub(NodeValueInterface::class),
+            self::createStub(MutationInterface::class),
         );
     }
 }

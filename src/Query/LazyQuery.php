@@ -12,8 +12,8 @@ final class LazyQuery implements QueryInterface
     private ?QueryInterface $loadedQuery = null;
 
     public function __construct(
-        private string $source,
-        private ?ParserInterface $parser,
+        private readonly string $source,
+        private readonly ?ParserInterface $parser,
     ) {
     }
 

@@ -23,7 +23,7 @@ final class LocatorBuilder implements LocatorBuilderInterface
     }
 
     public function __construct(
-        private ReferenceFactoryInterface $referenceFactory,
+        private readonly ReferenceFactoryInterface $referenceFactory,
     ) {
     }
 

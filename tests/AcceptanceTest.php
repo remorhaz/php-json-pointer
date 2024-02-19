@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
 use Remorhaz\JSON\Pointer\Processor\Processor;
@@ -13,13 +15,11 @@ use Remorhaz\JSON\Pointer\Query\QueryFactory;
  * Examples from RFC-6901
  *
  * @see https://tools.ietf.org/html/rfc6901
- * @coversNothing
  */
+#[CoversNothing]
 class AcceptanceTest extends TestCase
 {
-    /**
-     * @dataProvider providerSelect
-     */
+    #[DataProvider('providerSelect')]
     public function testSelect(string $document, string $pointer, string $expectedValue): void
     {
         $rootNode = NodeValueFactory::create()->createValue($document);
@@ -53,9 +53,7 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDelete
-     */
+    #[DataProvider('providerDelete')]
     public function testDelete(string $document, string $pointer, string $expectedValue): void
     {
         $rootNode = NodeValueFactory::create()->createValue($document);
@@ -85,9 +83,7 @@ class AcceptanceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerAdd
-     */
+    #[DataProvider('providerAdd')]
     public function testAdd(string $document, string $pointer, string $value, string $expectedValue): void
     {
         $rootNode = NodeValueFactory::create()->createValue($document);

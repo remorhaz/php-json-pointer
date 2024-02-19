@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Pointer\Test\Locator;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Pointer\Locator\ListedReference;
 use Remorhaz\JSON\Pointer\Locator\ReferenceInterface;
 
-/**
- * @covers \Remorhaz\JSON\Pointer\Locator\ListedReference
- */
+#[CoversClass(ListedReference::class)]
 class ListedReferenceTest extends TestCase
 {
     public function testGetReference_ConstructedWithReference_ReturnsSameInstance(): void
     {
-        $reference = $this->createMock(ReferenceInterface::class);
+        $reference = self::createStub(ReferenceInterface::class);
         $listedReference = new ListedReference($reference, false);
         self::assertSame($reference, $listedReference->getReference());
     }
 
-    /**
-     * @dataProvider providerIsLast
-     */
+    #[DataProvider('providerIsLast')]
     public function testIsLast_ConstructedWithValue_ReturnsSameValue(bool $isValue, bool $expectedValue): void
     {
         $listedReference = new ListedReference(
-            $this->createMock(ReferenceInterface::class),
+            self::createStub(ReferenceInterface::class),
             $isValue
         );
         self::assertSame($expectedValue, $listedReference->isLast());
