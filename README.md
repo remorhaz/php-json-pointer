@@ -4,7 +4,7 @@
 [![Build](https://github.com/remorhaz/php-json-pointer/actions/workflows/build.yml/badge.svg)](https://github.com/remorhaz/php-json-pointer/actions/workflows/build.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remorhaz/php-json-pointer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remorhaz/php-json-pointer/?branch=master)
 [![codecov](https://codecov.io/gh/remorhaz/php-json-pointer/branch/master/graph/badge.svg)](https://codecov.io/gh/remorhaz/php-json-pointer)
-[![Infection MSI](https://badge.stryker-mutator.io/github.com/remorhaz/php-json-pointer/master)](https://infection.github.io)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fremorhaz%2Fphp-json-pointer%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/remorhaz/php-json-pointer/master)
 [![Total Downloads](https://poser.pugx.org/remorhaz/php-json-pointer/downloads)](https://packagist.org/packages/remorhaz/php-json-pointer)
 [![License](https://poser.pugx.org/remorhaz/php-json-pointer/license)](https://packagist.org/packages/remorhaz/php-json-pointer)
 

@@ -49,3 +49,18 @@ jobs:
 
       - name: Run tests
         run: composer test
+
+      - name: Run Infection
+        run: composer infection
+        env:
+          INFECTION_DASHBOARD_API_KEY: ${{ secrets.INFECTION_DASHBOARD_API_KEY }}
+
+      - name: Upload coverage to Codecov.io
+        run: bash <(curl -s https://codecov.io/bash -s "build/logs")
+        continue-on-error: true
+
+      - name: Upload coverage to Scrutinizer
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: --format=php-clover build/logs/clover.xml
+        continue-on-error: true
